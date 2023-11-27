@@ -1,0 +1,68 @@
+.EditProfile {
+  max-width: 400px;
+  margin: auto;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .FormGroup {
+    width: 100%;
+    margin-bottom: 15px;
+
+    label {
+      font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px; /* Ajusta el padding según tus necesidades */
+      box-sizing: border-box;
+      margin-top: 5px;
+      font-size: 16px;
+    }
+  }
+
+  .d-flex {
+    &.flex-column {
+      &.align-items-center {
+        margin-bottom: 15px;
+
+        label {
+          font-size: 14px;
+          margin-bottom: 5px;
+        }
+
+        button {
+          font-size: 16px;
+          padding: 10px 20px; /* Ajusta el padding según tus necesidades */
+        }
+      }
+    }
+  }
+
+  .modal-dialog {
+    max-width: 300px;
+  }
+
+  .modal-content {
+    text-align: center;
+  }
+
+  .modal-body {
+    padding: 15px;
+  }
+
+  .modal-footer {
+    justify-content: center;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 10px 20px; /* Ajusta el padding según tus necesidades */
+  }
+}

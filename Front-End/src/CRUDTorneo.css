@@ -1,0 +1,42 @@
+.CRUDTorneo {
+  text-align: center;
+}
+
+.CRUDTorneo .CRUDTorneo-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.CRUDTorneo .CRUDTorneo-link {
+  color: #61dafb;
+}
+
+.CRUDTorneo .textField {
+  height: 32px;
+  width: 200px;
+  border: 1px solid #e5e5e5;
+  padding: 0 32px 0 16px;
+}
+
+.CRUDTorneo .textField:hover {
+  cursor: pointer;
+}
+
+.CRUDTorneo .btnBuscar {
+  height: 50px;
+  width: auto;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.CRUDTorneo .barraBusqueda {
+  float: right;
+  padding: 20px;
+}

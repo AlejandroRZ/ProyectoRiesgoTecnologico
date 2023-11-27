@@ -1,0 +1,62 @@
+/* Estilo para el cuerpo de la página */
+body {
+    background-color: #e6f7ff; /* Color de fondo azul claro */
+    font-family: Arial, sans-serif; /* Fuente para el texto */
+    text-align: center; /* Alinea el texto al centro horizontalmente */
+    color: #003366;
+}
+
+/* Estilo para el encabezado */
+h1 {
+    font-family: Georgia, serif; /* Cambia la fuente del título a Georgia */
+    margin-top: 20px; /* Márgen superior de 20px */
+    text-align: center;
+    color: #003366;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+input {  
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%; /* Asegura que los inputs ocupen todo el ancho disponible */
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px; 
+  width: 70%; /* Ancho del botón */
+  margin: 0 auto; 
+  margin-top: 20px;    
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+nav {
+  margin-top: 15px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  margin-bottom: 10px;
+}

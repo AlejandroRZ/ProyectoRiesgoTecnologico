@@ -1,0 +1,24 @@
+/* BottomBar.css */
+
+.BottomBar {
+  background-color: #003366; /* Color azul oscuro */
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-family: Georgia, serif; 
+}
+
+.Content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Content img {
+  height: 35px;
+  margin-right: 40px;
+}
+
