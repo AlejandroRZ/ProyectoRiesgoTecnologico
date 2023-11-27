@@ -14,21 +14,39 @@ Login completamente funcional
 ## Instrucciones de Uso
 Para ejecutar el proyecto, sigue estos pasos:
 
-1. Clona el repositorio a tu máquina local.
-   - Abre la terminal y navega al directorio del proyecto.
-3. Estando en la carpeta Frond-End/src colocaremos en terminal el comando -> npm start
-4. Luego nos movemos a la carpeta Back-End colocaremos en terminal -> python app.py
-5. Para conectarnos a la base de datos:
-   - El usuario en este caso es "michigames".
-   - La contraseña es "michigames123".
-   - El servidor de la base de datos es "localhost" (es decir, la base de datos se encuentra en la misma máquina donde se está ejecutando el código).
-   - El puerto MySQL predeterminado es 3306.
-   - La base de datos se llama "proyecto".
+1. **Clona el repositorio a tu máquina local.**
+   - Abre la terminal y clona el repositorio a tu maquina local:
+   - git clone "repo"
+   - 
+2. **Navegar al directorio del proyecto:**
+   - Navega al directorio del proyecto
+   - cd Frond-End
+     
+3.**Iniciar el Fornd-End**
+   - Estando en la carpeta Frond-End/src colocaremos en terminal el siguiente comando para iniciar el servidor Flask:
+   - -> npm start
+
+4. **Iniciar el Back-End**
+   - Navegamos a la carpeta Back-End
+   - Ejecutamos el siguiente comando en terminal para iniciar el servidor Flask:
+   - -> python app.py
+6. **Conectar a la base de datos**
+   - Nosotros utilizamos MySQL workbench
+   - Utilizamos las siguiente credenciales:
+        - El usuario en este caso es "michigames".
+        - La contraseña es "michigames123".
+        - SErvidot: "localhost"
+        - Puerto MySQL: 3306
+        - Nombre de la base de datos: "proyecto"
 
 ## Requisitos del Sistema
+Asegurate de tener instalados los siguientes compontentes antes de ejecutar el proyecto
 - [Node.js](https://nodejs.org/en)
 - [Python](https://www.python.org/downloads/)
-- React. Ejecutaremos el siguiente comando en terminal -> npx create-react-app my-react-app
+- React. Ejecutaremos el siguiente comando en terminal
+   ```bash
+  npx create-react-app my-react-app-> npx create-react-app my-react-app
+   
   - Reemplaza "my-react-app" con el nombre de tu proyecto.
   - Para iniciar la aplicación React, ejecuta cd my-react-app y luego npm start
 - Flask. En la terminal ejecutamos el siguiente comando -> pip install Flask
