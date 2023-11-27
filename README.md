@@ -45,9 +45,15 @@ Asegurate de tener instalados los siguientes compontentes antes de ejecutar el p
 - [Python](https://www.python.org/downloads/)
 - React. Ejecutaremos el siguiente comando en terminal
    ```bash
-  npx create-react-app my-react-app-> npx create-react-app my-react-app
-   
-  - Reemplaza "my-react-app" con el nombre de tu proyecto.
-  - Para iniciar la aplicación React, ejecuta cd my-react-app y luego npm start
-- Flask. En la terminal ejecutamos el siguiente comando -> pip install Flask
-- MySQL. En la terminal ejecutamos el siguiente comando -> sudo apt-get install mysql-server
+   npx create-react-app my-react-app
+- Reemplaza "my-react-app" con el nombre de tu proyecto.
+- Para iniciar la aplicación React,
+  ```bash
+  cd my-react-app 
+  npm start
+- Flask. En la terminal ejecutamos el siguiente comando
+  ```bash 
+   pip install Flask
+- MySQL. En la terminal ejecutamos el siguiente comando
+  ```bash
+   sudo apt-get install mysql-server
