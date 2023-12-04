@@ -1,9 +1,6 @@
 /* Administrador.css */
 
-.Administrador .body {
-    font-family: Arial, sans-serif;   
-    margin: 0;
-    padding: 0;
+.Administrador .body {       
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,10 +13,17 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5px;
   }
   
   .Administrador {
-    margin-bottom: 20px;
+    margin: 0 auto;
+    padding: 20px;  
+    margin-bottom: 50px;
+  }
+
+  .Administrador .button{
+    margin-bottom: 30px;
   }
  
  

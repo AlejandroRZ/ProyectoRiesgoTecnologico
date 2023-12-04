@@ -21,7 +21,7 @@ function Superadmin() {
 
     return (
         <div className='SuperAdmin'>
-            <h1>¡Hola, {localStorage.getItem('nombre')}!</h1>
+            <h1>¡Hola, superadministrador!</h1>
             <CRUDAdmin />
             <button onClick={handleLogout}>Cerrar Sesión</button>
         </div>

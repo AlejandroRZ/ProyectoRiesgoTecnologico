@@ -1,7 +1,7 @@
 import React from "react";
-import "./CRUDTorneo.css";
+import "./VistaTorneos.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Table, Container } from "reactstrap";
+import { Table, Container, Input, FormGroup } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import iconoJuego1 from "./iconos/iconoJuego1.png";
 import iconoJuego2 from "./iconos/iconoJuego2.png";
@@ -46,21 +46,28 @@ class VistaTorneos extends React.Component {
       <>
       <h1>  
         <img src={iconoJuego1} alt="Icono de juegos" style={{ height: '100px', marginRight: '20px' }} />
-        Torneos Registrados 
+        Torneos
         <img src={iconoJuego2} alt="Icono de juegos" style={{ height: '100px', marginLeft: '10px' }} /></h1>
 
-        <Container className="CRUDAdmin">
+        <Container className="VistaTorneos">
           <br />
-          <div className="barraBusqueda">
-          <img src="lupa.png" alt="Ícono de búsqueda" style={{ height: '26px' }}/>{" "}
-            <input
+          <div className="barraBusqueda" style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
+            <FormGroup className="d-flex align-items-center">
+              <img
+                src="lupa.png"
+                alt="Ícono de búsqueda"
+                style={{ height: '26px', marginRight: '10px' }}
+              />
+             <Input
               type="text"
               placeholder="Buscar"
               className="textField"
               name="busqueda"
               value={this.state.busqueda}
               onChange={this.handleChangeBuscar}
+              style={{ width: '200px' }} // Ajusta según sea necesario
             />
+            </FormGroup>
           </div>
           <br />
           <Table>

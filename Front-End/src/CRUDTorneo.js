@@ -2,7 +2,7 @@
 import React from "react";
 import "./CRUDTorneo.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Table, Button, Container, Modal, ModalHeader, ModalBody, FormGroup, ModalFooter } from "reactstrap";
+import { Table, Button, Container, Modal, ModalHeader, ModalBody, FormGroup, ModalFooter, Input} from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -48,17 +48,17 @@ class CRUDTorneo extends React.Component {
   };
 
   mostrarModalActualizar = (dato) => {
-  const fechaFormateada = new Date(dato.fechahora);
-  const { id, nombre, fechahora, idAdministrador } = dato;
-  this.setState({
-    formActualizar: {
-      id,
-      nombre,
-      fechahora: fechaFormateada,
-      idAdministrador,
-    },
-    modalActualizar: true,
-  });
+    const fechaFormateada = new Date(dato.fechahora);
+    const { id, nombre, fechahora, idAdministrador } = dato;
+    this.setState({
+      formActualizar: {
+        id,
+        nombre,
+        fechahora: fechaFormateada,
+        idAdministrador,
+      },
+      modalActualizar: true,
+    });
   };
 
 
@@ -89,7 +89,7 @@ class CRUDTorneo extends React.Component {
   };
 
   editar = () => {
-    const { id, nombre, fechahora, idAdministrador } = this.state.formActualizar; 
+    const { id, nombre, fechahora, idAdministrador } = this.state.formActualizar;
     const fechaFormateada = fechahora.toISOString().slice(0, 19);
 
     fetch("http://127.0.0.1:5000/torneo/updatetorneo", {
@@ -97,7 +97,7 @@ class CRUDTorneo extends React.Component {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id, nombre, fechahora: fechaFormateada, idAdministrador}),
+      body: JSON.stringify({ id, nombre, fechahora: fechaFormateada, idAdministrador }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -113,41 +113,41 @@ class CRUDTorneo extends React.Component {
   };
 
   eliminar = (dato) => {
-  fetch("http://127.0.0.1:5000/torneo/deletetorneo", {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ idTorneo: dato.id }),
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      if (data.message) {
-        this.componentDidMount();
-        this.setState({ modalEliminar: false, torneoAEliminar: null });
-      } else {
-        alert('Error al eliminar torneo en el servidor: ' + data.error);
-      }
+    fetch("http://127.0.0.1:5000/torneo/deletetorneo", {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ idTorneo: dato.id }),
     })
-    .catch(error => {
-      console.error("Error al eliminar torneo:", error);
-      alert("Error al eliminar torneo. Por favor, inténtalo más tarde.");
-    });
-};
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.message) {
+          this.componentDidMount();
+          this.setState({ modalEliminar: false, torneoAEliminar: null });
+        } else {
+          alert('Error al eliminar torneo en el servidor: ' + data.error);
+        }
+      })
+      .catch(error => {
+        console.error("Error al eliminar torneo:", error);
+        alert("Error al eliminar torneo. Por favor, inténtalo más tarde.");
+      });
+  };
 
 
   insertar = () => {
     const { nombre, fechahora, idAdministrador } = this.state.formInsertar;
-    const fechaFormateada = fechahora.toISOString().slice(0,19);
-    console.log("fecha y hora:", fechahora );
+    const fechaFormateada = fechahora.toISOString().slice(0, 19);
+    console.log("fecha y hora:", fechahora);
 
     fetch("http://127.0.0.1:5000/torneo/inserttorneo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ nombre, fechaHora: fechaFormateada + ".000Z", idAdministrador}),
+      body: JSON.stringify({ nombre, fechaHora: fechaFormateada, idAdministrador }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -207,12 +207,12 @@ class CRUDTorneo extends React.Component {
   };
 
   filtrarElementos = () => {
-    const dataFiltrada = this.state.data.filter(
+    var search = this.state.dataFiltrada.filter(
       (elemento) =>
         elemento.nombre.toLowerCase().includes(this.state.busqueda.toLowerCase()) ||
         elemento.fechahora.toLowerCase().includes(this.state.busqueda.toLowerCase())
     );
-    this.setState({ data: dataFiltrada });
+    this.setState({ data: search });
   };
 
   render() {
@@ -229,17 +229,17 @@ class CRUDTorneo extends React.Component {
             </Button>
           </div>
           <div className="barraBusqueda">
-            <input
-              type="text"
-              placeholder="Buscar"
-              className="textField"
-              name="busqueda"
-              value={this.state.busqueda}
-              onChange={this.handleChangeBuscar}
-            />
-            <Button className="btnBuscar" color="primary">
-              Buscar
-            </Button>
+            <FormGroup className="d-flex align-items-center">
+              <img src="lupa.png" alt="Ícono de búsqueda" style={{ height: '26px', marginRight: '10px'}} />{" "}
+              <Input
+                type="text"
+                placeholder="Buscar"
+                className="textField"
+                name="busqueda"
+                value={this.state.busqueda}
+                onChange={this.handleChangeBuscar}
+              />
+            </FormGroup>
           </div>
           <br />
           <br />

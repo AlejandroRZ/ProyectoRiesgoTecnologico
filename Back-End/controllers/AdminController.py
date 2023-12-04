@@ -28,7 +28,8 @@ def insert_admin():
         apellido = datos_json["apellido"]
         email = datos_json["email"]
         psswd = datos_json["psswd"]
-        nuevo_admin = Administrador(nombre, apellido, email, psswd, 1)
+        id_creador = int(datos_json["idCreador"])
+        nuevo_admin = Administrador(nombre, apellido, email, psswd, id_creador)
         try:
             db.session.add(nuevo_admin)
             db.session.commit()

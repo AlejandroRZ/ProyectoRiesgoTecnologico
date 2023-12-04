@@ -10,6 +10,7 @@ import {
   ModalBody,
   FormGroup,
   ModalFooter,
+  Input
 } from "reactstrap";
 
 class CRUDAdmin extends React.Component {
@@ -149,12 +150,13 @@ class CRUDAdmin extends React.Component {
       return;
     }
     const { nombre, apellido, email, psswd } = this.state.formInsertar;
+    var idCreador = localStorage.getItem('id');
     fetch("http://127.0.0.1:5000/admin/insertadmin", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ nombre, apellido, email, psswd }),
+      body: JSON.stringify({ nombre, apellido, email, psswd, idCreador }),
     })
       .then(response => response.json())
       .then(() => {
@@ -247,7 +249,7 @@ class CRUDAdmin extends React.Component {
         let lastAtPos = this.state.formActualizar.email.lastIndexOf('@');
         let lastDotPos = this.state.formActualizar.email.lastIndexOf('.');
 
-        if (!(lastAtPos < lastDotPos && lastAtPos > 0 && this.state.formActualizar.email.indexOf('@@') === -1 && lastDotPos > 2 && (this.state.formInsertar.email.length - lastDotPos) > 2)) {
+        if (!(lastAtPos < lastDotPos && lastAtPos > 0 && this.state.formActualizar.email.indexOf('@@') === -1 && lastDotPos > 2 && (this.state.formActualizar.email.length - lastDotPos) > 2)) {
           isValid = false;
           errorsEditar["email"] = "Correo inválido.";
         }
@@ -269,15 +271,17 @@ class CRUDAdmin extends React.Component {
             <Button style={{ marginRight: '10px' }} color="success" onClick={() => this.mostrarTodosTorneos()}>Ver Torneos Actuales</Button>
           </div>
           <div className="barraBusqueda">
-            <img src="lupa.png" alt="Ícono de búsqueda" style={{ height: '26px' }} />{" "}
-            <input
-              type="text"
-              placeholder="Buscar"
-              className="textField"
-              name="busqueda"
-              value={this.state.busqueda}
-              onChange={this.handleChangeBuscar}
-            />
+          <FormGroup className="d-flex align-items-center">
+              <img src="lupa.png" alt="Ícono de búsqueda" style={{ height: '26px', marginRight: '10px'}} />{" "}
+              <Input
+                type="text"
+                placeholder="Buscar"
+                className="textField"
+                name="busqueda"
+                value={this.state.busqueda}
+                onChange={this.handleChangeBuscar}
+              />
+          </FormGroup>
           </div>
           <br />
           <br />

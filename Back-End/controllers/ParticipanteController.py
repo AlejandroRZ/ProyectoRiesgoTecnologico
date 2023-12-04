@@ -1,7 +1,9 @@
 from flask import Blueprint, request, jsonify
 from alchemyClasses.Participante import Participante
 from alchemyClasses import db
-from model.model_participante import get_participante_by_id
+from model.model_participante import get_participante_by_id, get_participante_by_tag, get_participante_by_email
+from model.model_administrador import get_admin_by_email
+from model.model_superadmin import get_superadmin_by_email
 from hashlib import sha256
 from CryptoUtils.CryptoUtils import cipher 
 from flask import Flask
@@ -25,6 +27,17 @@ def edit_profile():
             # Obtén el participante que deseas editar según el ID proporcionado
             participantes = get_participante_by_id(id)
             participanteEdit = participantes[0]
+            participantesTag = get_participante_by_tag(gamerTag)
+            
+            adminList = get_admin_by_email(email)
+            superAdminList = get_superadmin_by_email(email)
+            participantesList = get_participante_by_email(email)            
+           
+            if adminList or superAdminList or participantesList:
+                return jsonify({'error': 'Error, correo asociado a otra cuenta. Puede estar asociado a una cuenta no apta para participar.'})
+           
+            if participantesTag:
+                return jsonify({'error':'Error, tag ya asignado'})
 
             if participanteEdit:
                 # Actualiza los campos según lo que recibiste en la solicitud                
@@ -39,8 +52,7 @@ def edit_profile():
                 if contrasena:
                     participanteEdit.psswd = sha256(cipher(contrasena)).hexdigest()                
                 if foto is not None:
-                    participanteEdit.fotoDePerfil = foto
-                
+                    participanteEdit.fotoDePerfil = foto             
 
                 db.session.commit()
                 return jsonify({'message': 'Perfil actualizado exitosamente'})
@@ -63,7 +75,7 @@ def eliminar_perfil():
         id = datos_json.get("idParticipante")
         contrasena = datos_json.get("contrasenaEliminar")
 
-        if id is None or contrasena is None:
+        if contrasena is None:
             return jsonify({'error': 'ID de participante o contraseña no proporcionados'}), 400
 
         try:

@@ -1,18 +1,70 @@
 import React, { useState } from 'react';
 import './Register.css';
+import './Login.js'
 import { useNavigate } from 'react-router-dom';
-
+import { Button, FormGroup, Label, Input, Modal, ModalHeader, ModalBody } from 'reactstrap';
 function Register() {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
+  const [errors, setErrors] = useState({});
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
+  const datosValidos = () => {
+    let errors = {};
+    let isValid = true;
+
+    // Validación del nombre
+    if (!nombre) {
+      isValid = false;
+      errors["nombre"] = "Por favor ingresa tu nombre.";
+    }
+
+    // Validación del apellido
+    if (!apellido) {
+      isValid = false;
+      errors["apellido"] = "Por favor ingresa tu apellido.";
+    }
+
+    // Validación del correo
+    if (!correo) {
+      isValid = false;
+      errors["correo"] = "Por favor ingresa tu correo.";
+    } else {
+      if (typeof correo !== "undefined") {
+        let lastAtPos = correo.lastIndexOf('@');
+        let lastDotPos = correo.lastIndexOf('.');
+
+        if (!(lastAtPos < lastDotPos && lastAtPos > 0 && correo.indexOf('@@') === -1 && lastDotPos > 2 && (correo.length - lastDotPos) > 2)) {
+          isValid = false;
+          errors["correo"] = "Correo inválido.";
+        }
+      }
+    }
+
+    // Validación de la contraseña
+    if (!contrasena) {
+      isValid = false;
+      errors["contrasena"] = "Por favor ingresa tu contraseña.";
+    } else if (contrasena.length < 8) {
+      isValid = false;
+      errors["contrasena"] = "La contraseña debe tener al menos 8 caracteres.";
+    }
+
+    setErrors(errors);
+    return isValid;
+  };
+
   const handleRegistro = async (e) => {
     e.preventDefault();
-
+    if (!datosValidos()) {
+      return;
+    }
     // Aquí puedes enviar los datos al servidor para el registro
     const datosRegistro = {
       nombre,
@@ -36,76 +88,151 @@ function Register() {
       const data = await res.json();
       console.log(data);
       // Verificar si el registro fue exitoso
-      if (data.message == 'Registro exitoso') {
+      if (data.message === 'Registro exitoso') {
+        localStorage.setItem('tipo_usuario', 'participante');
+        localStorage.setItem('id', data.id); // Suponiendo que el servidor devuelve el ID después del registro
+        localStorage.setItem('nombre', nombre);
+        localStorage.setItem('apellido', apellido);
+        localStorage.setItem('email', correo);
+        localStorage.setItem('contrasena', contrasena);
+        localStorage.setItem('gamertag', '');
+        
+        openWelcomeModal();
         // Redirigir a la vista EditProfile
-        navigate('/editarPerfil');
-      } else {
-        // Manejar otros casos según sea necesario
-        console.log('Error en el registro:', data.error);
-        // Puedes mostrar mensajes de error, etc.
+        
+      } else if (data.error === 'Error, correo asociado a otra cuenta. Puede estar asociado a una cuenta no apta para participar.') {
+        setErrors({ correo: data.error });
+      } else if (data.error) {
+        // Mostrar el error en el modal
+        setErrorMessage(data.error);
+        setIsErrorModalOpen(true);
       }
     } catch (error) {
-      console.error('Error al enviar datos al servidor:', error);
-      // Puedes manejar los errores y proporcionar retroalimentación al usuario si es necesario
+      if (error.code === 'ECONNREFUSED') {
+        // Error de conexión rechazada (servidor no disponible)
+        console.error('Error: El servidor no está disponible');
+        // Mostrar el error en el modal
+        setErrorMessage('Error: El servidor no está disponible, intenta más tarde');
+        setIsErrorModalOpen(true);
+      } else {
+        // Otro tipo de error
+        console.error('Error al enviar datos al servidor:', error);
+        // Mostrar el error en el modal
+        setErrorMessage('Error en el servidor, intenta más tarde');
+        setIsErrorModalOpen(true);
+      }
     }
-  };  
+  }; 
+  
+  const openWelcomeModal = () => {
+    setWelcomeModalOpen(true);
+    // Configura el temporizador para cerrar el modal después de 3.5 segundos
+    setTimeout(() => {
+      setWelcomeModalOpen(false);
+      // Realiza la navegación hacia la vista de editar perfil
+      navigate('/editarPerfil'); // Asegúrate de cambiar la ruta según tu configuración
+    }, 3500);
+  };
+
+  const handleCloseModal = () => {
+    setIsErrorModalOpen(false);
+  };
 
   const handleClick = () => {
-    navigate(-1); // Navegar hacia atrás
+    navigate('/'); // Navegar hacia atrás
   };
+
+  if (localStorage.getItem('tipo_usuario')) {
+    return ('Para registrar un nuevo usuario, debes cerrar sesión primero')
+  } 
 
   return (
     <div className="registro">
-      <h1>Registro</h1>      
+      <h1>Registro</h1>
       <form onSubmit={handleRegistro}>
-        <label htmlFor="nombre">Nombre:</label>
-        <input
-          type="text"
-          id="nombre"
-          name="nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
-        />
+        <FormGroup>
+          <Label for="nombre">Nombre:</Label>
+          <Input
+            type="text"
+            id="nombre"
+            name="nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            required
+          />
+          {errors.nombre && <div className="alert alert-danger">{errors.nombre}</div>}
+        </FormGroup>
 
-        <label htmlFor="apellido">Apellido:</label>
-        <input
-          type="text"
-          id="apellido"
-          name="apellido"
-          value={apellido}
-          onChange={(e) => setApellido(e.target.value)}
-          required
-        />
+        <FormGroup>
+          <Label for="apellido">Apellido:</Label>
+          <Input
+            type="text"
+            id="apellido"
+            name="apellido"
+            value={apellido}
+            onChange={(e) => setApellido(e.target.value)}
+            required
+          />
+          {errors.apellido && <div className="alert alert-danger">{errors.apellido}</div>}
+        </FormGroup>
 
-        <label htmlFor="correo">Correo:</label>
-        <input
-          type="email"
-          id="correo"
-          name="correo"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-          required
-        />
+        <FormGroup>
+          <Label for="correo">Correo:</Label>
+          <Input
+            type="email"
+            id="correo"
+            name="correo"
+            value={correo}
+            onChange={(e) => setCorreo(e.target.value)}
+            required
+          />
+          {errors.correo && <div className="alert alert-danger">{errors.correo}</div>}
+        </FormGroup>
 
-        <label htmlFor="contrasena">Contraseña:</label>
-        <input
-          type="password"
-          id="contrasena"
-          name="contrasena"
-          value={contrasena}
-          onChange={(e) => setContrasena(e.target.value)}
-          required
-        />
-        <ul> 
+        <FormGroup>
+          <Label for="contrasena">Contraseña:</Label>
+          <Input
+            type="password"
+            id="contrasena"
+            name="contrasena"
+            value={contrasena}
+            onChange={(e) => setContrasena(e.target.value)}
+            required
+          />
+          {errors.contrasena && <div className="alert alert-danger">{errors.contrasena}</div>}
+        </FormGroup>
+
+        <ul>
           <li>
-            <button onClick={handleRegistro}>Registrar</button>
-          </li>   
+            <Button color="primary" onClick={handleRegistro}>
+              Registrar
+            </Button>
+          </li>
           <li>
-            <button onClick={handleClick}>Volver</button>
-          </li>          
-        </ul> 
+            <Button color="primary" onClick={handleClick}>
+              Volver al inicio
+            </Button>
+          </li>
+        </ul>
       </form>
+
+      <Modal isOpen={welcomeModalOpen} toggle={() => setWelcomeModalOpen(false)}>
+        <ModalHeader toggle={() => setWelcomeModalOpen(false)}>¡Bienvenido!</ModalHeader>
+          <ModalBody>
+            <p>El registro fue exitoso, te damos la bienvenida. Por favor, espera un meow-mento...</p>
+          </ModalBody>
+      </Modal>
+
+      {isErrorModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={handleCloseModal}>
+              &times;
+            </span>
+            <p>{errorMessage}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

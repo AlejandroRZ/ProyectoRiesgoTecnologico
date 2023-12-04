@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FormGroup, Label, Input, Button } from 'reactstrap';
 import "./Login.css";
 
 function Login() {
@@ -90,41 +91,35 @@ function Login() {
     <div className="Login">
       <h1>Bienvenido</h1>
       <form>
-        <div className="form-group">
-          <label htmlFor="email">Dirección de email:</label>
-          <input
+        <FormGroup>
+          <Label for="email">Dirección de email:</Label>
+          <Input
             type="email"
             id="username"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {
-            errors.email && <div className="alert alert-danger">
-              {errors.email}
-            </div>
-          }
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Contraseña:</label>
-          <input
+          {errors.email && <div className="alert alert-danger">{errors.email}</div>}
+        </FormGroup>
+
+        <FormGroup>
+          <Label for="password">Contraseña:</Label>
+          <Input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {
-            errors.password && <div className="alert alert-danger">
-              {errors.password}
-            </div>
-          }
-        </div>
+          {errors.password && <div className="alert alert-danger">{errors.password}</div>}
+        </FormGroup>
+
         <nav>
           <ul>
             <li>
-              <button type="button" onClick={handleLogin}> Iniciar sesión </button>
+              <Button color="primary" onClick={handleLogin}>Iniciar sesión</Button>
             </li>
             <li>
-              <button type="button" onClick={handleRegistrar}>Registrar nuevo usuario</button>
+              <Button color="primary" onClick={handleRegistrar}>Registrar nuevo usuario</Button>
             </li>
           </ul>
         </nav>

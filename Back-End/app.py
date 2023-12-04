@@ -25,8 +25,7 @@ from controllers.ParticipanteController import participante
 
 from model.model_administrador import get_admin_by_email, get_all_admins, get_admin_by_id
 from model.model_superadmin import get_superadmin_by_email
-from model.model_participante import get_participante_by_email
- 
+from model.model_participante import get_participante_by_email 
 from model.model_torneo import get_all_torneos, get_torneo_by_id,get_current_datetime
 
 def get_user_by_email(email):
@@ -72,15 +71,23 @@ def register():
         nombre = request.json['nombre']
         apellido = request.json['apellido']
         correo = request.json['correo']
-        psswd = request.json['password']
+        psswd = request.json['password']         
         try:
-            participante = Participante(nombre, apellido, correo, psswd)
+            adminList = get_admin_by_email(correo)
+            superAdminList = get_superadmin_by_email(correo)
+            participantesList = get_participante_by_email(correo)            
+            if adminList or superAdminList or participantesList:
+                return jsonify({'error': 'Error, correo asociado a otra cuenta. Puede estar asociado a una cuenta no apta para participar.'})
+            participante = Participante(nombre, apellido, correo, psswd)            
             db.session.add(participante)
             db.session.commit()
+            participantesList = get_participante_by_email(correo)
+            participante1 = participantesList[0]
         except Exception as e:
             db.session.rollback()  # Revertir cambios en caso de error
-            print(f"Error: {str(e)}")       
-    return jsonify({'message':'Registro exitoso'})
+            print(f"Error: {str(e)}")
+            return jsonify({'error': 'Error en el servidor'})       
+    return jsonify({'message':'Registro exitoso', 'id': participante1.idParticipante})
 
 
 @app.route("/login", methods=["GET", "POST"])

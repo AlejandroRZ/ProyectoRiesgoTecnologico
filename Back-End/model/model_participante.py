@@ -11,3 +11,6 @@ def get_participante_by_name(nombre):
 
 def get_participante_by_email(email):
     return Participante.query.filter(Participante.correo == email).all()
+
+def get_participante_by_tag(gamerTag):
+    return Participante.query.filter(Participante.gamerTag == gamerTag).all()
