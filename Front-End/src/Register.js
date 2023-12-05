@@ -3,6 +3,8 @@ import './Register.css';
 import './Login.js'
 import { useNavigate } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import DancingCat from './DancingCat';
+
 function Register() {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
@@ -12,7 +14,6 @@ function Register() {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
-
   const navigate = useNavigate();
 
   const datosValidos = () => {
@@ -88,14 +89,13 @@ function Register() {
       const data = await res.json();
       console.log(data);
       // Verificar si el registro fue exitoso
-      if (data.message === 'Registro exitoso') {
-        localStorage.setItem('tipo_usuario', 'participante');
+      if (data.message === 'Registro exitoso') {        
         localStorage.setItem('id', data.id); // Suponiendo que el servidor devuelve el ID después del registro
         localStorage.setItem('nombre', nombre);
         localStorage.setItem('apellido', apellido);
         localStorage.setItem('email', correo);
         localStorage.setItem('contrasena', contrasena);
-        localStorage.setItem('gamertag', '');
+        localStorage.setItem('gamertag', '');        
         
         openWelcomeModal();
         // Redirigir a la vista EditProfile
@@ -130,7 +130,8 @@ function Register() {
     setTimeout(() => {
       setWelcomeModalOpen(false);
       // Realiza la navegación hacia la vista de editar perfil
-      navigate('/editarPerfil'); // Asegúrate de cambiar la ruta según tu configuración
+      localStorage.setItem('tipo_usuario', 'participante');           
+      navigate('/editarPerfil'); // Asegúrate de cambiar la ruta según tu configuración      
     }, 3500);
   };
 
@@ -142,9 +143,26 @@ function Register() {
     navigate('/'); // Navegar hacia atrás
   };
 
+  const handleVolver = () => {
+    navigate(-1); // Volver a la vista anterior
+  };
+  
   if (localStorage.getItem('tipo_usuario')) {
-    return ('Para registrar un nuevo usuario, debes cerrar sesión primero')
+    return (
+      <div>
+        <DancingCat />
+        <p style={{ fontSize: '24px', textAlign: 'center', fontFamily: 'Georgia, serif' }}>
+          Para registrar un nuevo usuario, debes cerrar sesión primero
+        </p>
+        <FormGroup className="text-center">
+      <Button style={{ width: '200px' }} color="primary" onClick={handleVolver}>
+        Volver
+      </Button>
+    </FormGroup>
+      </div>
+    );    
   } 
+  
 
   return (
     <div className="registro">

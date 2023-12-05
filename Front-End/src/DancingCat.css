@@ -1,0 +1,239 @@
+.DancingCat {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.DancingCat .body {
+  background-color: #f5b638;
+}
+.DancingCat .container {
+  height: 25em;
+  width: 31.25em;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  perspective: 50em;
+}
+.DancingCat .face {
+  background-color: #4d4dc4;
+  height: 7.5em;
+  width: 11.25em;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  top: 3.12em;
+  border-radius: 0 0 3.12em 3.12em;
+}
+.DancingCat .face:before,
+.DancingCat .face:after {
+  position: absolute;
+  content: "";
+  height: 0.4em;
+  width: 0.9em;
+  border: 0.43em solid #181758;
+  border-bottom: none;
+  border-radius: 1.25em 1.25em 0 0;
+  top: 1.87em;
+}
+.DancingCat .face:before {
+  left: 3.12em;
+}
+.DancingCat .face:after {
+  right: 3.12em;
+}
+.DancingCat .ear-l,
+.DancingCat .ear-r {
+  position: absolute;
+  background-color: #f589aa;
+  height: 1.87em;
+  width: 0.93em;
+  bottom: 6.87em;
+}
+.DancingCat .ear-l {
+  border-radius: 0 3.75em 3.75em 0;
+  left: 0.62em;
+  box-shadow: 0 0 0 0.62em #4d4dc4, 4.18em 0.3em 0 -0.06em #4d4dc4;
+}
+.DancingCat .ear-r {
+  border-radius: 3.75em 0 0 3.75em;
+  right: 0.62em;
+  box-shadow: 0 0 0 0.62em #4d4dc4, -4.18em 0.3em 0 -0.06em #4d4dc4;
+}
+.DancingCat .ear-l:before {
+  position: absolute;
+  content: "";
+  height: 1.25em;
+  width: 1.25em;
+  background-color: #181758;
+  border-radius: 50%;
+  top: 5em;
+  left: 4.37em;
+  box-shadow: -2.18em 0 0 -0.37em #2f319f, 2.18em 0 0 -0.37em #2f319f,
+    -3.43em 0 0 -0.37em #2f319f, 3.43em 0 0 -0.37em #2f319f;
+}
+.DancingCat .ear-l:after {
+  position: absolute;
+  content: "";
+  height: 1.25em;
+  width: 3.12em;
+  background-color: #2f319f;
+  top: 8.74em;
+  left: 3.43em;
+}
+.DancingCat .ear-r:before {
+  position: absolute;
+  content: "";
+  height: 5em;
+  width: 5em;
+  background-color: #a7acf5;
+  top: 12.18em;
+  left: -6.56em;
+  box-shadow: 0 0 0 2.5em #4d4dc4;
+  border-radius: 1.87em;
+}
+.DancingCat .ear-r:after {
+  position: absolute;
+  content: "";
+  height: 0.62em;
+  width: 0.62em;
+  background-color: #4d4dc4;
+  top: 15.62em;
+  left: -4.37em;
+  border-radius: 50%;
+}
+.DancingCat .hand-l {
+  position: absolute;
+  height: 6.25em;
+  width: 6.25em;
+  border: 1.25em solid #4d4dc4;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 3.12em 0.62em 0.62em 0.62em;
+  top: 13.12em;
+  left: 7.5em;
+  animation: move-hand-l 6s infinite;
+  transform-origin: 104% 0;
+  transform-style: preserve-3d;
+}
+@keyframes move-hand-l {
+  50% {
+    transform: rotateX(180deg);
+  }
+}
+.DancingCat .hand-l:before {
+  position: absolute;
+  content: "";
+  height: 1.25em;
+  width: 0.62em;
+  background-color: #4d4dc4;
+  bottom: -0.62em;
+  left: -0.62em;
+  border-radius: 0.62em;
+}
+.DancingCat .hand-r {
+  position: absolute;
+  height: 6.25em;
+  width: 6.25em;
+  border: 1.25em solid #4d4dc4;
+  border-top: none;
+  border-left: none;
+  border-radius: 0.62em 0.62em 3.12em 0.62em;
+  top: 8.12em;
+  right: 6.25em;
+  animation: move-hand-r 6s infinite;
+  transform-origin: 0 100%;
+  transform-style: preserve-3d;
+}
+@keyframes move-hand-r {
+  50% {
+    transform: rotateX(-180deg);
+  }
+}
+.DancingCat .hand-r:before {
+  position: absolute;
+  content: "";
+  height: 1.25em;
+  width: 1.87em;
+  background-color: #4d4dc4;
+  left: 4.68em;
+  border-radius: 0 0 0.62em 0.62em;
+}
+.DancingCat .hand-r:after {
+  position: absolute;
+  content: "";
+  height: 1.25em;
+  width: 0.62em;
+  background-color: #4d4dc4;
+  left: 4.68em;
+  top: -0.62em;
+  border-radius: 1.25em;
+  box-shadow: 1.25em 0 #4d4dc4;
+}
+.DancingCat .leg-l,
+.DancingCat .leg-r {
+  height: 4.37em;
+  width: 1.87em;
+  background-color: #2f319f;
+  position: absolute;
+  top: 20em;
+  z-index: -1;
+}
+.DancingCat .leg-l {
+  left: 12.5em;
+}
+.DancingCat .leg-r {
+  right: 12.5em;
+  animation: stamp 2s infinite;
+}
+@keyframes stamp {
+  50% {
+    transform: translateY(-1.25em);
+  }
+}
+.DancingCat .leg-l:before,
+.DancingCat .leg-r:before {
+  position: absolute;
+  content: "";
+  height: 1.25em;
+  width: 2.5em;
+  background-color: #4d4dc4;
+  top: 3.12em;
+  left: -0.31em;
+  border-radius: 0.93em 0.93em 0 0;
+}
+.DancingCat .music-note {
+  position: absolute;
+  height: 0.62em;
+  width: 2.5em;
+  background-color: #181758;
+  transform: scale(0.2);
+  top: 6.25em;
+  left: 15.62em;
+  animation: whistle 2s infinite;
+}
+@keyframes whistle {
+  100% {
+    transform: translate(6.25em, -6.25em);
+    opacity: 0;
+  }
+}
+.DancingCat .music-note:before {
+  position: absolute;
+  content: "";
+  height: 2.5em;
+  width: 0.62em;
+  background-color: #181758;
+  box-shadow: 2.5em 0 #181758;
+}
+.DancingCat .music-note:after {
+  position: absolute;
+  content: "";
+  height: 0.93em;
+  width: 0.93em;
+  background-color: #181758;
+  border-radius: 50%;
+  top: 1.87em;
+  left: -0.31em;
+  box-shadow: 2.5em 0 #181758;
+}

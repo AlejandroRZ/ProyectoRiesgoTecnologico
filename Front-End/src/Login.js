@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormGroup, Label, Input, Button } from 'reactstrap';
 import "./Login.css";
-
+import DancingCat from './DancingCat';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -54,6 +54,7 @@ function Login() {
         body: JSON.stringify({ email, password })
       });
       const data = await res.json();
+      console.log(data)
 
       if (data.error === 'Ese correo no existe') {
         // Muestra la alerta para el correo no existente
@@ -68,6 +69,7 @@ function Login() {
         localStorage.setItem('nombre', data.nombre);
         localStorage.setItem('apellido', data.apellido);
         localStorage.setItem('email', data.email);
+        localStorage.setItem('gamertag', data.gamerTag);
         if (data.tipo_usuario === 'participante') {
           navigate('/participante');
         } else if (data.tipo_usuario === 'superadmin') {
@@ -86,6 +88,26 @@ function Login() {
   const handleRegistrar = () => {
     navigate('/registrar');
   };
+
+  const handleVolver = () => {
+    navigate(-1); // Volver a la vista anterior
+  };
+
+  if (localStorage.getItem('tipo_usuario')) {
+    return (
+      <div>
+        <DancingCat />
+        <p style={{ fontSize: '24px', textAlign: 'center', fontFamily: 'Georgia, serif' }}>
+          No puedes iniciar sesión de nuevo, ya estás en sesión activa
+        </p>
+        <FormGroup className="text-center">
+      <Button style={{ width: '200px' }} color="primary" onClick={handleVolver}>
+        Volver
+      </Button>
+    </FormGroup>
+      </div>
+    );    
+  }
 
   return (
     <div className="Login">

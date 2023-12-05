@@ -8,6 +8,7 @@ import Administrador from './Administrador';
 import Superadmin from './Superadmin';
 import VistaTorneos from './VistaTorneos';
 import EditProfile from './EditProfile';
+import VerPerfil from './VerPerfil';
 import "./App.css";
 
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="superadmin" element={<Superadmin />} />
             <Route path="vistaTorneos" element={<VistaTorneos/>} />
             <Route path="editarPerfil" element={<EditProfile/>} />
+            <Route path="verPerfil" element={<VerPerfil />} />
         </Routes> 
         <BottomBar />      
     </div>  

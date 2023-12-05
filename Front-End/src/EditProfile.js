@@ -3,16 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
 import './EditProfile.css';
 import Login from './Login';
+import DancingCat from './DancingCat';
 
 function EditProfile() { 
 
   const [formData, setFormData] = useState({
     idParticipante: '',
-    nombre: '',
-    apellido: '',
-    correo: '',
+    nombre: localStorage.getItem('nombre'),
+    apellido: localStorage.getItem('apellido'),
+    correo: localStorage.getItem('email'),
     contrasena: '',
-    gamertag: '',
+    gamertag: localStorage.getItem('gamertag'),
     foto: null,
   });
   
@@ -36,12 +37,29 @@ function EditProfile() {
     setFormData({ ...formData, idParticipante });
   }, []);
 
+  
+  const handleVolver = () => {
+    navigate(-1); // Volver a la vista anterior
+  };
+
   if (!localStorage.getItem('tipo_usuario')) {
     return <Login />
   }
 
   if (localStorage.getItem('tipo_usuario') !== 'participante') {
-    return('No tienes permisos para ver esta página.')
+    return (
+      <div>
+        <DancingCat />
+        <p style={{ fontSize: '24px', textAlign: 'center', fontFamily: 'Georgia, serif' }}>
+          No tienes permisos para ver esta página
+        </p>
+        <FormGroup className="text-center">
+      <Button style={{ width: '200px' }} color="primary" onClick={handleVolver}>
+        Volver
+      </Button>
+    </FormGroup>
+      </div>
+    );
   }
 
   const datosValidos = () => {
@@ -235,14 +253,15 @@ function EditProfile() {
     <div className="EditProfile">
       <h1>Editar perfil</h1>
       <form onSubmit={handleGuardarCambios}>    
-
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
         <FormGroup>
           <Label for="nombre">Nombre:</Label>
           <Input
             type="text"
             id="nombre"
             value={formData.nombre}
-            onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}            
+            onChange={(e) => setFormData({ ...formData, nombre: e.target.value })} 
+            style={{ width: '300px' }}           
           />
           {errors.nombre&& <div className="alert alert-danger">{errors.nombre}</div>}
         </FormGroup>
@@ -253,7 +272,8 @@ function EditProfile() {
             type="text"
             id="apellido"
             value={formData.apellido}
-            onChange={(e) => setFormData({ ...formData, apellido: e.target.value })}          
+            onChange={(e) => setFormData({ ...formData, apellido: e.target.value })}
+            style={{ width: '300px' }}          
           />
           {errors.apellido&& <div className="alert alert-danger">{errors.apellido}</div>}
         </FormGroup>
@@ -264,7 +284,8 @@ function EditProfile() {
             type="email"
             id="correo"
             value={formData.correo}
-            onChange={(e) => setFormData({ ...formData, correo: e.target.value })}           
+            onChange={(e) => setFormData({ ...formData, correo: e.target.value })}
+            style={{ width: '300px' }}           
           />
           {errors.correo&& <div className="alert alert-danger">{errors.correo}</div>}
         </FormGroup>
@@ -275,11 +296,11 @@ function EditProfile() {
             type="password"
             id="contrasena"
             value={formData.contrasena}
-            onChange={(e) => setFormData({ ...formData, contrasena: e.target.value })}            
+            onChange={(e) => setFormData({ ...formData, contrasena: e.target.value })} 
+            style={{ width: '300px' }}           
           />
           {errors.contrasena&& <div className="alert alert-danger">{errors.contrasena}</div>}
-        </FormGroup>
-        
+        </FormGroup>       
 
         <FormGroup>
           <Label for="gamertag">Gamertag:</Label>
@@ -287,7 +308,8 @@ function EditProfile() {
             type="text"
             id="gamertag"
             value={formData.gamertag}
-            onChange={(e) => setFormData({ ...formData, gamertag: e.target.value })}            
+            onChange={(e) => setFormData({ ...formData, gamertag: e.target.value })}
+            style={{ width: '300px' }}              
           />
           {errors.gamertag&& <div className="alert alert-danger">{errors.gamertag}</div>}
         </FormGroup>
@@ -295,28 +317,38 @@ function EditProfile() {
         <FormGroup className="d-flex flex-column align-items-center">
             <Label for="foto">Foto de perfil:</Label>      
             {/* Botón para abrir el explorador de archivos */}
-            <Button color="primary" onClick={toggleModal}>
+            <Button style={{ width: '200px' }} color="primary" onClick={toggleModal}>
             Seleccionar foto
             </Button>
         </FormGroup>
-
+      </div>      
+     
         <FormGroup className="mb-3 text-center">
-            <Button color="primary" type="submit" className="mr-2">
+            <Button style={{ width: '200px' }} color="primary" type="submit" className="mr-2">
              Guardar cambios
             </Button>
-            <Button color="primary" onClick={handleClickVolver}>
+        </FormGroup> 
+        <FormGroup className="mb-3 text-center">
+            <Button style={{ width: '200px' }} color="primary" onClick={handleClickVolver}>
              Volver a la vista de participante
             </Button>
-            <Button color="danger" onClick={handleEliminarPerfil}>
+          </FormGroup>
+        <FormGroup className="mb-3 text-center">
+            <Button style={{ width: '200px', backgroundColor: '#F05E16', borderColor: '#F05E16', 
+            transition: 'background-color 0.3s ease'}}  
+            onClick={handleEliminarPerfil} onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>
             Eliminar perfil
           </Button>
-        </FormGroup>        
-
-        <FormGroup className="mb-3 text-center"> 
-          <Button color="danger" onClick={handleEliminarPerfil}>
+        </FormGroup>  
+        <FormGroup className="mb-3 text-center">
+            <Button style={{ width: '200px', backgroundColor: '#F05E16', borderColor: '#F05E16', 
+            transition: 'background-color 0.3s ease' }} 
+             onClick={handleEliminarPerfil} onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
+             onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>
             Eliminar perfil
-          </Button>        
-        </FormGroup>
+          </Button>
+        </FormGroup>            
       </form>
 
       {/* Modal para la selección de foto */}
@@ -331,10 +363,10 @@ function EditProfile() {
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggleModal}>
+          <Button style={{ width: '150px' }} color="primary" onClick={toggleModal}>
             Confirmar
           </Button>{' '}
-          <Button color="secondary" onClick={toggleModal}>
+          <Button style={{ width: '150px' }} color="secondary" onClick={toggleModal}>
             Cancelar
           </Button>
         </ModalFooter>
@@ -345,13 +377,14 @@ function EditProfile() {
         <ModalBody>
           <p>¿Estás seguro de que deseas eliminar tu perfil?</p>
           <Form>
-            <FormGroup>
+            <FormGroup className="d-flex flex-column align-items-center">
               <Label for="contrasenaEliminar">Ingresa tu contraseña:</Label>
               <Input
                 type="password"
                 id="contrasenaEliminar"
                 value={contrasenaEliminar}
                 onChange={(e) => setContrasenaEliminar(e.target.value)}
+                style={{ width: '300px' }}
                 required
               />
             </FormGroup>
@@ -359,10 +392,12 @@ function EditProfile() {
           {deleteError && <div className="alert alert-danger">{deleteError}</div>}
         </ModalBody>
         <ModalFooter>
-          <Button color="danger" onClick={handleConfirmarEliminar}>
+          <Button style={{ width: '150px', backgroundColor: '#F05E16', borderColor: '#F05E16', 
+            transition: 'background-color 0.3s ease' }} onClick={handleConfirmarEliminar} onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>
             Eliminar
           </Button>{' '}
-          <Button color="secondary" onClick={toggleDeleteModal}>
+          <Button style={{ width: '150px' }} color="secondary" onClick={toggleDeleteModal}>
             Cancelar
           </Button>
         </ModalFooter>
@@ -374,7 +409,7 @@ function EditProfile() {
           <p>Los datos han sido actualizados correctamente.</p>
         </ModalBody>
       <ModalFooter>
-          <Button color="primary" onClick={() => setSuccessModalOpen(false)}>
+          <Button style={{ width: '150px' }} color="primary" onClick={() => setSuccessModalOpen(false)}>
             Cerrar
           </Button>
       </ModalFooter>

@@ -114,6 +114,7 @@ def login():
             session["apellido"] = user.apellido
             session["email"] = user.correo
             session["tipo_usuario"] = tipo_usuario
+            session["gamerTag"] = user.gamerTag
             session.modified = True
             if (tipo_usuario == "superadmin"):
                 id_usuario = user.idSuperadmin
@@ -129,6 +130,7 @@ def login():
                     "apellido": user.apellido,
                     "email": user.correo,
                     "tipo_usuario": tipo_usuario,
+                    "gamerTag": user.gamerTag,
                 }
             )
             # return render_template('index.html')

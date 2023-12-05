@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Table, Button, Container, Modal, ModalHeader, ModalBody, FormGroup, ModalFooter, Input} from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import moment from "moment";
 
 
 class CRUDTorneo extends React.Component {
@@ -90,7 +90,8 @@ class CRUDTorneo extends React.Component {
 
   editar = () => {
     const { id, nombre, fechahora, idAdministrador } = this.state.formActualizar;
-    const fechaFormateada = fechahora.toISOString().slice(0, 19);
+    /*const fechaFormateada = fechahora.toISOString().slice(0, 19);*/
+    const fechaFormateada = moment(fechahora).format("YYYY-MM-DDTHH:mm:ss");
 
     fetch("http://127.0.0.1:5000/torneo/updatetorneo", {
       method: "PUT",
@@ -184,7 +185,7 @@ class CRUDTorneo extends React.Component {
     this.setState((prevState) => ({
       formActualizar: {
         ...prevState.formActualizar,
-        fechahora: new Date(date.setSeconds(0)), // Ajusta según tus necesidades
+        fechahora:date, // Ajusta según tus necesidades
       },
     }));
   };
@@ -219,15 +220,17 @@ class CRUDTorneo extends React.Component {
     return (
       <>
         <Container className="CRUDTorneo">
-          <br />
-          <div className="d-flex justify-content-between">
-            <Button style={{ marginRight: "10px" }} color="success" onClick={() => this.mostrarModalInsertar()}>
+          <br /> 
+          <td>           
+          <FormGroup className="d-flex align-items-center">
+            <Button style={{width: "200px", marginRight: "10px" }} color="success" onClick={() => this.mostrarModalInsertar()}>
               Nuevo Torneo
             </Button>
-            <Button style={{ marginRight: "10px" }} color="success" onClick={() => this.mostrarTodosTorneos()}>
+            <Button style={{width: "200px", marginRight: "10px" }} color="success" onClick={() => this.mostrarTodosTorneos()}>
               Ver Torneos Actuales
             </Button>
-          </div>
+          </FormGroup>
+          </td> 
           <div className="barraBusqueda">
             <FormGroup className="d-flex align-items-center">
               <img src="lupa.png" alt="Ícono de búsqueda" style={{ height: '26px', marginRight: '10px'}} />{" "}
@@ -261,12 +264,18 @@ class CRUDTorneo extends React.Component {
                   <td>{dato.fechahora}</td>
 
                   <td>
-                    <Button color="primary" onClick={() => this.mostrarModalActualizar(dato)}>
+                  <FormGroup>
+                    <Button style={{ width: "150px", display: "block", marginBottom: "10px" }}
+                     color="primary" onClick={() => this.mostrarModalActualizar(dato)}>
                       Editar
                     </Button>{" "}
-                    <Button color="danger" onClick={() => this.mostrarModalEliminar(dato)}>
+                    <Button style={{ width: "150px", display: "block", marginBottom: "10px", 
+                    backgroundColor: '#F05E16', borderColor: '#F05E16', transition: 'background-color 0.3s ease' }}
+                    onClick={() => this.mostrarModalEliminar(dato)}  onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
+                    onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>
                       Eliminar
                     </Button>
+                    </FormGroup>
                   </td>
                 </tr>
               ))}
@@ -281,7 +290,7 @@ class CRUDTorneo extends React.Component {
             </div>
           </ModalHeader>
           <ModalBody>
-            <FormGroup>
+            <FormGroup className="d-flex flex-column align-items-center">
               <label>Nombre:</label>
               <input
                 className="form-control"
@@ -289,6 +298,7 @@ class CRUDTorneo extends React.Component {
                 type="text"
                 onChange={this.handleChangeActualizar}
                 value={this.state.formActualizar.nombre}
+                style={{ width: "300px"}}
               />
             </FormGroup>
             <FormGroup>
@@ -298,17 +308,17 @@ class CRUDTorneo extends React.Component {
                 selected={this.state.formActualizar.fechahora}
                 onChange={(date) => this.handleChangeFechaHoraActualizar(date)}
                 showTimeSelect
-                timeFormat="HH:mm"
+                timeFormat="HH:mm:ss"
                 timeIntervals={15}
                 dateFormat="yyyy-MM-dd HH:mm:ss"
               />
             </FormGroup>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => this.editar()}>
+            <Button style={{ width: "150px"}} color="primary" onClick={() => this.editar()}>
               Actualizar
             </Button>
-            <Button color="danger" onClick={() => this.cerrarModalActualizar()}>
+            <Button style={{ width: "150px"}} color="secondary" onClick={() => this.cerrarModalActualizar()}>
               Cancelar
             </Button>
           </ModalFooter>
@@ -323,7 +333,7 @@ class CRUDTorneo extends React.Component {
           </ModalHeader>
           <ModalBody>
 
-            <FormGroup>
+            <FormGroup className="d-flex flex-column align-items-center">
               <label>Nombre:</label>
               <input
                 className="form-control"
@@ -331,6 +341,7 @@ class CRUDTorneo extends React.Component {
                 type="text"
                 onChange={this.handleChangeInsertar}
                 value={this.state.formInsertar.nombre}
+                style={{ width: "300px"}}
               />
             </FormGroup>
 
@@ -359,10 +370,10 @@ class CRUDTorneo extends React.Component {
 
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => this.insertar()}>
+            <Button style={{ width: "150px"}} color="primary" onClick={() => this.insertar()}>
               Insertar
             </Button>
-            <Button color="danger" onClick={() => this.cerrarModalInsertar()}>
+            <Button style={{ width: "150px"}} color="secondary" onClick={() => this.cerrarModalInsertar()}>
               Cancelar
             </Button>
           </ModalFooter>
@@ -379,10 +390,13 @@ class CRUDTorneo extends React.Component {
             <p>¿Estás seguro que deseas eliminar el torneo?</p>
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" onClick={() => this.eliminar()}>
+            <Button style={{ width: "150px", display: "block", marginBottom: "10px", 
+                    backgroundColor: '#F05E16', borderColor: '#F05E16', transition: 'background-color 0.3s ease' }}
+                    onClick={() => this.eliminar({ id: this.state.torneoAEliminar })}  onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
+                    onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>
               Confirmar
             </Button>
-            <Button color="secondary" onClick={() => this.cerrarModalEliminar()}>
+            <Button style={{ width: "150px"}} color="secondary" onClick={() => this.cerrarModalEliminar()}>
               Cancelar
             </Button>
           </ModalFooter>
