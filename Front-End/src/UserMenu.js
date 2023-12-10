@@ -32,12 +32,12 @@ function UserMenu({ handleLogout, buttonEdit = false }) {
 
         {buttonEdit ?
         <>
-        <button onClick={handleVer}> Ver Perfil </button> 
-        <button onClick={handleEdit}> Editar Perfil </button>
+        <button style={{ width: '200px' }} onClick={handleVer}> Ver Perfil </button> 
+        <button style={{ width: '200px' }} onClick={handleEdit}> Editar Perfil </button>
         </>:
         null
         }
-        <button onClick={handleLogout}> Cerrar Sesión </button>
+        <button style={{ width: '200px' }} onClick={handleLogout}> Cerrar Sesión </button>
         </>
         }
     </div>

@@ -23,7 +23,7 @@ function VerPerfil(){
     return <div className="containerVerPerfil">
         <h1>¡Hola, {perfilData.nombre}!</h1>
         <p>{perfilData.correo}</p>
-        <h3>&#64;{perfilData.gamertag}</h3>
+        <h3>{perfilData.gamertag}</h3>
 
         <img src="MMT.png" alt="logo"/>
 

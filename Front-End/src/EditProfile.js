@@ -26,6 +26,7 @@ function EditProfile() {
   const [errorMessage, setErrorMessage] = useState('');
   const [intentosFallidos, setIntentosFallidos] = useState(0);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [modalDespedidaOpen, setModalDespedidaOpen] = useState(false);
   const navigate = useNavigate();
 
   const toggleModal = () => setModal(!modal);
@@ -66,6 +67,26 @@ function EditProfile() {
     let errors = {};
     let isValid = true;
 
+    if (formData.nombre) {
+      const nombreRegex = /^[a-zA-ZáéíóúüÁÉÍÓÚÜ\s]+$/; // Acepta letras y espacios con acento o diéresis
+      const lengthValid = formData.nombre.length >= 3;
+  
+      if (!(nombreRegex.test(formData.nombre) && lengthValid)) {
+        isValid = false;
+        errors["nombre"] = "El nombre debe tener al menos 3 letras (sólo letras)";
+      }
+    }
+  
+    // Validación del apellido
+    if (formData.apellido) {
+      const apellidoRegex = /^[a-zA-ZáéíóúüÁÉÍÓÚÜ\s]+$/; // Acepta letras y espacios con acento o diéresis
+      const lengthValid = formData.apellido.length >= 3;
+  
+      if (!(apellidoRegex.test(formData.apellido) && lengthValid)) {
+        isValid = false;
+        errors["apellido"] = "El apellido debe tener al menos 3 letras (sólo letras)";
+      }
+    }
     // Validación del correo
     if(formData.correo){
       if (typeof formData.correo !== "undefined") {
@@ -211,8 +232,15 @@ function EditProfile() {
       // Validar la respuesta del servidor
       if (data.message === 'Perfil eliminado exitosamente') {
         // Cerrar sesión y redirigir a la página de inicio
-        localStorage.clear();
-        navigate('/');
+        
+        setModalDespedidaOpen(true);
+        setTimeout(() => {          
+          setModalDespedidaOpen(false);
+          localStorage.clear();
+          navigate('/');
+        }, 3500);
+        
+
       } else if (data.error === 'Contraseña incorrecta') {
         // Aumentar el contador de intentos fallidos
         setIntentosFallidos(intentosFallidos + 1);
@@ -221,7 +249,7 @@ function EditProfile() {
           setDeleteError(`Contraseña incorrecta. Intentos restantes: ${2 - intentosFallidos}`);
         } else {
           setDeleteError('Demasiados intentos fallidos. Se cerrará la sesión.');
-        // Aquí puedes agregar la lógica para cerrar la sesión después de tres intentos fallidos
+        // Aquí puedes agregar la lógica para cerrar la sesión después de tres intentos fallidos          
           setTimeout(() => {
           // Cerrar sesión y redirigir a la página de inicio
             localStorage.clear();
@@ -251,10 +279,11 @@ function EditProfile() {
 
   return (
     <div className="EditProfile">
-      <h1>Editar perfil</h1>
+      <h1 style={{ marginBottom: '20px' }}>Editar perfil</h1>
       <form onSubmit={handleGuardarCambios}>    
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-        <FormGroup>
+      <div style={{ marginBottom: '50px' }}>
+        <FormGroup  style={{ marginTop: '50px' }}>
           <Label for="nombre">Nombre:</Label>
           <Input
             type="text"
@@ -263,10 +292,18 @@ function EditProfile() {
             onChange={(e) => setFormData({ ...formData, nombre: e.target.value })} 
             style={{ width: '300px' }}           
           />
-          {errors.nombre&& <div className="alert alert-danger">{errors.nombre}</div>}
+          {errors.nombre&&  <div
+        className="alert alert-danger"
+        style={{
+        textAlign: 'center',
+        width: '300px',
+        marginTop: '5px', // Ajusta según sea necesario       
+      }}
+    >
+      {errors.nombre}
+    </div>}
         </FormGroup>
-
-        <FormGroup>
+        <FormGroup style={{ marginTop: '10px' }}>
           <Label for="apellido">Apellido:</Label>
           <Input
             type="text"
@@ -275,10 +312,19 @@ function EditProfile() {
             onChange={(e) => setFormData({ ...formData, apellido: e.target.value })}
             style={{ width: '300px' }}          
           />
-          {errors.apellido&& <div className="alert alert-danger">{errors.apellido}</div>}
+          {errors.apellido&&  <div
+        className="alert alert-danger"
+        style={{
+        textAlign: 'center',
+        width: '300px',
+        marginTop: '5px', // Ajusta según sea necesario       
+      }}
+    >
+      {errors.apellido}
+    </div>}
         </FormGroup>
 
-        <FormGroup>
+        <FormGroup style={{ marginTop: '10px' }}>
           <Label for="correo">Correo:</Label>
           <Input
             type="email"
@@ -287,10 +333,19 @@ function EditProfile() {
             onChange={(e) => setFormData({ ...formData, correo: e.target.value })}
             style={{ width: '300px' }}           
           />
-          {errors.correo&& <div className="alert alert-danger">{errors.correo}</div>}
+          {errors.correo&&  <div
+        className="alert alert-danger"
+        style={{
+        textAlign: 'center',
+        width: '300px',
+        marginTop: '5px', // Ajusta según sea necesario       
+      }}
+    >
+      {errors.correo}
+    </div>}
         </FormGroup>
 
-        <FormGroup>
+        <FormGroup style={{ marginTop: '10px' }}>
           <Label for="contrasena">Contraseña:</Label>
           <Input
             type="password"
@@ -299,10 +354,19 @@ function EditProfile() {
             onChange={(e) => setFormData({ ...formData, contrasena: e.target.value })} 
             style={{ width: '300px' }}           
           />
-          {errors.contrasena&& <div className="alert alert-danger">{errors.contrasena}</div>}
+          {errors.contrasena&&  <div
+        className="alert alert-danger"
+        style={{
+        textAlign: 'center',
+        width: '300px',
+        marginTop: '5px', // Ajusta según sea necesario       
+      }}
+    >
+      {errors.contrasena}
+    </div>}
         </FormGroup>       
 
-        <FormGroup>
+        <FormGroup style={{ marginTop: '10px' }}>
           <Label for="gamertag">Gamertag:</Label>
           <Input
             type="text"
@@ -311,19 +375,29 @@ function EditProfile() {
             onChange={(e) => setFormData({ ...formData, gamertag: e.target.value })}
             style={{ width: '300px' }}              
           />
-          {errors.gamertag&& <div className="alert alert-danger">{errors.gamertag}</div>}
+          {errors.gamertag&&  <div
+        className="alert alert-danger"
+        style={{
+        textAlign: 'center',
+        width: '300px',
+        marginTop: '5px', // Ajusta según sea necesario       
+      }}
+    >
+      {errors.gamertag}
+    </div>}
         </FormGroup>
+    </div>
 
-        <FormGroup className="d-flex flex-column align-items-center">
+        <FormGroup className="d-flex flex-column align-items-center" style={{ marginTop: '10px' }}>
             <Label for="foto">Foto de perfil:</Label>      
             {/* Botón para abrir el explorador de archivos */}
-            <Button style={{ width: '200px' }} color="primary" onClick={toggleModal}>
+            <Button style={{ width: '200px', marginBottom: '20px'}} color="primary" onClick={toggleModal}>
             Seleccionar foto
             </Button>
         </FormGroup>
       </div>      
      
-        <FormGroup className="mb-3 text-center">
+        <FormGroup className="mb-3 text-center" style={{ marginTop: '10px' }}>
             <Button style={{ width: '200px' }} color="primary" type="submit" className="mr-2">
              Guardar cambios
             </Button>
@@ -413,6 +487,13 @@ function EditProfile() {
             Cerrar
           </Button>
       </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={modalDespedidaOpen} toggle={() => setModalDespedidaOpen(false)}>
+      <ModalHeader toggle={() => setModalDespedidaOpen(false)}>Despedida</ModalHeader>
+      <ModalBody>
+        <p>Lamentamos mucho tu partida, ojalá puedas volver pronto.</p>
+      </ModalBody>
       </Modal>
 
       {isErrorModalOpen && (

@@ -27,17 +27,20 @@ def edit_profile():
             # Obtén el participante que deseas editar según el ID proporcionado
             participantes = get_participante_by_id(id)
             participanteEdit = participantes[0]
-            participantesTag = get_participante_by_tag(gamerTag)
             
-            adminList = get_admin_by_email(email)
-            superAdminList = get_superadmin_by_email(email)
-            participantesList = get_participante_by_email(email)            
+            if email != participanteEdit.correo:
+                adminList = get_admin_by_email(email)
+                superAdminList = get_superadmin_by_email(email)
+                participantesList = get_participante_by_email(email)            
+            
+                if adminList or superAdminList or participantesList:
+                    return jsonify({'error': 'Error, correo asociado a otra cuenta. Puede estar asociado a una cuenta no apta para participar.'})
            
-            if adminList or superAdminList or participantesList:
-                return jsonify({'error': 'Error, correo asociado a otra cuenta. Puede estar asociado a una cuenta no apta para participar.'})
-           
-            if participantesTag:
-                return jsonify({'error':'Error, tag ya asignado'})
+            if gamerTag != participanteEdit.gamerTag:
+                participantesTag = get_participante_by_tag(gamerTag)
+
+                if participantesTag:
+                    return jsonify({'error':'Error, tag ya asignado'})
 
             if participanteEdit:
                 # Actualiza los campos según lo que recibiste en la solicitud                

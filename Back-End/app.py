@@ -114,7 +114,10 @@ def login():
             session["apellido"] = user.apellido
             session["email"] = user.correo
             session["tipo_usuario"] = tipo_usuario
-            session["gamerTag"] = user.gamerTag
+
+            if tipo_usuario == "participante":
+                session["gamerTag"] = user.gamerTag
+
             session.modified = True
             if (tipo_usuario == "superadmin"):
                 id_usuario = user.idSuperadmin
@@ -122,17 +125,18 @@ def login():
                 id_usuario = user.idAdministrador
             else:
                 id_usuario = user.idParticipante
-            return jsonify(
-                {
+            user_json = {
                     "error": "Ninguno",
                     "id": id_usuario,
                     "nombre": user.nombre,
                     "apellido": user.apellido,
                     "email": user.correo,
-                    "tipo_usuario": tipo_usuario,
-                    "gamerTag": user.gamerTag,
-                }
-            )
+                    "tipo_usuario": tipo_usuario,                    
+            }            
+            if tipo_usuario == "participante" :
+                user_json["gamerTag"] = user.gamerTag
+                
+            return jsonify(user_json)
             # return render_template('index.html')
         except KeyError:
             flash("No fue enviado con éxito el correo y/o la contraseña")

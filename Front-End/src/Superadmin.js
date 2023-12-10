@@ -1,9 +1,11 @@
 import React from 'react';
 import './Superadmin.css';
 import { useNavigate } from 'react-router-dom';
+import { FormGroup, Button } from 'reactstrap';
 import CRUDAdmin from './CRUDAdmin';
 import Login from './Login';
 import UserMenu from './UserMenu';
+import DancingCat from './DancingCat';
 
 function Superadmin() {
     const navigate = useNavigate();
@@ -11,13 +13,27 @@ function Superadmin() {
         localStorage.clear();
         navigate('/');
     };
-
+    const handleVolver = () => {
+        navigate(-1); // Volver a la vista anterior
+    };
     if (!localStorage.getItem('tipo_usuario')) {
         return <Login />
     }
 
     if (localStorage.getItem('tipo_usuario') !== 'superadmin') {
-        return('No tienes permisos para ver esta página.')
+        return (
+            <div>
+              <DancingCat />
+              <p style={{ fontSize: '24px', textAlign: 'center', fontFamily: 'Georgia, serif' }}>
+                No tienes permisos para ver esta página
+              </p>
+              <FormGroup className="text-center">
+            <Button style={{ width: '200px' }} color="primary" onClick={handleVolver}>
+              Volver
+            </Button>
+          </FormGroup>
+            </div>
+        );
     }
 
     return (
@@ -27,6 +43,8 @@ function Superadmin() {
             <CRUDAdmin />
         </div>
     );
+
+    
 }
 
 export default Superadmin;

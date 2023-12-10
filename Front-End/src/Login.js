@@ -54,7 +54,6 @@ function Login() {
         body: JSON.stringify({ email, password })
       });
       const data = await res.json();
-      console.log(data)
 
       if (data.error === 'Ese correo no existe') {
         // Muestra la alerta para el correo no existente

@@ -266,10 +266,12 @@ class CRUDAdmin extends React.Component {
       <>
         <Container className="CRUDAdmin">
           <br />
+          <td>
           <div className="d-flex justify-content-between">
-            <Button style={{ marginRight: '10px' }} color="success" onClick={() => this.mostrarModalInsertar()}>Nuevo administrador</Button>
-            <Button style={{ marginRight: '10px' }} color="success" onClick={() => this.mostrarTodosTorneos()}>Ver Torneos Actuales</Button>
+            <Button style={{width: "200px", marginRight: "10px" }}  color="success" onClick={() => this.mostrarModalInsertar()}>Nuevo administrador</Button>
+            <Button style={{width: "200px", marginRight: "10px" }}  color="success" onClick={() => this.mostrarTodosTorneos()}>Ver Torneos Actuales</Button>
           </div>
+          </td>
           <div className="barraBusqueda">
           <FormGroup className="d-flex align-items-center">
               <img src="lupa.png" alt="Ícono de búsqueda" style={{ height: '26px', marginRight: '10px'}} />{" "}
@@ -305,11 +307,15 @@ class CRUDAdmin extends React.Component {
                   <td>{dato.email}</td>
                   <td>
                     <Button
+                      style={{ width: "150px", display: "block", marginBottom: "10px" }}
                       color="primary"
                       onClick={() => this.mostrarModalActualizar(dato)}
                     >Editar
                     </Button>{" "}
-                    <Button color="danger" onClick={() => this.mostrarModalEliminar(dato)}>Eliminar</Button>
+                    <Button style={{ width: "150px", display: "block", marginBottom: "10px", 
+                    backgroundColor: '#F05E16', borderColor: '#F05E16', transition: 'background-color 0.3s ease' }} 
+                    onClick={() => this.mostrarModalEliminar(dato)}onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
+                    onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>Eliminar</Button>
                   </td>
                 </tr>
               ))}
@@ -373,13 +379,13 @@ class CRUDAdmin extends React.Component {
 
           <ModalFooter>
             <Button
-              color="primary"
+              style={{ width: "150px"}} color="primary"
               onClick={() => this.editar()}
             >
               Editar
             </Button>
             <Button
-              color="danger"
+              style={{ width: "150px"}} color="secondary"
               onClick={() => this.cerrarModalActualizar()}
             >
               Cancelar
@@ -456,13 +462,13 @@ class CRUDAdmin extends React.Component {
 
           <ModalFooter>
             <Button
-              color="primary"
+              style={{ width: "150px"}} color="primary" 
               onClick={() => this.insertar()}
             >
               Insertar
             </Button>
             <Button
-              className="btn btn-danger"
+              style={{ width: "150px"}} color="secondary"
               onClick={() => this.cerrarModalInsertar()}
             >
               Cancelar
@@ -479,10 +485,14 @@ class CRUDAdmin extends React.Component {
           </ModalBody>
 
           <ModalFooter>
-            <Button color="danger" onClick={() => this.eliminar({ id: this.state.administradorAEliminar })}>
+            <Button style={{ width: "150px", display: "block", marginBottom: "10px", 
+                    backgroundColor: '#F05E16', borderColor: '#F05E16', transition: 'background-color 0.3s ease' }} 
+                    onClick={() => this.eliminar({ id: this.state.administradorAEliminar })}  
+                    onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
+                    onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>
               Confirmar
             </Button>
-            <Button color="secondary" onClick={() => this.setState({ modalEliminar: false, administradorAEliminar: null })}>
+            <Button style={{ width: "150px"}} color="secondary"  onClick={() => this.setState({ modalEliminar: false, administradorAEliminar: null })}>
               Cancelar
             </Button>
           </ModalFooter>

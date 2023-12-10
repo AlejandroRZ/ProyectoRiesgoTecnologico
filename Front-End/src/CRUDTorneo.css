@@ -28,9 +28,11 @@
   cursor: pointer;
 }
 
+
+
 .CRUDTorneo .btnBuscar {
-  height: 50px;
-  width: auto;
+  height: 34px;
+  width: 32px;
   text-align: center;
   align-items: center;
   justify-content: center;

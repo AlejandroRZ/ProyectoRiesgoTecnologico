@@ -19,7 +19,6 @@ class CRUDTorneo extends React.Component {
     formInsertar: {
       nombre: "",
       fechahora: new Date(),
-      idAdministrador: "",
     },
     formActualizar: {
       id: "",
@@ -139,8 +138,9 @@ class CRUDTorneo extends React.Component {
 
 
   insertar = () => {
-    const { nombre, fechahora, idAdministrador } = this.state.formInsertar;
-    const fechaFormateada = fechahora.toISOString().slice(0, 19);
+    const { nombre, fechahora } = this.state.formInsertar;
+    /*const fechaFormateada = fechahora.toISOString().slice(0, 19); */
+    const fechaFormateada = moment(fechahora).format("YYYY-MM-DDTHH:mm:ss");
     console.log("fecha y hora:", fechahora);
 
     fetch("http://127.0.0.1:5000/torneo/inserttorneo", {
@@ -148,7 +148,7 @@ class CRUDTorneo extends React.Component {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ nombre, fechaHora: fechaFormateada, idAdministrador }),
+      body: JSON.stringify({ nombre, fechaHora: fechaFormateada, idAdministrador: localStorage.getItem('id') }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -172,7 +172,7 @@ class CRUDTorneo extends React.Component {
     });
   };
 
-  handleChangeFechaInsertar = (date) => {
+  handleChangeFechaHoraInsertar = (date) => {
     this.setState((prevState) => ({
       formInsertar: {
         ...prevState.formInsertar,
@@ -350,21 +350,11 @@ class CRUDTorneo extends React.Component {
               <DatePicker
                 className="form-control"
                 selected={this.state.formInsertar.fechahora}
-                onChange={(date) => this.handleChangeFechaHoraActualizar(date)}
+                onChange={(date) => this.handleChangeFechaHoraInsertar(date)}
                 showTimeSelect
-                timeFormat="HH:mm"
+                timeFormat="HH:mm:ss"
                 timeIntervals={15}
                 dateFormat="yyyy-MM-dd HH:mm:ss"
-              />
-            </FormGroup>
-            <FormGroup>
-              <label>ID Administrador:</label>
-              <input
-                className="form-control"
-                name="idAdministrador"
-                type="text"
-                onChange={this.handleChangeInsertar}
-                value={this.state.formInsertar.idAdministrador}
               />
             </FormGroup>
 
