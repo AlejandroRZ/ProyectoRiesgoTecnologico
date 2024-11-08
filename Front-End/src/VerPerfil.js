@@ -5,13 +5,11 @@ import "./VerPerfil.css"
 
 function VerPerfil(){
     const [perfilData, setPerfilData] = useState({
-        idParticipante: '',
+        noCuenta: localStorage.getItem('noCuenta'),
         nombre: localStorage.getItem('nombre'),
         apellido: localStorage.getItem('apellido'),
         correo: localStorage.getItem('email'),
-        contrasena: '',
-        gamertag: localStorage.getItem('gamertag'),
-        foto: null,
+        contrasena: ''
       });
     
     const navigate = useNavigate();

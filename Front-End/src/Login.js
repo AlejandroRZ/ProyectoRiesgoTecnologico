@@ -64,11 +64,10 @@ function Login() {
       } else if (data.error === 'Ninguno') {
         // Almacenar la info de usuario en localStorage
         localStorage.setItem('tipo_usuario', data.tipo_usuario);
-        localStorage.setItem('id', data.id);
+        localStorage.setItem('noCuenta', data.noCuenta);
         localStorage.setItem('nombre', data.nombre);
         localStorage.setItem('apellido', data.apellido);
-        localStorage.setItem('email', data.email);
-        localStorage.setItem('gamertag', data.gamerTag);
+        localStorage.setItem('email', data.email);        
         if (data.tipo_usuario === 'participante') {
           navigate('/participante');
         } else if (data.tipo_usuario === 'superadmin') {

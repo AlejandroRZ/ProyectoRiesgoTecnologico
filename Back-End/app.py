@@ -24,8 +24,8 @@ from controllers.TorneoController import torneo
 from controllers.ParticipanteController import participante
 
 from model.model_administrador import get_admin_by_email, get_all_admins, get_admin_by_id
-from model.model_superadmin import get_superadmin_by_email
-from model.model_participante import get_participante_by_email 
+from model.model_superadmin import get_superadmin_by_email, get_superadmin_by_id
+from model.model_participante import get_participante_by_email, get_participante_by_id 
 from model.model_torneo import get_all_torneos, get_torneo_by_id,get_current_datetime
 
 def get_user_by_email(email):
@@ -68,6 +68,7 @@ def main():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == 'POST':
+        noCuenta = request.json['noCuenta']
         nombre = request.json['nombre']
         apellido = request.json['apellido']
         correo = request.json['correo']
@@ -78,7 +79,14 @@ def register():
             participantesList = get_participante_by_email(correo)            
             if adminList or superAdminList or participantesList:
                 return jsonify({'error': 'Error, correo asociado a otra cuenta. Puede estar asociado a una cuenta no apta para participar.'})
-            participante = Participante(nombre, apellido, correo, psswd)            
+            
+            adminList = get_admin_by_id(noCuenta)
+            superAdminList = get_superadmin_by_id(noCuenta)
+            participantesList = get_participante_by_id(noCuenta)            
+            if adminList or superAdminList or participantesList:
+                return jsonify({'error': 'Error, número de cuenta asociado a otro usuario.'})
+            
+            participante = Participante(noCuenta, nombre, apellido, correo, psswd)            
             db.session.add(participante)
             db.session.commit()
             participantesList = get_participante_by_email(correo)
@@ -87,7 +95,7 @@ def register():
             db.session.rollback()  # Revertir cambios en caso de error
             print(f"Error: {str(e)}")
             return jsonify({'error': 'Error en el servidor'})       
-    return jsonify({'message':'Registro exitoso', 'id': participante1.idParticipante})
+    return jsonify({'message':'Registro exitoso', 'id': participante1.noCuenta})
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -110,6 +118,7 @@ def login():
                 return jsonify({"error": "Contraseña incorrecta"})
                 # return render_template('login.html')
             session.clear()
+            session["noCuenta"] = user.noCuenta
             session["nombre"] = user.nombre
             session["apellido"] = user.apellido
             session["email"] = user.correo
@@ -124,7 +133,7 @@ def login():
                 id_usuario = user.noCuenta
             user_json = {
                     "error": "Ninguno",
-                    "id": id_usuario,
+                    "noCuenta": id_usuario,
                     "nombre": user.nombre,
                     "apellido": user.apellido,
                     "email": user.correo,

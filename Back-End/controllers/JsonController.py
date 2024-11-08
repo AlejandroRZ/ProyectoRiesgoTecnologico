@@ -27,11 +27,10 @@ def get_participantes():
     response = []
     for participante in participantes:
         response.append({
-            'idParticipante':participante.idParticipante,
+            'noCuenta':participante.noCuenta,
             'nombre':participante.nombre,
             'apellido':participante.apellido,
-            'correo':participante.correo,
-            'gamerTag':participante.gamerTag
+            'correo':participante.correo            
         })
     return json.dumps(response)
     

@@ -13,11 +13,12 @@ class Participante(db.Model):
     psswd = Column(String(64))
    
 
-    def __init__(self, nombre, apellido, correo, psswd):
+    def __init__(self, noCuenta, nombre, apellido, correo, psswd):
+        self.noCuenta=noCuenta
         self.nombre=nombre
         self.apellido=apellido
         self.correo=correo
         self.psswd=sha256(cipher(psswd)).hexdigest()        
 
     def __str__(self):
-        return f'noCuenta: {self.idParticipante}, nombre: {self.nombre}, apellido: {self.apellido}'
+        return f'noCuenta: {self.noCuenta}, nombre: {self.nombre}, apellido: {self.apellido}'

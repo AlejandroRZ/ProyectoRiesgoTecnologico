@@ -6,6 +6,7 @@ import { Button, FormGroup, Label, Input, Modal, ModalHeader, ModalBody } from '
 import DancingCat from './DancingCat';
 
 function Register() {
+  const [noCuenta, setNoCuenta] = useState('');
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [correo, setCorreo] = useState('');
@@ -19,6 +20,15 @@ function Register() {
   const datosValidos = () => {
     let errors = {};
     let isValid = true;
+
+    // Validación del número de cuenta
+    if (!noCuenta) {
+      isValid = false;
+      errors["noCuenta"] = "Por favor ingresa tu número de cuenta.";
+    }else if (noCuenta.length !== 9 || noCuenta < 0 || noCuenta % 1 !== 0) {
+      isValid = false;
+      errors["noCuenta"] = "Formato de no. de cuenta no válido.";
+    }
 
     // Validación del nombre
     if (!nombre) {
@@ -68,6 +78,7 @@ function Register() {
     }
     // Aquí puedes enviar los datos al servidor para el registro
     const datosRegistro = {
+      noCuenta, 
       nombre,
       apellido,
       correo,
@@ -90,18 +101,19 @@ function Register() {
       console.log(data);
       // Verificar si el registro fue exitoso
       if (data.message === 'Registro exitoso') {        
-        localStorage.setItem('id', data.id); // Suponiendo que el servidor devuelve el ID después del registro
+        localStorage.setItem('noCuenta', noCuenta); 
         localStorage.setItem('nombre', nombre);
         localStorage.setItem('apellido', apellido);
         localStorage.setItem('email', correo);
-        localStorage.setItem('contrasena', contrasena);
-        localStorage.setItem('gamertag', '');        
+        localStorage.setItem('contrasena', contrasena);           
         
         openWelcomeModal();
         // Redirigir a la vista EditProfile
         
       } else if (data.error === 'Error, correo asociado a otra cuenta. Puede estar asociado a una cuenta no apta para participar.') {
         setErrors({ correo: data.error });
+      } else if (data.error === 'Error, número de cuenta asociado a otro usuario.') {
+        setErrors({ noCuenta: data.error });
       } else if (data.error) {
         // Mostrar el error en el modal
         setErrorMessage(data.error);
@@ -168,6 +180,19 @@ function Register() {
     <div className="registro">
       <h1>Registro</h1>
       <form onSubmit={handleRegistro}>
+      <FormGroup>
+          <Label for="noCuenta">No. de cuenta:</Label>
+          <Input
+            type="number"
+            id="noCuenta"
+            name="noCuenta"
+            value={noCuenta}
+            onChange={(e) => setNoCuenta(e.target.value)}
+            required
+          />
+          {errors.noCuenta && <div className="alert alert-danger">{errors.noCuenta}</div>}
+        </FormGroup>
+
         <FormGroup>
           <Label for="nombre">Nombre:</Label>
           <Input
@@ -237,7 +262,7 @@ function Register() {
       <Modal isOpen={welcomeModalOpen} toggle={() => setWelcomeModalOpen(false)}>
         <ModalHeader toggle={() => setWelcomeModalOpen(false)}>¡Bienvenido!</ModalHeader>
           <ModalBody>
-            <p>El registro fue exitoso, te damos la bienvenida. Por favor, espera un meow-mento...</p>
+            <p>El registro fue exitoso, te damos la bienvenida. Por favor, espera ...</p>
           </ModalBody>
       </Modal>
 

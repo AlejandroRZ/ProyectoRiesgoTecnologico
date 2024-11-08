@@ -8,16 +8,13 @@ import DancingCat from './DancingCat';
 function EditProfile() { 
 
   const [formData, setFormData] = useState({
-    idParticipante: '',
+    noCuenta: localStorage.getItem('noCuenta'),
     nombre: localStorage.getItem('nombre'),
     apellido: localStorage.getItem('apellido'),
     correo: localStorage.getItem('email'),
-    contrasena: '',
-    gamertag: localStorage.getItem('gamertag'),
-    foto: null,
+    contrasena: '',    
   });
   
-  const [modal, setModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [contrasenaEliminar, setContrasenaEliminar] = useState('');
   const [deleteError, setDeleteError] = useState('');
@@ -29,13 +26,12 @@ function EditProfile() {
   const [modalDespedidaOpen, setModalDespedidaOpen] = useState(false);
   const navigate = useNavigate();
 
-  const toggleModal = () => setModal(!modal);
   const toggleDeleteModal = () => setDeleteModal(!deleteModal);
 
   useEffect(() => {
     // Obtener el ID del localStorage
-    const idParticipante = localStorage.getItem('id');
-    setFormData({ ...formData, idParticipante });
+    const noCuenta = localStorage.getItem('noCuenta');
+    setFormData({ ...formData, noCuenta});
   }, []);
 
   
@@ -108,29 +104,9 @@ function EditProfile() {
       }
     }
 
-     // Validación del gamertag
-    if (formData.gamertag) {
-      const regex = /^[a-zA-Z0-9]+$/; // Expresión regular para alfanuméricos sin caracteres especiales
-      const startsWithAt = formData.gamertag.startsWith('@');
-      const lengthValid = formData.gamertag.length >= 5;
-      const containsOnlyAlphanumeric = regex.test(formData.gamertag.slice(1));
-
-      if (!(startsWithAt && lengthValid && containsOnlyAlphanumeric)) {
-        isValid = false;
-        errors["gamertag"] = "Gamertag inválido. Debe comenzar con '@' y tener al menos 5 caracteres alfanuméricos.";
-      }          
-    } 
-
+     
     setErrors(errors);
     return isValid;
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData({
-      ...formData,
-      foto: file,
-    });
   };
 
   const handleGuardarCambios = async (e) => {
@@ -167,19 +143,10 @@ function EditProfile() {
         if (formData.contrasena) {
           localStorage.setItem('contrasena', formData.contrasena);
         }
-
-        if (formData.gamertag) {
-          localStorage.setItem('gamertag', formData.gamertag);
-        }
-
-        if (formData.foto) {
-          localStorage.setItem('foto', formData.foto);
-        }
+        
         openSuccessModal();  
       } else if (data.error === 'Error, correo asociado a otra cuenta. Puede estar asociado a una cuenta no apta para participar.') {
         setErrors({correo: data.error });
-      } else if (data.error === 'Error, tag ya asignado'){
-        setErrors({gamertag: data.error});
       } else if (data.error) {
         // Mostrar el error en el modal
         setErrorMessage(data.error);
@@ -221,7 +188,7 @@ function EditProfile() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          idParticipante: formData.idParticipante,
+          noCuenta: formData.noCuenta,
           contrasenaEliminar: contrasenaEliminar,
         }),
       });
@@ -279,11 +246,9 @@ function EditProfile() {
 
   return (
     <div className="EditProfile">
-      <h1 style={{ marginBottom: '20px' }}>Editar perfil</h1>
-      <form onSubmit={handleGuardarCambios}>    
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-      <div style={{ marginBottom: '50px' }}>
-        <FormGroup  style={{ marginTop: '50px' }}>
+      <h1>Editar perfil</h1>
+      <form onSubmit={handleGuardarCambios}>  
+        <FormGroup>
           <Label for="nombre">Nombre:</Label>
           <Input
             type="text"
@@ -292,18 +257,21 @@ function EditProfile() {
             onChange={(e) => setFormData({ ...formData, nombre: e.target.value })} 
             style={{ width: '300px' }}           
           />
-          {errors.nombre&&  <div
-        className="alert alert-danger"
-        style={{
-        textAlign: 'center',
-        width: '300px',
-        marginTop: '5px', // Ajusta según sea necesario       
-      }}
-    >
-      {errors.nombre}
-    </div>}
+          {errors.nombre&&  
+            <div
+              className="alert alert-danger"
+              style={{
+                textAlign: 'center',
+                width: '300px',
+                marginTop: '5px', // Ajusta según sea necesario       
+              }}
+            > 
+            {errors.nombre}
+            </div>
+          }
         </FormGroup>
-        <FormGroup style={{ marginTop: '10px' }}>
+
+        <FormGroup>
           <Label for="apellido">Apellido:</Label>
           <Input
             type="text"
@@ -312,19 +280,21 @@ function EditProfile() {
             onChange={(e) => setFormData({ ...formData, apellido: e.target.value })}
             style={{ width: '300px' }}          
           />
-          {errors.apellido&&  <div
-        className="alert alert-danger"
-        style={{
-        textAlign: 'center',
-        width: '300px',
-        marginTop: '5px', // Ajusta según sea necesario       
-      }}
-    >
-      {errors.apellido}
-    </div>}
+          {errors.apellido&&  
+            <div
+              className="alert alert-danger"
+              style={{
+                textAlign: 'center',
+                width: '300px',
+                marginTop: '5px', // Ajusta según sea necesario       
+              }}
+            >
+            {errors.apellido}
+            </div>
+          }
         </FormGroup>
 
-        <FormGroup style={{ marginTop: '10px' }}>
+        <FormGroup>
           <Label for="correo">Correo:</Label>
           <Input
             type="email"
@@ -333,16 +303,18 @@ function EditProfile() {
             onChange={(e) => setFormData({ ...formData, correo: e.target.value })}
             style={{ width: '300px' }}           
           />
-          {errors.correo&&  <div
-        className="alert alert-danger"
-        style={{
-        textAlign: 'center',
-        width: '300px',
-        marginTop: '5px', // Ajusta según sea necesario       
-      }}
-    >
-      {errors.correo}
-    </div>}
+          {errors.correo&&  
+            <div
+              className="alert alert-danger"
+              style={{
+                textAlign: 'center',
+                width: '300px',
+                marginTop: '5px', // Ajusta según sea necesario       
+              }}
+            >
+            {errors.correo}
+            </div>
+          }
         </FormGroup>
 
         <FormGroup style={{ marginTop: '10px' }}>
@@ -354,97 +326,41 @@ function EditProfile() {
             onChange={(e) => setFormData({ ...formData, contrasena: e.target.value })} 
             style={{ width: '300px' }}           
           />
-          {errors.contrasena&&  <div
-        className="alert alert-danger"
-        style={{
-        textAlign: 'center',
-        width: '300px',
-        marginTop: '5px', // Ajusta según sea necesario       
-      }}
-    >
-      {errors.contrasena}
-    </div>}
-        </FormGroup>       
-
-        <FormGroup style={{ marginTop: '10px' }}>
-          <Label for="gamertag">Gamertag:</Label>
-          <Input
-            type="text"
-            id="gamertag"
-            value={formData.gamertag}
-            onChange={(e) => setFormData({ ...formData, gamertag: e.target.value })}
-            style={{ width: '300px' }}              
-          />
-          {errors.gamertag&&  <div
-        className="alert alert-danger"
-        style={{
-        textAlign: 'center',
-        width: '300px',
-        marginTop: '5px', // Ajusta según sea necesario       
-      }}
-    >
-      {errors.gamertag}
-    </div>}
-        </FormGroup>
-    </div>
-
-        <FormGroup className="d-flex flex-column align-items-center" style={{ marginTop: '10px' }}>
-            <Label for="foto">Foto de perfil:</Label>      
-            {/* Botón para abrir el explorador de archivos */}
-            <Button style={{ width: '200px', marginBottom: '20px'}} color="primary" onClick={toggleModal}>
-            Seleccionar foto
-            </Button>
-        </FormGroup>
-      </div>      
-     
-        <FormGroup className="mb-3 text-center" style={{ marginTop: '10px' }}>
-            <Button style={{ width: '200px' }} color="primary" type="submit" className="mr-2">
-             Guardar cambios
-            </Button>
-        </FormGroup> 
-        <FormGroup className="mb-3 text-center">
-            <Button style={{ width: '200px' }} color="primary" onClick={handleClickVolver}>
-             Volver a la vista de participante
-            </Button>
-          </FormGroup>
-        <FormGroup className="mb-3 text-center">
-            <Button style={{ width: '200px', backgroundColor: '#F05E16', borderColor: '#F05E16', 
+          {errors.contrasena&&  
+            <div
+              className="alert alert-danger"
+              style={{
+                textAlign: 'center',
+                width: '300px',
+                marginTop: '5px', // Ajusta según sea necesario       
+              }}
+            >
+            {errors.contrasena}
+            </div>
+          }
+        </FormGroup>     
+      <ul>
+        <li>
+          <Button style={{ width: '200px' }} color="primary" type="submit" className="mr-2">
+            Guardar cambios
+          </Button>
+          </li>
+          <li>        
+          <Button style={{ width: '200px' }} color="primary" onClick={handleClickVolver}>
+            Volver a la vista de participante
+          </Button>
+        </li>
+        <li>
+          <Button style={{ width: '200px', backgroundColor: '#F05E16', borderColor: '#F05E16', 
             transition: 'background-color 0.3s ease'}}  
             onClick={handleEliminarPerfil} onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
             onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>
             Eliminar perfil
           </Button>
-        </FormGroup>  
-        <FormGroup className="mb-3 text-center">
-            <Button style={{ width: '200px', backgroundColor: '#F05E16', borderColor: '#F05E16', 
-            transition: 'background-color 0.3s ease' }} 
-             onClick={handleEliminarPerfil} onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
-             onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>
-            Eliminar perfil
-          </Button>
-        </FormGroup>            
-      </form>
+          </li>
+        </ul>
+      </form> 
 
-      {/* Modal para la selección de foto */}
-      <Modal isOpen={modal} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>Seleccionar foto</ModalHeader>
-        <ModalBody>
-          <Form>
-            <FormGroup>
-              <Label for="fotoModal">Foto</Label>
-              <Input type="file" id="fotoModal" onChange={handleFileChange} />
-            </FormGroup>
-          </Form>
-        </ModalBody>
-        <ModalFooter>
-          <Button style={{ width: '150px' }} color="primary" onClick={toggleModal}>
-            Confirmar
-          </Button>{' '}
-          <Button style={{ width: '150px' }} color="secondary" onClick={toggleModal}>
-            Cancelar
-          </Button>
-        </ModalFooter>
-      </Modal>
 
       <Modal isOpen={deleteModal} toggle={toggleDeleteModal}>
         <ModalHeader toggle={toggleDeleteModal}>Confirmar eliminación</ModalHeader>

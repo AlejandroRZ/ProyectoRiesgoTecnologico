@@ -15,7 +15,7 @@ participante = Blueprint('participante', __name__, url_prefix='/participante')
 def edit_profile():
     if request.method == 'PUT':
         datos_json = request.get_json()        
-        id = datos_json["noCuenta"]
+        noCuenta = datos_json["noCuenta"]
         nombre = datos_json["nombre"]
         apellido = datos_json["apellido"]
         email = datos_json["correo"]        
@@ -23,7 +23,7 @@ def edit_profile():
        
         try:
             # Obtén el participante que deseas editar según el ID proporcionado
-            participantes = get_participante_by_id(id)
+            participantes = get_participante_by_id(noCuenta)
             participanteEdit = participantes[0]
             
             if email != participanteEdit.correo:
@@ -65,14 +65,16 @@ def eliminar_perfil():
     if request.method == 'DELETE':
         datos_json = request.get_json()
 
-        id = datos_json.get("noCuenta")
+        noCuenta = datos_json.get("noCuenta") #aquí está el problema
+        print(f'{noCuenta}')
         contrasena = datos_json.get("contrasenaEliminar")
 
         if contrasena is None:
             return jsonify({'error': 'No. de ceunta o contraseña no proporcionados'}), 400
 
-        try:
-            participantes = get_participante_by_id(id)
+        try:            
+            participantes = get_participante_by_id(noCuenta)
+            print(f'{noCuenta}')
             participanteElim = participantes[0]
             if participanteElim:
                 # Verificar que la contraseña proporcionada coincida
