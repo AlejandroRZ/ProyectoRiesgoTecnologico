@@ -4,7 +4,7 @@ def get_all_participantes():
     return Participante.query.all()
 
 def get_participante_by_id(id):
-    return Participante.query.filter(Participante.idParticipante == id).all()
+    return Participante.query.filter(Participante.noCuenta == id).all()
 
 def get_participante_by_name(nombre):
     return Participante.query.filter(Participante.nombre == nombre).all()
@@ -12,5 +12,3 @@ def get_participante_by_name(nombre):
 def get_participante_by_email(email):
     return Participante.query.filter(Participante.correo == email).all()
 
-def get_participante_by_tag(gamerTag):
-    return Participante.query.filter(Participante.gamerTag == gamerTag).all()

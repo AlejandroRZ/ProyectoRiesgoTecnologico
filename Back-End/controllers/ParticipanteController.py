@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from alchemyClasses.Participante import Participante
 from alchemyClasses import db
-from model.model_participante import get_participante_by_id, get_participante_by_tag, get_participante_by_email
+from model.model_participante import get_participante_by_id, get_participante_by_email
 from model.model_administrador import get_admin_by_email
 from model.model_superadmin import get_superadmin_by_email
 from hashlib import sha256
@@ -15,13 +15,11 @@ participante = Blueprint('participante', __name__, url_prefix='/participante')
 def edit_profile():
     if request.method == 'PUT':
         datos_json = request.get_json()        
-        id = datos_json["idParticipante"]
+        id = datos_json["noCuenta"]
         nombre = datos_json["nombre"]
         apellido = datos_json["apellido"]
-        email = datos_json["correo"]
-        gamerTag = datos_json["gamertag"]
-        contrasena = datos_json["contrasena"]
-        foto = datos_json["foto"]  
+        email = datos_json["correo"]        
+        contrasena = datos_json["contrasena"]         
        
         try:
             # Obtén el participante que deseas editar según el ID proporcionado
@@ -36,12 +34,7 @@ def edit_profile():
                 if adminList or superAdminList or participantesList:
                     return jsonify({'error': 'Error, correo asociado a otra cuenta. Puede estar asociado a una cuenta no apta para participar.'})
            
-            if gamerTag != participanteEdit.gamerTag:
-                participantesTag = get_participante_by_tag(gamerTag)
-
-                if participantesTag:
-                    return jsonify({'error':'Error, tag ya asignado'})
-
+           
             if participanteEdit:
                 # Actualiza los campos según lo que recibiste en la solicitud                
                 if nombre:
@@ -49,13 +42,10 @@ def edit_profile():
                 if apellido:
                     participanteEdit.apellido = apellido 
                 if email:
-                    participanteEdit.correo = email
-                if gamerTag:
-                    participanteEdit.gamerTag = gamerTag               
+                    participanteEdit.correo = email                              
                 if contrasena:
                     participanteEdit.psswd = sha256(cipher(contrasena)).hexdigest()                
-                if foto is not None:
-                    participanteEdit.fotoDePerfil = foto             
+                            
 
                 db.session.commit()
                 return jsonify({'message': 'Perfil actualizado exitosamente'})
@@ -75,11 +65,11 @@ def eliminar_perfil():
     if request.method == 'DELETE':
         datos_json = request.get_json()
 
-        id = datos_json.get("idParticipante")
+        id = datos_json.get("noCuenta")
         contrasena = datos_json.get("contrasenaEliminar")
 
         if contrasena is None:
-            return jsonify({'error': 'ID de participante o contraseña no proporcionados'}), 400
+            return jsonify({'error': 'No. de ceunta o contraseña no proporcionados'}), 400
 
         try:
             participantes = get_participante_by_id(id)

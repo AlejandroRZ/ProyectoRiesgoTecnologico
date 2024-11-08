@@ -7,7 +7,8 @@ class Torneo(db.Model):
     __tablename__ = 'torneo'
     idTorneo = Column(Integer, primary_key=True)
     nombre = Column(String(100))
-    fechaHora = Column(DateTime())
+    
+    fechaHora = Column(DateTime())    
 
     idAdministrador = Column(Integer, ForeignKey('administrador.idAdministrador'))
 

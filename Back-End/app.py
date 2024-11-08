@@ -46,7 +46,7 @@ def get_user_by_email(email):
 app = Flask(__name__)
 app.config[
     "SQLALCHEMY_DATABASE_URI"
-] = "mysql+pymysql://michigames:michigames123@localhost:3306/proyecto"
+] = "mysql+pymysql://lizardcompany:lizardlord@localhost:3306/proyecto"
 app.config.from_mapping(
     SECRET_KEY="dev",
 )
@@ -113,10 +113,7 @@ def login():
             session["nombre"] = user.nombre
             session["apellido"] = user.apellido
             session["email"] = user.correo
-            session["tipo_usuario"] = tipo_usuario
-
-            if tipo_usuario == "participante":
-                session["gamerTag"] = user.gamerTag
+            session["tipo_usuario"] = tipo_usuario            
 
             session.modified = True
             if (tipo_usuario == "superadmin"):
@@ -124,7 +121,7 @@ def login():
             elif (tipo_usuario == "administrador"):
                 id_usuario = user.idAdministrador
             else:
-                id_usuario = user.idParticipante
+                id_usuario = user.noCuenta
             user_json = {
                     "error": "Ninguno",
                     "id": id_usuario,
@@ -132,9 +129,7 @@ def login():
                     "apellido": user.apellido,
                     "email": user.correo,
                     "tipo_usuario": tipo_usuario,                    
-            }            
-            if tipo_usuario == "participante" :
-                user_json["gamerTag"] = user.gamerTag
+            }                        
                 
             return jsonify(user_json)
             # return render_template('index.html')
