@@ -12,14 +12,14 @@ class Administrador(db.Model):
     correo = Column(String(100), unique=True)
     psswd = Column(String(64))
     fotoDePerfil = Column(LargeBinary)
-    idSuperadmin = Column(Integer)
+    noCuentaSupAdm = Column(Integer)
 
-    def __init__(self, nombre, apellido, correo, psswd, idSuperadmin):
+    def __init__(self, nombre, apellido, correo, psswd, noCuentaSupAdm):
         self.nombre = nombre
         self.apellido = apellido
         self.correo = correo
         self.psswd = sha256(cipher(psswd)).hexdigest()
-        self.idSuperadmin = idSuperadmin
+        self.noCuentaSupAdm = noCuentaSupAdm
 
     def __str__(self):
         return f'idAdministrador: {self.idAdministrador}, nombre: {self.nombre}, apellido: {self.apellido}'

@@ -65,7 +65,7 @@ def eliminar_perfil():
     if request.method == 'DELETE':
         datos_json = request.get_json()
 
-        noCuenta = datos_json.get("noCuenta") #aquí está el problema
+        noCuenta = datos_json.get("noCuenta") 
         print(f'{noCuenta}')
         contrasena = datos_json.get("contrasenaEliminar")
 

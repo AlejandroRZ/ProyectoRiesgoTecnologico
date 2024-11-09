@@ -150,13 +150,13 @@ class CRUDAdmin extends React.Component {
       return;
     }
     const { nombre, apellido, email, psswd } = this.state.formInsertar;
-    var idCreador = localStorage.getItem('id');
+    var noCuentaSupAdm = localStorage.getItem('noCuenta');
     fetch("http://127.0.0.1:5000/admin/insertadmin", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ nombre, apellido, email, psswd, idCreador }),
+      body: JSON.stringify({ nombre, apellido, email, psswd, noCuentaSupAdm }),
     })
       .then(response => response.json())
       .then(() => {

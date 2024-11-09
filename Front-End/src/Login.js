@@ -63,17 +63,18 @@ function Login() {
         alert('Contraseña incorrecta');
       } else if (data.error === 'Ninguno') {
         // Almacenar la info de usuario en localStorage
+        
         localStorage.setItem('tipo_usuario', data.tipo_usuario);
-        localStorage.setItem('noCuenta', data.noCuenta);
         localStorage.setItem('nombre', data.nombre);
         localStorage.setItem('apellido', data.apellido);
-        localStorage.setItem('email', data.email);        
-        if (data.tipo_usuario === 'participante') {
-          navigate('/participante');
-        } else if (data.tipo_usuario === 'superadmin') {
-          navigate('/superadmin');
+        localStorage.setItem('email', data.email);
+        localStorage.setItem('noCuenta', data.noCuenta);        
+        if (data.tipo_usuario === 'participante') {          
+            navigate('/participante');
+        } else if (data.tipo_usuario === 'superadmin') {                  
+            navigate('/superadmin');
         } else if (data.tipo_usuario === 'administrador') {
-          navigate('/administrador');
+            navigate('/administrador');
         }
       }
     } catch (error) {

@@ -148,7 +148,7 @@ class CRUDTorneo extends React.Component {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ nombre, fechaHora: fechaFormateada, idAdministrador: localStorage.getItem('id') }),
+      body: JSON.stringify({ nombre, fechaHora: fechaFormateada, idAdministrador: localStorage.getItem('noCuenta') }),
     })
       .then((response) => response.json())
       .then((data) => {

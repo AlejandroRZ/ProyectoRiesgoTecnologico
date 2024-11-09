@@ -118,7 +118,7 @@ def login():
                 return jsonify({"error": "Contraseña incorrecta"})
                 # return render_template('login.html')
             session.clear()
-            session["noCuenta"] = user.noCuenta
+            
             session["nombre"] = user.nombre
             session["apellido"] = user.apellido
             session["email"] = user.correo
@@ -126,7 +126,8 @@ def login():
 
             session.modified = True
             if (tipo_usuario == "superadmin"):
-                id_usuario = user.idSuperadmin
+                id_usuario = user.noCuentaSupAdm
+                print(f"{id_usuario}")
             elif (tipo_usuario == "administrador"):
                 id_usuario = user.idAdministrador
             else:
