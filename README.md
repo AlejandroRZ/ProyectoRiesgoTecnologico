@@ -1,14 +1,13 @@
-# Tournament Management System - Full Stack Web Project
+# Bazaar Management System - Full Stack Web Project
 
 ## Description
-This system allows the creation and management of video game tournaments, featuring three main roles: superadmin, admin, and participant. The superadmin can create, view, edit, and delete admins, as well as view tournaments. The admin can create, view, edit, and delete tournaments, while the participant can register, view and edit their profile, and see available tournaments.
+This system allows the creation and management of stalls at a Bazaar, featuring three main roles: superadmin, admin, and participant. The superadmin can create, view, edit, and delete admins, as well as view the stalls. The admin can create, view, edit, and delete stalls, while the participant can register, view and edit their profile, and see available stalls.
 
 ## Team Members
 - Abraham Jiménez Reyes
 - Gabriela López Diego
 - Javier Alejandro Rivera Zavala
 - Juan Daniel San Martín Macías
-- Mauricio Escorza Cantú
 
 ## Usage Instructions
 To run the project, follow these steps:
@@ -40,8 +39,8 @@ To run the project, follow these steps:
 
 5. **Connect to the Database:**
    - Use MySQL Workbench with the following credentials:
-     - User: "michigames"
-     - Password: "michigames123"
+     - User: "lizardcompany"
+     - Password: "lizardlord"
      - Server: "localhost"
      - MySQL Port: 3306
      - Database Name: "proyecto"
