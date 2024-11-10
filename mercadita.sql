@@ -22,12 +22,11 @@ CREATE TABLE superadmin(
 );
 
 CREATE TABLE administrador(
-  idAdministrador INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  noCuentaAdmin INT NOT NULL PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL,
   apellido VARCHAR(50),
   correo VARCHAR(100) NOT NULL UNIQUE,
-  psswd CHAR(64) NOT NULL,
-  fotoDePerfil BLOB,
+  psswd CHAR(64) NOT NULL,  
   noCuentaSupAdm INT NOT NULL,
   FOREIGN KEY (noCuentaSupAdm) REFERENCES superadmin(noCuentaSupAdm) ON DELETE CASCADE
 );
@@ -36,8 +35,8 @@ CREATE TABLE torneo(
   idTorneo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   fechaHora DATETIME NOT NULL,
   nombre VARCHAR(100) NOT NULL,
-  idAdministrador INT NOT NULL,
-  FOREIGN KEY (idAdministrador) REFERENCES administrador(idAdministrador) ON DELETE CASCADE
+  noCuentaAdmin INT NOT NULL,
+  FOREIGN KEY (noCuentaAdmin) REFERENCES administrador(noCuentaAdmin) ON DELETE CASCADE
 );
 
 
@@ -62,23 +61,23 @@ INSERT INTO proyecto.superadmin(noCuentaSupAdm,nombre,apellido,correo,psswd) VAL
 INSERT INTO proyecto.superadmin(noCuentaSupAdm,nombre,apellido,correo,psswd) VALUES (776886689,'Carlos', 'Ramírez', 'carlitos12@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556');
 
 /*REGISTRO EN ADMINISTRADORES*/
-INSERT INTO proyecto.administrador(nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES ('Marcos','Torres','marco144@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 778899101);
-INSERT INTO proyecto.administrador(nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES ('Eduardo', 'Gómez', 'edu_gomez@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 778899101);
-INSERT INTO proyecto.administrador(nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES ('Luisa', 'Martínez', 'luisa_mtz@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 771166313);
-INSERT INTO proyecto.administrador(nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES ('Fernando', 'Hernández', 'fer123@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 771166313);
-INSERT INTO proyecto.administrador(nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES ('Carolina', 'García', 'caro_garcia@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 776886689);
-INSERT INTO proyecto.administrador(nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES ('Javier', 'Pérez', 'javi_perez@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 776886689);
-INSERT INTO proyecto.administrador(nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES ('Ana', 'López', 'ana_lop@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 776886689);
-INSERT INTO proyecto.administrador(nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES ('Roberto', 'Sánchez', 'robert_san@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 776464641);
+INSERT INTO proyecto.administrador(noCuentaAdmin,nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES (781110001,'Marcos','Torres','marco144@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 778899101);
+INSERT INTO proyecto.administrador(noCuentaAdmin,nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES (782221112,'Eduardo', 'Gómez', 'edu_gomez@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 778899101);
+INSERT INTO proyecto.administrador(noCuentaAdmin,nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES (786665556,'Luisa', 'Martínez', 'luisa_mtz@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 771166313);
+INSERT INTO proyecto.administrador(noCuentaAdmin,nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES (783334443,'Fernando', 'Hernández', 'fer123@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 771166313);
+INSERT INTO proyecto.administrador(noCuentaAdmin,nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES (781112221,'Carolina', 'García', 'caro_garcia@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 776886689);
+INSERT INTO proyecto.administrador(noCuentaAdmin,nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES (787878787,'Javier', 'Pérez', 'javi_perez@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 776886689);
+INSERT INTO proyecto.administrador(noCuentaAdmin,nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES (780101333,'Ana', 'López', 'ana_lop@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 776886689);
+INSERT INTO proyecto.administrador(noCuentaAdmin,nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES (789797973,'Roberto', 'Sánchez', 'robert_san@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 776464641);
 
 
 /*REGISTROS EN TORNEOS*/
-INSERT INTO proyecto.torneo(fechaHora,nombre,idAdministrador) VALUES('2023-11-29 15:30:51', 'Battle Royale Blast', 2);
-INSERT INTO proyecto.torneo(fechaHora,nombre,idAdministrador) VALUES('2023-11-02 10:12:49', 'Pixel Wars Showdown', 3);
-INSERT INTO proyecto.torneo(fechaHora,nombre,idAdministrador) VALUES('2023-11-14 18:10:33','Virtual Victory League',6);
-INSERT INTO proyecto.torneo(fechaHora,nombre,idAdministrador) VALUES('2023-10-19 20:00:04','GameMaster Gauntlet',8);
-INSERT INTO proyecto.torneo(fechaHora,nombre,idAdministrador) VALUES('2023-11-22 09:37:07','Arcade Clash Challenge',1);
-INSERT INTO proyecto.torneo(fechaHora,nombre,idAdministrador) VALUES('2023-10-18 12:05:21','Console Conquest Cup',5);
-INSERT INTO proyecto.torneo(fechaHora,nombre,idAdministrador) VALUES('2023-11-28 14:25:13','eSports Arena Royale',5);
-INSERT INTO proyecto.torneo(fechaHora,nombre,idAdministrador) VALUES('2023-11-28 14:25:13','Quest for Glory Invitational',7);
+INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-11-29 15:30:51', 'Battle Royale Blast', 781110001);
+INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-11-02 10:12:49', 'Pixel Wars Showdown', 781110001);
+INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-11-14 18:10:33','Virtual Victory League',789797973);
+INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-10-19 20:00:04','GameMaster Gauntlet',789797973);
+INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-11-22 09:37:07','Arcade Clash Challenge',789797973);
+INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-10-18 12:05:21','Console Conquest Cup',786665556);
+INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-11-28 14:25:13','eSports Arena Royale',782221112);
+INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-11-28 14:25:13','Quest for Glory Invitational',780101333);
 

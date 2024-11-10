@@ -11,7 +11,7 @@ def read_admin():
     admins_list = []
     for admin in admins:
         admin_data = {
-            "id": admin.idAdministrador,
+            "noCuentaAdmin": admin.noCuentaAdmin,
             "nombre": admin.nombre,
             "apellido": admin.apellido,
             "email": admin.correo,
@@ -24,12 +24,13 @@ def read_admin():
 def insert_admin():
     if request.method == "POST":
         datos_json = request.get_json()
+        noCuentaAdmin = datos_json["noCuentaAdmin"]
         nombre = datos_json["nombre"]
         apellido = datos_json["apellido"]
         email = datos_json["email"]
         psswd = datos_json["psswd"]
         noCuentaSupAdm = int(datos_json["noCuentaSupAdm"])
-        nuevo_admin = Administrador(nombre, apellido, email, psswd, noCuentaSupAdm)
+        nuevo_admin = Administrador(noCuentaAdmin, nombre, apellido, email, psswd, noCuentaSupAdm)
         try:
             db.session.add(nuevo_admin)
             db.session.commit()
@@ -42,11 +43,11 @@ def insert_admin():
 def update_admin():
     if request.method == "PUT":
         datos_json = request.get_json()
-        id = datos_json["id"]
+        noCuentaAdmin = datos_json["noCuentaAdmin"]
         nombre = datos_json["nombre"]
         apellido = datos_json["apellido"]
         email = datos_json["email"]
-        admin = get_admin_by_id(id)
+        admin = get_admin_by_id(noCuentaAdmin)
     
         admin.nombre = nombre
         admin.apellido = apellido
@@ -64,11 +65,11 @@ def update_admin():
 def delete_admin():
     if request.method == "DELETE":
         datos_json = request.get_json()
-        id_administrador = datos_json.get("idAdministrador")  
-        admin = get_admin_by_id(id_administrador)
+        noCuentaAdmin = datos_json.get("noCuentaAdmin")  
+        admin = get_admin_by_id(noCuentaAdmin)
 
         if not admin:
-            return jsonify({"error": f"No se encontró un administrador con ID {id_administrador}"}), 404
+            return jsonify({"error": f"No se encontró un administrador con ID {noCuentaAdmin}"}), 404
 
         try:
             db.session.delete(admin)

@@ -14,7 +14,7 @@ def get_administradores():
     response = []
     for admin in admins:
         response.append({
-            'idAdministrador':admin.idAdministrador,
+            'noCuentaAdmin':admin.noCuentaAdmin,
             'nombre':admin.nombre,
             'apellido':admin.apellido,
             'correo':admin.correo
@@ -44,7 +44,7 @@ def get_torneos():
                 'id': torneo.id,
                 'nombre': torneo.nombre,
                 'fechahora': torneo.fechahora.strftime("%Y-%m-%d %H:%M:%S"),  # Formatear la fecha y hora
-                "idAdministrador": torneo.idAdministrador
+                "noCuentaAdmin": torneo.noCuentaAdmin
             })
         return json.dumps(response)
   

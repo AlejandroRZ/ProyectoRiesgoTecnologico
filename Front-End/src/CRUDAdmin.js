@@ -22,13 +22,14 @@ class CRUDAdmin extends React.Component {
     modalEliminar: false,
     administradorAEliminar: '',
     formInsertar: {
+      noCuentaAdmin: "",
       nombre: "",
       apellido: "",
       email: "",
       psswd: "",
     },
     formActualizar: {
-      id: "",
+      noCuentaAdmin: "",
       nombre: "",
       apellido: "",
       email: "",
@@ -81,7 +82,7 @@ class CRUDAdmin extends React.Component {
   mostrarModalEliminar = (dato) => {
     this.setState({
       modalEliminar: true,
-      administradorAEliminar: dato.id
+      administradorAEliminar: dato.noCuentaAdmin
     });
   }
 
@@ -93,13 +94,13 @@ class CRUDAdmin extends React.Component {
     if (!this.datosValidosEditar()) {
       return;
     }
-    const { id, nombre, apellido, email } = this.state.formActualizar;
+    const { noCuentaAdmin, nombre, apellido, email } = this.state.formActualizar;
     fetch("http://127.0.0.1:5000/admin/updateadmin", {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id, nombre, apellido, email }),
+      body: JSON.stringify({ noCuentaAdmin, nombre, apellido, email }),
     })
       .then(response => response.json())
       .then((data) => {
@@ -119,7 +120,7 @@ class CRUDAdmin extends React.Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ idAdministrador: dato.id }),
+      body: JSON.stringify({ noCuentaAdmin: dato.noCuentaAdmin }),
     })
       .then(response => response.json())
       .then(data => {
@@ -149,14 +150,14 @@ class CRUDAdmin extends React.Component {
     if (!this.datosValidosInsertar()) {
       return;
     }
-    const { nombre, apellido, email, psswd } = this.state.formInsertar;
+    const {noCuentaAdmin, nombre, apellido, email, psswd } = this.state.formInsertar;
     var noCuentaSupAdm = localStorage.getItem('noCuenta');
     fetch("http://127.0.0.1:5000/admin/insertadmin", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ nombre, apellido, email, psswd, noCuentaSupAdm }),
+      body: JSON.stringify({noCuentaAdmin, nombre, apellido, email, psswd, noCuentaSupAdm }),
     })
       .then(response => response.json())
       .then(() => {
@@ -197,7 +198,7 @@ class CRUDAdmin extends React.Component {
   filtrarElementos = () => {
     var search = this.state.dataFiltrada.filter(item => {
       return (
-        item.id.toString().includes(this.state.busqueda) ||
+        item.noCuentaAdmin.toString().includes(this.state.busqueda) ||
         item.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
         item.apellido.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
         item.email.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase())
@@ -209,6 +210,11 @@ class CRUDAdmin extends React.Component {
   datosValidosInsertar = () => {
     let errorsInsertar = {};
     let isValid = true;
+
+    if (this.state.formInsertar.noCuentaAdmin.length !== 9) {
+      isValid = false;
+      errorsInsertar["noCuentaAdmin"] = "Número de cuenta no válido.";
+    }
 
     if (!this.state.formInsertar.email) {
       isValid = false;
@@ -231,7 +237,7 @@ class CRUDAdmin extends React.Component {
     } else if (this.state.formInsertar.psswd.length < 8) {
       isValid = false;
       errorsInsertar["password"] = "La contraseña debe tener al menos 8 caracteres.";
-    }
+    } 
 
     this.setState({ errorsInsertar });
     return isValid;
@@ -290,7 +296,7 @@ class CRUDAdmin extends React.Component {
           <Table>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>No. Cuenta</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Email</th>
@@ -300,8 +306,8 @@ class CRUDAdmin extends React.Component {
 
             <tbody>
               {this.state.data.map((dato) => (
-                <tr key={dato.id}>
-                  <td>{dato.id}</td>
+                <tr key={dato.noCuentaAdmin}>
+                  <td>{dato.noCuentaAdmin}</td>
                   <td>{dato.nombre}</td>
                   <td>{dato.apellido}</td>
                   <td>{dato.email}</td>
@@ -399,6 +405,25 @@ class CRUDAdmin extends React.Component {
           </ModalHeader>
 
           <ModalBody>
+
+          <FormGroup>
+              <label>
+                No de cuenta:
+              </label>
+
+              <input
+                className="form-control"
+                name="noCuentaAdmin"
+                type="number"
+                onChange={this.handleChangeInsertar}
+              />
+               {
+                this.state.errorsInsertar.noCuentaAdmin && <div className="alert alert-danger">
+                  {this.state.errorsInsertar.noCuentaAdmin}
+                </div>
+              }
+            </FormGroup>
+
             <FormGroup>
               <label>
                 Nombre:
@@ -409,6 +434,7 @@ class CRUDAdmin extends React.Component {
                 name="nombre"
                 type="text"
                 onChange={this.handleChangeInsertar}
+                required
               />
             </FormGroup>
 
@@ -421,6 +447,7 @@ class CRUDAdmin extends React.Component {
                 name="apellido"
                 type="text"
                 onChange={this.handleChangeInsertar}
+                required
               />
             </FormGroup>
 
@@ -451,6 +478,7 @@ class CRUDAdmin extends React.Component {
                 name="psswd"
                 type="password"
                 onChange={this.handleChangeInsertar}
+                required
               />
               {
                 this.state.errorsInsertar.password && <div className="alert alert-danger">
@@ -481,13 +509,13 @@ class CRUDAdmin extends React.Component {
             <div><h3>Eliminar Administrador</h3></div>
           </ModalHeader>
           <ModalBody>
-            <p>¿Está seguro de eliminar el administrador con id: {this.state.administradorAEliminar}?</p>
+            <p>¿Está seguro de eliminar el administrador con No. de cuenta: {this.state.administradorAEliminar}?</p>
           </ModalBody>
 
           <ModalFooter>
             <Button style={{ width: "150px", display: "block", marginBottom: "10px", 
                     backgroundColor: '#F05E16', borderColor: '#F05E16', transition: 'background-color 0.3s ease' }} 
-                    onClick={() => this.eliminar({ id: this.state.administradorAEliminar })}  
+                    onClick={() => this.eliminar({ noCuentaAdmin: this.state.administradorAEliminar })}  
                     onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
                     onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>
               Confirmar

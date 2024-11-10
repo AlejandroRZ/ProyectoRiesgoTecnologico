@@ -17,7 +17,7 @@ def read_torneos():
             "id": torneo.idTorneo,
             "nombre": torneo.nombre,
             "fechahora": torneo.fechaHora.strftime("%Y-%m-%d %H:%M:%S"),
-            "idAdministrador": torneo.idAdministrador,
+            "noCuentaAdmin": torneo.noCuentaAdmin,
         }
         torneos_list.append(torneo_data)
     return jsonify(torneos_list)
@@ -40,9 +40,9 @@ def insert_torneo():
         except ValueError:
             return jsonify({"error": "Formato de fecha y hora inválido"}), 400
 
-        idAdministrador = datos_json.get("idAdministrador")
+        noCuentaAdmin = datos_json.get("noCuentaAdmin")
 
-        nuevo_torneo = Torneo(nombre, fecha_hora_utc, idAdministrador)
+        nuevo_torneo = Torneo(nombre, fecha_hora_utc, noCuentaAdmin)
 
         try:
             db.session.add(nuevo_torneo)
@@ -60,7 +60,7 @@ def update_torneo():
         nombre = datos_json["nombre"]
         fecha_hora_str = datos_json["fechahora"]
 
-        idAdministrador = int(datos_json["idAdministrador"])
+        noCuentaAdmin = int(datos_json["noCuentaAdmin"])
         torneo = get_torneo_by_id(id)
 
         #Cambiar la fecha a un objeto datetime
@@ -69,7 +69,7 @@ def update_torneo():
 
         torneo.nombre = nombre
         torneo.fechaHora = fecha_hora
-        torneo.idAdministrador = idAdministrador
+        torneo.noCuentaAdmin = noCuentaAdmin
 
         try:
             db.session.commit()

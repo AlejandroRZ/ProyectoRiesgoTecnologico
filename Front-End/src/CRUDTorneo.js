@@ -48,13 +48,13 @@ class CRUDTorneo extends React.Component {
 
   mostrarModalActualizar = (dato) => {
     const fechaFormateada = new Date(dato.fechahora);
-    const { id, nombre, fechahora, idAdministrador } = dato;
+    const { id, nombre, fechahora, noCuentaAdmin } = dato;
     this.setState({
       formActualizar: {
         id,
         nombre,
         fechahora: fechaFormateada,
-        idAdministrador,
+        noCuentaAdmin,
       },
       modalActualizar: true,
     });
@@ -88,7 +88,7 @@ class CRUDTorneo extends React.Component {
   };
 
   editar = () => {
-    const { id, nombre, fechahora, idAdministrador } = this.state.formActualizar;
+    const { id, nombre, fechahora, noCuentaAdmin } = this.state.formActualizar;
     /*const fechaFormateada = fechahora.toISOString().slice(0, 19);*/
     const fechaFormateada = moment(fechahora).format("YYYY-MM-DDTHH:mm:ss");
 
@@ -97,7 +97,7 @@ class CRUDTorneo extends React.Component {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id, nombre, fechahora: fechaFormateada, idAdministrador }),
+      body: JSON.stringify({ id, nombre, fechahora: fechaFormateada, noCuentaAdmin }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -148,7 +148,7 @@ class CRUDTorneo extends React.Component {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ nombre, fechaHora: fechaFormateada, idAdministrador: localStorage.getItem('noCuenta') }),
+      body: JSON.stringify({ nombre, fechaHora: fechaFormateada, noCuentaAdmin: localStorage.getItem('noCuenta') }),
     })
       .then((response) => response.json())
       .then((data) => {

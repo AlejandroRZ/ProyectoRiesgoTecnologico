@@ -6,15 +6,15 @@ from CryptoUtils.CryptoUtils import cipher
 class Administrador(db.Model):
 
     __tablename__ = 'administrador'
-    idAdministrador = Column(Integer, primary_key=True)
+    noCuentaAdmin = Column(Integer, primary_key=True)
     nombre = Column(String(50))
     apellido = Column(String(50))
     correo = Column(String(100), unique=True)
-    psswd = Column(String(64))
-    fotoDePerfil = Column(LargeBinary)
+    psswd = Column(String(64))  
     noCuentaSupAdm = Column(Integer)
 
-    def __init__(self, nombre, apellido, correo, psswd, noCuentaSupAdm):
+    def __init__(self, noCuentaAdmin, nombre, apellido, correo, psswd, noCuentaSupAdm):
+        self.noCuentaAdmin = noCuentaAdmin
         self.nombre = nombre
         self.apellido = apellido
         self.correo = correo
@@ -22,4 +22,4 @@ class Administrador(db.Model):
         self.noCuentaSupAdm = noCuentaSupAdm
 
     def __str__(self):
-        return f'idAdministrador: {self.idAdministrador}, nombre: {self.nombre}, apellido: {self.apellido}'
+        return f'noCuentaAdmin: {self.noCuentaAdmin}, nombre: {self.nombre}, apellido: {self.apellido}'

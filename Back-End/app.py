@@ -129,7 +129,7 @@ def login():
                 id_usuario = user.noCuentaSupAdm
                 print(f"{id_usuario}")
             elif (tipo_usuario == "administrador"):
-                id_usuario = user.idAdministrador
+                id_usuario = user.noCuentaAdmin
             else:
                 id_usuario = user.noCuenta
             user_json = {
