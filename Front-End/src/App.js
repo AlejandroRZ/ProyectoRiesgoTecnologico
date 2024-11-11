@@ -6,7 +6,7 @@ import BottomBar from "./BottomBar";
 import Participante from "./Participante";
 import Administrador from './Administrador';
 import Superadmin from './Superadmin';
-import VistaTorneos from './VistaTorneos';
+import VistaStand from './VistaStand';
 import EditProfile from './EditProfile';
 import VerPerfil from './VerPerfil';
 import "./App.css";
@@ -23,7 +23,7 @@ function App() {
             <Route path="participante" element={<Participante />} />
             <Route path="administrador" element={<Administrador />} />
             <Route path="superadmin" element={<Superadmin />} />
-            <Route path="vistaTorneos" element={<VistaTorneos/>} />
+            <Route path="vistaStand" element={<VistaStand/>} />
             <Route path="editarPerfil" element={<EditProfile/>} />
             <Route path="verPerfil" element={<VerPerfil />} />
         </Routes> 

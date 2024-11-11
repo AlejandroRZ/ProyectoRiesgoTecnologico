@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, FormGroup } from 'reactstrap';
 import './Participante.css';
 import { useNavigate } from 'react-router-dom';
-import VistaTorneos from './VistaTorneos';
+import VistaStand from './VistaStand';
 import Login from './Login';
 import DancingCat from './DancingCat';
 import UserMenu from './UserMenu';
@@ -42,8 +42,8 @@ function Participante() {
       <div className="Participante">
        <h1>¡Hola, participante!</h1>
        <UserMenu handleLogout={handleLogout} buttonEdit={true}/>
-        Estos son los torneos disponibles:
-        <VistaTorneos />
+        Estos son los stands disponibles:
+        <VistaStand/>
       </div>
     );
 }

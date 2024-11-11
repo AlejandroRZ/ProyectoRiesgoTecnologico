@@ -2,7 +2,7 @@ import React from 'react';
 import './Administrador.css';
 import { useNavigate } from 'react-router-dom';
 import { FormGroup, Button } from 'reactstrap';
-import CRUDTorneo from './CRUDTorneo';
+import CRUDStand from './CRUDStand';
 import Login from './Login';
 import DancingCat from './DancingCat';
 import UserMenu from './UserMenu';
@@ -42,7 +42,7 @@ function Administrador() {
         <div className='Administrador'>
             <h1>¡Hola, administrador!</h1>
             <UserMenu handleLogout={handleLogout}/>
-            <CRUDTorneo />
+            <CRUDStand/>
         </div>
     );
 }

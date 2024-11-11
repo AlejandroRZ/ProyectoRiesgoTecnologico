@@ -50,9 +50,9 @@ class CRUDAdmin extends React.Component {
       });
   }
 
-  mostrarTodosTorneos = () => {
+  mostrarTodosStands = () => {
     // Realiza la redirección a la nueva página
-    window.location.href = "http://localhost:3000/vistaTorneos";
+    window.location.href = "http://localhost:3000/vistaStand";
   };
 
 
@@ -137,15 +137,7 @@ class CRUDAdmin extends React.Component {
       });
   };
 
-  // const res = await fetch(`http://127.0.0.1:5000/login`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ email, password })
-  //     });
-  //     const data = await res.json();
-
+  
   insertar = () => {
     if (!this.datosValidosInsertar()) {
       return;
@@ -275,7 +267,7 @@ class CRUDAdmin extends React.Component {
           <td>
           <div className="d-flex justify-content-between">
             <Button style={{width: "200px", marginRight: "10px" }}  color="success" onClick={() => this.mostrarModalInsertar()}>Nuevo administrador</Button>
-            <Button style={{width: "200px", marginRight: "10px" }}  color="success" onClick={() => this.mostrarTodosTorneos()}>Ver Torneos Actuales</Button>
+            <Button style={{width: "200px", marginRight: "10px" }}  color="success" onClick={() => this.mostrarTodosStands()}>Ver stands registrados</Button>
           </div>
           </td>
           <div className="barraBusqueda">

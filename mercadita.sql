@@ -31,11 +31,13 @@ CREATE TABLE administrador(
   FOREIGN KEY (noCuentaSupAdm) REFERENCES superadmin(noCuentaSupAdm) ON DELETE CASCADE
 );
 
-CREATE TABLE torneo(
-  idTorneo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE stand(
+  noStand INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   fechaHora DATETIME NOT NULL,
-  nombre VARCHAR(100) NOT NULL,
+  nombre VARCHAR(100) NOT NULL UNIQUE,
+  ubicacion VARCHAR(100) NOT NULL UNIQUE,
   noCuentaAdmin INT NOT NULL,
+  estado BOOLEAN NOT NULL, 
   FOREIGN KEY (noCuentaAdmin) REFERENCES administrador(noCuentaAdmin) ON DELETE CASCADE
 );
 
@@ -71,13 +73,13 @@ INSERT INTO proyecto.administrador(noCuentaAdmin,nombre,apellido,correo,psswd,no
 INSERT INTO proyecto.administrador(noCuentaAdmin,nombre,apellido,correo,psswd,noCuentaSupAdm) VALUES (789797973,'Roberto', 'Sánchez', 'robert_san@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', 776464641);
 
 
-/*REGISTROS EN TORNEOS*/
-INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-11-29 15:30:51', 'Battle Royale Blast', 781110001);
-INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-11-02 10:12:49', 'Pixel Wars Showdown', 781110001);
-INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-11-14 18:10:33','Virtual Victory League',789797973);
-INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-10-19 20:00:04','GameMaster Gauntlet',789797973);
-INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-11-22 09:37:07','Arcade Clash Challenge',789797973);
-INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-10-18 12:05:21','Console Conquest Cup',786665556);
-INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-11-28 14:25:13','eSports Arena Royale',782221112);
-INSERT INTO proyecto.torneo(fechaHora,nombre,noCuentaAdmin) VALUES('2023-11-28 14:25:13','Quest for Glory Invitational',780101333);
+/*REGISTROS DE PUESTOS*/
+INSERT INTO proyecto.stand(fechaHora,nombre,ubicacion,noCuentaAdmin,estado) VALUES('2023-11-29 15:30:51', 'Tacos Hermanos','Cuadrante 1 - Plaza Prometeo',781110001,FALSE);
+INSERT INTO proyecto.stand(fechaHora,nombre,ubicacion,noCuentaAdmin,estado) VALUES('2023-11-02 10:12:49', 'Papitas picantes','Cuadrante 2 - Plaza Prometeo',781110001,FALSE);
+INSERT INTO proyecto.stand(fechaHora,nombre,ubicacion,noCuentaAdmin,estado) VALUES('2023-11-14 18:10:33','Tortas perronas','Cuadrante 3 - Plaza Prometeo',789797973,FALSE);
+INSERT INTO proyecto.stand(fechaHora,nombre,ubicacion,noCuentaAdmin,estado) VALUES('2023-10-19 20:00:04','Jugos Maggy','Cuadrante 4 - Plaza Prometeo',789797973,FALSE);
+INSERT INTO proyecto.stand(fechaHora,nombre,ubicacion,noCuentaAdmin,estado) VALUES('2023-11-22 09:37:07','Aguas del chavo','Cuadrante 5 - Plaza Prometeo',789797973,FALSE);
+INSERT INTO proyecto.stand(fechaHora,nombre,ubicacion,noCuentaAdmin,estado) VALUES('2023-10-18 12:05:21','La Michoacana','Cuadrante 6 - Plaza Prometeo',786665556,FALSE);
+INSERT INTO proyecto.stand(fechaHora,nombre,ubicacion,noCuentaAdmin,estado) VALUES('2023-11-28 14:25:13','Ternuritienda','Cuadrante 7 - Plaza Prometeo',782221112,FALSE);
+INSERT INTO proyecto.stand(fechaHora,nombre,ubicacion,noCuentaAdmin,estado) VALUES('2023-11-28 14:25:13','La pape','Cuadrante 8 - Plaza Prometeo',780101333,FALSE);
 

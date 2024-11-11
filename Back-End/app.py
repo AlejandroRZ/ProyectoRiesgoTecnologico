@@ -4,7 +4,7 @@ import os
 from alchemyClasses import db
 from alchemyClasses.Participante import Participante
 from alchemyClasses.Administrador import Administrador
-from alchemyClasses.Torneo import Torneo
+from alchemyClasses.Stand import Stand
 from CryptoUtils.CryptoUtils import validate
 from flask import (
     Flask,
@@ -20,13 +20,13 @@ from flask import (
 from flask_cors import CORS
 
 from controllers.AdminController import admin
-from controllers.TorneoController import torneo
+from controllers.StandController import stand
 from controllers.ParticipanteController import participante
 
 from model.model_administrador import get_admin_by_email, get_all_admins, get_admin_by_id
 from model.model_superadmin import get_superadmin_by_email, get_superadmin_by_id
 from model.model_participante import get_participante_by_email, get_participante_by_id 
-from model.model_torneo import get_all_torneos, get_torneo_by_id,get_current_datetime
+from model.model_stand import get_all_stands, get_stand_by_id,get_current_datetime
 
 def get_user_by_email(email):
     participante_query = get_participante_by_email(email)
@@ -53,7 +53,7 @@ app.config.from_mapping(
 
 #Agregamos controladores
 app.register_blueprint(admin)
-app.register_blueprint(torneo)
+app.register_blueprint(stand)
 app.register_blueprint(participante)
 
 db.init_app(app)
