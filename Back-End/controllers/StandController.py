@@ -42,10 +42,10 @@ def insert_stand():
             fecha_hora = datetime.strptime(fecha_hora_str, fecha_hora_formato)
         except ValueError:
             return jsonify({"error": "Formato de fecha y hora inválido"}), 400
-
+        estado = datos_json["estado"]
         noCuentaAdmin = datos_json.get("noCuentaAdmin")
 
-        nuevo_stand = Stand(nombre, ubicacion, fecha_hora_utc, noCuentaAdmin)
+        nuevo_stand = Stand(nombre, ubicacion, fecha_hora_utc, estado, noCuentaAdmin)
 
         try:
             db.session.add(nuevo_stand)
@@ -64,7 +64,7 @@ def update_stand():
         ubicacion = datos_json["ubicacion"]
         fecha_hora_str = datos_json["fechahora"]        
         noCuentaAdmin = int(datos_json["noCuentaAdmin"])
-        estado = datos_json["noStand"]
+        estado = datos_json["estado"]
         stand = get_stand_by_id(noStand)
 
         #Cambiar la fecha a un objeto datetime

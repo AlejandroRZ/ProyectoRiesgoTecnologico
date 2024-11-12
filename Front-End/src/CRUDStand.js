@@ -18,13 +18,16 @@ class CRUDStand extends React.Component {
     standAEliminar: "",
     formInsertar: {
       nombre: "",
-      ubicacion: "",
+      ubicacion: "",      
       fechahora: new Date(),
+      estado: ""
     },
     formActualizar: {
       noStand: "",
       nombre: "",
+      ubicacion: "",
       fechahora: new Date(),
+      estado: ""
     },
     busqueda: "",
   };
@@ -48,13 +51,15 @@ class CRUDStand extends React.Component {
 
   mostrarModalActualizar = (dato) => {
     const fechaFormateada = new Date(dato.fechahora);
-    const { noStand, nombre, fechahora, noCuentaAdmin } = dato;
+    const { noStand, nombre, ubicacion, fechahora, estado, noCuentaAdmin } = dato;
     this.setState({
       formActualizar: {
         noStand,
         nombre,
+        ubicacion,
         fechahora: fechaFormateada,
-        noCuentaAdmin,
+        estado,
+        noCuentaAdmin
       },
       modalActualizar: true,
     });
@@ -88,7 +93,7 @@ class CRUDStand extends React.Component {
   };
 
   editar = () => {
-    const { noStand, nombre, fechahora, noCuentaAdmin } = this.state.formActualizar;
+    const { noStand, nombre, ubicacion, fechahora, estado, noCuentaAdmin } = this.state.formActualizar;
     /*const fechaFormateada = fechahora.toISOString().slice(0, 19);*/
     const fechaFormateada = moment(fechahora).format("YYYY-MM-DDTHH:mm:ss");
 
@@ -97,7 +102,7 @@ class CRUDStand extends React.Component {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ noStand, nombre, fechahora: fechaFormateada, noCuentaAdmin }),
+      body: JSON.stringify({ noStand, nombre, ubicacion, fechahora: fechaFormateada, estado, noCuentaAdmin }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -138,7 +143,7 @@ class CRUDStand extends React.Component {
 
 
   insertar = () => {
-    const { nombre, ubicacion, fechahora } = this.state.formInsertar;
+    const { nombre, ubicacion, fechahora, estado } = this.state.formInsertar;
     /*const fechaFormateada = fechahora.toISOString().slice(0, 19); */
     const fechaFormateada = moment(fechahora).format("YYYY-MM-DDTHH:mm:ss");
     console.log("fecha y hora:", fechahora);
@@ -148,7 +153,7 @@ class CRUDStand extends React.Component {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ nombre, ubicacion, fechaHora: fechaFormateada, noCuentaAdmin: localStorage.getItem('noCuenta') }),
+      body: JSON.stringify({ nombre, ubicacion, fechaHora: fechaFormateada, estado, noCuentaAdmin: localStorage.getItem('noCuenta') }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -181,6 +186,16 @@ class CRUDStand extends React.Component {
     }));
   };
 
+  handleChangeEstadoInsertar = (e) => {
+    const estado = e.target.value === "true"; // Convertir el valor a booleano
+    this.setState({
+      formInsertar: {
+        ...this.state.formInsertar,
+        estado,
+      },
+    });
+  };
+
   handleChangeFechaHoraActualizar = (date) => {
     this.setState((prevState) => ({
       formActualizar: {
@@ -201,6 +216,16 @@ class CRUDStand extends React.Component {
     }));
   };
 
+  handleChangeEstadoActualizar = (e) => {
+    const estado = e.target.value === "true"; // Convertir el valor a booleano
+    this.setState({
+      formActualizar: {
+        ...this.state.formActualizar,
+        estado,
+      },
+    });
+  };
+
   handleChangeBuscar = async (e) => {
     e.persist();
     await this.setState({ busqueda: e.target.value });
@@ -208,11 +233,17 @@ class CRUDStand extends React.Component {
   };
 
   filtrarElementos = () => {
-    var search = this.state.dataFiltrada.filter(
-      (elemento) =>
-        elemento.nombre.toLowerCase().includes(this.state.busqueda.toLowerCase()) ||
-        elemento.fechahora.toLowerCase().includes(this.state.busqueda.toLowerCase())
-    );
+    const search = this.state.dataFiltrada.filter((elemento) => {
+      const estadoTexto = elemento.estado ? "reservado" : "libre";
+      return (
+        elemento.noStand.toString().includes(this.state.busqueda) ||        
+        elemento.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
+        elemento.ubicacion.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
+        elemento.fechahora.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
+        estadoTexto.toLowerCase().includes(this.state.busqueda.toLowerCase())
+      );
+    });
+  
     this.setState({ data: search });
   };
 
@@ -252,7 +283,9 @@ class CRUDStand extends React.Component {
                 <th>No. Stand</th>
                 <th>Nombre</th>
                 <th>Ubicación</th>
-                <th>Fecha y Hora</th>
+                <th>Fecha y hora de registro</th>
+                <th>Estado</th>
+                <th>Responsable</th>
                 <th>Acción</th>
               </tr>
             </thead>
@@ -264,7 +297,8 @@ class CRUDStand extends React.Component {
                   <td>{dato.nombre}</td>
                   <td>{dato.ubicacion}</td>
                   <td>{dato.fechahora}</td>
-
+                  <td>{dato.estado ? "reservado" : "libre"}</td>
+                  <td>{dato.noCuentaAdmin}</td>
                   <td>
                   <FormGroup>
                     <Button style={{ width: "150px", display: "block", marginBottom: "10px" }}
@@ -315,6 +349,19 @@ class CRUDStand extends React.Component {
                 dateFormat="yyyy-MM-dd HH:mm:ss"
               />
             </FormGroup>
+            <FormGroup>
+              <label>Estado:</label>
+              <Input
+                type="select"
+                className="form-control"
+                value={this.state.formActualizar.estado}
+                onChange={(e) => this.handleChangeEstadoActualizar(e)}
+              >
+                <option value="">Selecciona una opción</option>
+                <option value="false">Libre</option>
+                <option value="true">Reservado</option>
+              </Input>
+          </FormGroup>
           </ModalBody>
           <ModalFooter>
             <Button style={{ width: "150px"}} color="primary" onClick={() => this.editar()}>
@@ -370,6 +417,19 @@ class CRUDStand extends React.Component {
                 timeIntervals={15}
                 dateFormat="yyyy-MM-dd HH:mm:ss"
               />
+            </FormGroup>
+            <FormGroup>
+             <label>Estado:</label>
+              <Input
+                type="select"
+                className="form-control"
+                value={this.state.formInsertar.estado}
+                onChange={(e) => this.handleChangeEstadoInsertar(e)}
+              >
+                <option value="">Selecciona una opción</option>
+                <option value="false">Libre</option>
+                <option value="true">Reservado</option>
+              </Input>
             </FormGroup>
 
           </ModalBody>

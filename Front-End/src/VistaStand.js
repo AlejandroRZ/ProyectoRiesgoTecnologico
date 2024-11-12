@@ -79,7 +79,7 @@ class VistaStand extends React.Component {
                 <th>No. Stand</th>
                 <th>Nombre</th>
                 <th>Ubicación</th>
-                <th>Fecha y Hora</th>
+                <th>Fecha y hora de registro</th>
                 <th>Estado</th>
               </tr>
             </thead>
