@@ -12,7 +12,8 @@ function EditProfile() {
     nombre: localStorage.getItem('nombre'),
     apellido: localStorage.getItem('apellido'),
     correo: localStorage.getItem('email'),
-    contrasena: '',    
+    contrasena: '',
+    noStand:''    
   });
   
   const [deleteModal, setDeleteModal] = useState(false);

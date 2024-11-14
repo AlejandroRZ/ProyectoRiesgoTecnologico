@@ -26,13 +26,15 @@ class CRUDAdmin extends React.Component {
       nombre: "",
       apellido: "",
       email: "",
-      psswd: "",
+      psswd: ""
     },
+    
     formActualizar: {
       noCuentaAdmin: "",
       nombre: "",
       apellido: "",
       email: "",
+      psswd: ""
     },
     busqueda: "",
     errorsInsertar: {},
@@ -94,13 +96,14 @@ class CRUDAdmin extends React.Component {
     if (!this.datosValidosEditar()) {
       return;
     }
-    const { noCuentaAdmin, nombre, apellido, email } = this.state.formActualizar;
+    const {noCuentaAdmin, nombre, apellido, email} = this.state.formActualizar; 
+    const psswd = this.state.formActualizar.psswd || "Contra";
     fetch("http://127.0.0.1:5000/admin/updateadmin", {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ noCuentaAdmin, nombre, apellido, email }),
+      body: JSON.stringify({noCuentaAdmin, nombre, apellido, email, psswd}),
     })
       .then(response => response.json())
       .then((data) => {
@@ -208,6 +211,26 @@ class CRUDAdmin extends React.Component {
       errorsInsertar["noCuentaAdmin"] = "Número de cuenta no válido.";
     }
 
+    if(!this.state.formInsertar.nombre){
+      isValid = false;
+      errorsInsertar["nombre"] = "Por favor, ingresa un nombre.";
+    }else{
+      if (this.state.formInsertar.nombre.length < 3){
+        isValid = false;
+        errorsInsertar["nombre"] = "El nombre debe de tener al menos 3 carácteres.";
+      }
+    }
+    
+    if(!this.state.formInsertar.apellido){
+      isValid = false;
+      errorsInsertar["apellido"] = "Por favor, ingresa un apellido.";
+    }else{
+      if (this.state.formInsertar.apellido.length < 3){
+        isValid = false;
+        errorsInsertar["apellido"] = "El apellido debe de tener al menos 3 carácteres.";
+      }
+    } 
+
     if (!this.state.formInsertar.email) {
       isValid = false;
       errorsInsertar["email"] = "Por favor ingresa un correo.";
@@ -218,7 +241,7 @@ class CRUDAdmin extends React.Component {
 
         if (!(lastAtPos < lastDotPos && lastAtPos > 0 && this.state.formInsertar.email.indexOf('@@') === -1 && lastDotPos > 2 && (this.state.formInsertar.email.length - lastDotPos) > 2)) {
           isValid = false;
-          errorsInsertar["email"] = "Correo inválido.";
+          errorsInsertar["email"] = "Correo no válido.";
         }
       }
     }
@@ -239,10 +262,27 @@ class CRUDAdmin extends React.Component {
     let errorsEditar = {};
     let isValid = true;
 
-    if (!this.state.formActualizar.email) {
+    if(!this.state.formActualizar.nombre){
       isValid = false;
-      errorsEditar["email"] = "Por favor ingresa un correo.";
-    } else {
+      errorsEditar["nombre"] = "Por favor, ingresa un nombre.";
+    }else{
+      if (this.state.formActualizar.nombre.length < 3){
+        isValid = false;
+        errorsEditar["nombre"] = "El nombre debe de tener al menos 3 carácteres.";
+      }
+    }
+    
+    if(!this.state.formActualizar.apellido){
+      isValid = false;
+      errorsEditar["apellido"] = "Por favor, ingresa un apellido.";
+    }else{
+      if (this.state.formActualizar.apellido.length < 3){
+        isValid = false;
+        errorsEditar["apellido"] = "El apellido debe de tener al menos 3 carácteres.";
+      }
+    } 
+
+    if (this.state.formActualizar.email) {      
       if (typeof this.state.formActualizar.email !== "undefined") {
         let lastAtPos = this.state.formActualizar.email.lastIndexOf('@');
         let lastDotPos = this.state.formActualizar.email.lastIndexOf('.');
@@ -253,6 +293,11 @@ class CRUDAdmin extends React.Component {
         }
       }
     }
+
+    if (this.state.formActualizar.psswd && this.state.formActualizar.psswd.length < 8) {
+      isValid = false;
+      errorsEditar["password"] = "La contraseña debe tener al menos 8 caracteres.";
+    } 
 
     this.setState({ errorsEditar });
     return isValid;
@@ -292,6 +337,7 @@ class CRUDAdmin extends React.Component {
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Email</th>
+                <th>Stands registrados</th>
                 <th>Acción</th>
               </tr>
             </thead>
@@ -303,6 +349,7 @@ class CRUDAdmin extends React.Component {
                   <td>{dato.nombre}</td>
                   <td>{dato.apellido}</td>
                   <td>{dato.email}</td>
+                  <td>{dato.stands}</td>
                   <td>
                     <Button
                       style={{ width: "150px", display: "block", marginBottom: "10px" }}
@@ -339,7 +386,11 @@ class CRUDAdmin extends React.Component {
                 type="text"
                 onChange={this.handleChangeActualizar}
                 value={this.state.formActualizar.nombre}
-              />
+              />{
+                this.state.errorsEditar.nombre && <div className="alert alert-danger">
+                  {this.state.errorsEditar.nombre}
+                </div>
+              }
             </FormGroup>
 
             <FormGroup>
@@ -353,6 +404,11 @@ class CRUDAdmin extends React.Component {
                 onChange={this.handleChangeActualizar}
                 value={this.state.formActualizar.apellido}
               />
+              {
+                this.state.errorsEditar.apellido && <div className="alert alert-danger">
+                  {this.state.errorsEditar.apellido}
+                </div>
+              }
             </FormGroup>
 
             <FormGroup>
@@ -364,12 +420,29 @@ class CRUDAdmin extends React.Component {
                 name="email"
                 type="email"
                 onChange={this.handleChangeActualizar}
-                value={this.state.formActualizar.email}
-                required
+                value={this.state.formActualizar.email}                
               />
               {
                 this.state.errorsEditar.email && <div className="alert alert-danger">
                   {this.state.errorsEditar.email}
+                </div>
+              }
+            </FormGroup>
+
+            <FormGroup>
+              <label>
+                Contraseña:
+              </label>
+              <input
+                className="form-control"
+                name="psswd"
+                type="password"
+                onChange={this.handleChangeActualizar}
+                value={this.state.formActualizar.psswd}                               
+              />
+              {
+                this.state.errorsEditar.password && <div className="alert alert-danger">
+                  {this.state.errorsEditar.password}
                 </div>
               }
             </FormGroup>
@@ -428,6 +501,11 @@ class CRUDAdmin extends React.Component {
                 onChange={this.handleChangeInsertar}
                 required
               />
+              {
+                this.state.errorsInsertar.nombre && <div className="alert alert-danger">
+                  {this.state.errorsInsertar.nombre}
+                </div>
+              }
             </FormGroup>
 
             <FormGroup>
@@ -441,6 +519,11 @@ class CRUDAdmin extends React.Component {
                 onChange={this.handleChangeInsertar}
                 required
               />
+              {
+                this.state.errorsInsertar.apellido && <div className="alert alert-danger">
+                  {this.state.errorsInsertar.apellido}
+                </div>
+              }
             </FormGroup>
 
             <FormGroup>

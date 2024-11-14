@@ -5,14 +5,6 @@ CREATE USER 'lizardcompany'@'localhost' IDENTIFIED BY 'lizardlord';
 GRANT ALL PRIVILEGES ON *.* TO 'lizardcompany'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
-CREATE TABLE participante(
-  noCuenta INT NOT NULL PRIMARY KEY,
-  nombre VARCHAR(50) NOT NULL,
-  apellido VARCHAR(50),
-  correo VARCHAR(100) NOT NULL UNIQUE,
-  psswd CHAR(64) NOT NULL  
-);
-
 CREATE TABLE superadmin(
   noCuentaSupAdm INT NOT NULL PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL,
@@ -41,16 +33,26 @@ CREATE TABLE stand(
   FOREIGN KEY (noCuentaAdmin) REFERENCES administrador(noCuentaAdmin) ON DELETE CASCADE
 );
 
+CREATE TABLE participante(
+  noCuenta INT NOT NULL PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL,
+  apellido VARCHAR(50) NOT NULL,
+  correo VARCHAR(100) NOT NULL UNIQUE,
+  psswd CHAR(64) NOT NULL,  
+  noStand INT,
+  FOREIGN KEY (noStand) REFERENCES stand(noStand) ON DELETE SET NULL
+);
+
 
 /* REGISTROS EN PARTICIPANTES */
-INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd) VALUES (711289943, 'Rodrigo', 'Robles', 'rodri@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556');
-INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd) VALUES (711354678,'Andrea', 'Martinez', 'andy@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556');
-INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd) VALUES (711999231, 'Emiliano','García','emi_19@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556');
-INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd) VALUES (711987321, 'Mariana','Hernández','mar@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556');
-INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd) VALUES (711223366, 'Avril','Rojas','avril18@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556');
-INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd) VALUES (711890012, 'Esteban','Contreras','esteb@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556');
-INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd) VALUES (711353535, 'Jorge','Peréz','jorge177@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556');
-INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd) VALUES (711494847, 'Nadia','Ortega','nadia10@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556');
+INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd,noStand) VALUES (711289943, 'Rodrigo', 'Robles', 'rodri@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', NULL);
+INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd,noStand) VALUES (711354678,'Andrea', 'Martinez', 'andy@gmail.com', '40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', NULL);
+INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd,noStand) VALUES (711999231, 'Emiliano','García','emi_19@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', NULL);
+INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd,noStand) VALUES (711987321, 'Mariana','Hernández','mar@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', NULL);
+INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd,noStand) VALUES (711223366, 'Avril','Rojas','avril18@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', NULL);
+INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd,noStand) VALUES (711890012, 'Esteban','Contreras','esteb@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', NULL);
+INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd,noStand) VALUES (711353535, 'Jorge','Peréz','jorge177@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', NULL);
+INSERT INTO proyecto.participante(noCuenta,nombre,apellido,correo,psswd,noStand) VALUES (711494847, 'Nadia','Ortega','nadia10@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556', NULL);
 
 /*REGISTROS DE SUPER ADMINISTRADORES*/
 INSERT INTO proyecto.superadmin(noCuentaSupAdm,nombre,apellido,correo,psswd) VALUES (778899101,'Pedro','Trejo','pepe@gmail.com','40d95c2997e76228a22658d815983710602d263b04e70ba24c6387cb37140556');

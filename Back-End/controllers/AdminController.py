@@ -2,7 +2,8 @@ from flask import Blueprint, request, jsonify
 from alchemyClasses.Administrador import Administrador
 from alchemyClasses import db
 from model.model_administrador import get_all_admins, get_admin_by_id, get_admin_by_email
-
+from hashlib import sha256
+from CryptoUtils.CryptoUtils import cipher
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
 @admin.route("/readadmin", methods=["GET"])
@@ -42,16 +43,19 @@ def insert_admin():
 @admin.route("/updateadmin", methods=["PUT"])
 def update_admin():
     if request.method == "PUT":
-        datos_json = request.get_json()
+        datos_json = request.get_json()       
         noCuentaAdmin = datos_json["noCuentaAdmin"]
         nombre = datos_json["nombre"]
         apellido = datos_json["apellido"]
         email = datos_json["email"]
+        psswd = datos_json["psswd"]
         admin = get_admin_by_id(noCuentaAdmin)
     
         admin.nombre = nombre
         admin.apellido = apellido
         admin.correo = email
+        if psswd != "Contra":
+            admin.psswd = sha256(cipher(psswd)).hexdigest()
     
         try:
             db.session.commit()

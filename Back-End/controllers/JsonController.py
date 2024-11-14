@@ -33,13 +33,14 @@ def get_participantes():
                 'noCuenta':participante.noCuenta,
                 'nombre':participante.nombre,
                 'apellido':participante.apellido,
-                'correo':participante.correo            
+                'correo':participante.correo,
+                'noStand': participante.noStand            
             })
         return json.dumps(response)
     except Exception as e:        
         return jsonify({"error": str(e)}), 500
     
-@json_controller.route('/torneos')
+@json_controller.route('/stands')
 def get_stand():
     try:
         stands = get_all_stands()

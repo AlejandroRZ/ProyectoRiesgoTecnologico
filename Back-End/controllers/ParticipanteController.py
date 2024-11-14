@@ -4,6 +4,7 @@ from alchemyClasses import db
 from model.model_participante import get_participante_by_id, get_participante_by_email
 from model.model_administrador import get_admin_by_email
 from model.model_superadmin import get_superadmin_by_email
+from model.model_stand import get_stand_by_id
 from hashlib import sha256
 from CryptoUtils.CryptoUtils import cipher 
 from flask import Flask
@@ -19,7 +20,8 @@ def edit_profile():
         nombre = datos_json["nombre"]
         apellido = datos_json["apellido"]
         email = datos_json["correo"]        
-        contrasena = datos_json["contrasena"]         
+        contrasena = datos_json["contrasena"]
+        noStand = datos_json["noStand"]         
        
         try:
             # Obtén el participante que deseas editar según el ID proporcionado
@@ -44,7 +46,12 @@ def edit_profile():
                 if email:
                     participanteEdit.correo = email                              
                 if contrasena:
-                    participanteEdit.psswd = sha256(cipher(contrasena)).hexdigest()                
+                    participanteEdit.psswd = sha256(cipher(contrasena)).hexdigest()
+                if noStand:
+                    if get_stand_by_id(noStand):
+                        participanteEdit.noStand = noStand
+                    else:
+                       return jsonify({'message': 'No existe tal stand'})                     
                             
 
                 db.session.commit()
