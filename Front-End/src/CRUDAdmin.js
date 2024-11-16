@@ -92,29 +92,98 @@ class CRUDAdmin extends React.Component {
     this.setState({ modalEliminar: false });
   }
 
-  editar = () => {
+  insertar = async () => {
+    if (!this.datosValidosInsertar()) {
+      return;
+    }
+  
+    const { noCuentaAdmin, nombre, apellido, email, psswd } = this.state.formInsertar;
+    const noCuentaSupAdm = localStorage.getItem('noCuenta');
+  
+    try {
+      const response = await fetch("http://127.0.0.1:5000/admin/insertadmin", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ noCuentaAdmin, nombre, apellido, email, psswd, noCuentaSupAdm }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok && data.message === "Administrador insertado correctamente") {
+        // Registro exitoso
+        this.componentDidMount(); // Recargar datos
+        this.cerrarModalInsertar(); // Cerrar modal
+      } else {
+        // Manejar errores de la respuesta
+        const errorsInsertar = {};
+  
+        if (data.error === "Error, correo asociado a otra cuenta.") {
+          errorsInsertar["email"] = "El correo ya está asociado a otra cuenta.";
+        } else if (data.error === "Error, número de cuenta asociado a otro usuario.") {
+          errorsInsertar["noCuentaAdmin"] = "El número de cuenta ya está registrado.";
+        } else {
+          errorsInsertar["general"] = "Error desconocido. Por favor, inténtalo nuevamente.";
+        }
+  
+        // Actualizar estado con los errores
+        this.setState({ errorsInsertar });
+        return; // Detener ejecución
+      }
+    } catch (error) {
+      console.error("Error al insertar administrador:", error);
+      this.setState({
+        errorsInsertar: {
+          general: "Error de conexión. Por favor, inténtalo más tarde.",
+        },
+      });
+    }
+  };
+
+  editar = async () => {
     if (!this.datosValidosEditar()) {
       return;
     }
     const {noCuentaAdmin, nombre, apellido, email} = this.state.formActualizar; 
     const psswd = this.state.formActualizar.psswd || "Contra";
-    fetch("http://127.0.0.1:5000/admin/updateadmin", {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({noCuentaAdmin, nombre, apellido, email, psswd}),
-    })
-      .then(response => response.json())
-      .then((data) => {
-        this.componentDidMount();
-        this.cerrarModalActualizar();
-      })
-      .catch(error => {
-        console.error("Error al editar administrador:", error);
-        alert("Error al editar administrador. Por favor, inténtalo nuevamente más tarde.");
-        this.setState({ modalActualizar: false });
+    try{    
+      const response = await fetch("http://127.0.0.1:5000/admin/updateadmin", {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({noCuentaAdmin, nombre, apellido, email, psswd}),
       });
+
+      const data = await response.json();
+  
+      if (response.ok && data.message === "Administrador editado correctamente") {
+        // Registro exitoso
+        this.componentDidMount(); // Recargar datos
+        this.cerrarModalActualizar(); // Cerrar modal
+      } else {
+        // Manejar errores de la respuesta
+        const errorsEditar = {};
+  
+        if (data.error === "Error, correo asociado a otra cuenta.") {
+          errorsEditar["email"] = "El correo ya está asociado a otra cuenta.";
+        } else {
+          errorsEditar["general"] = "Error desconocido. Por favor, inténtalo nuevamente.";
+        }
+          // Actualizar estado con los errores
+        this.setState({ errorsEditar });
+        return; // Detener ejecución
+      } 
+    }  
+    catch (error) {
+      console.error("Error al editar administrador:", error);
+      this.setState({
+        errorsEditar: {
+          general: "Error de conexión. Por favor, inténtalo más tarde.",
+        },
+      });
+    }
   };
 
   eliminar = (dato) => {
@@ -141,31 +210,6 @@ class CRUDAdmin extends React.Component {
   };
 
   
-  insertar = () => {
-    if (!this.datosValidosInsertar()) {
-      return;
-    }
-    const {noCuentaAdmin, nombre, apellido, email, psswd } = this.state.formInsertar;
-    var noCuentaSupAdm = localStorage.getItem('noCuenta');
-    fetch("http://127.0.0.1:5000/admin/insertadmin", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({noCuentaAdmin, nombre, apellido, email, psswd, noCuentaSupAdm }),
-    })
-      .then(response => response.json())
-      .then(() => {
-        this.componentDidMount();
-        this.cerrarModalInsertar();
-      })
-      .catch(error => {
-        console.error("Error al insertar administrador:", error);
-        alert("Error al insertar administrador. Por favor, inténtalo nuevamente más tarde.");
-        this.setState({ modalInsertar: false });
-      });
-  }
-
   handleChangeInsertar = (e) => {
     this.setState({
       formInsertar: {
@@ -296,7 +340,7 @@ class CRUDAdmin extends React.Component {
 
     if (this.state.formActualizar.psswd && this.state.formActualizar.psswd.length < 8) {
       isValid = false;
-      errorsEditar["password"] = "La contraseña debe tener al menos 8 caracteres.";
+      errorsEditar["password"] = "La nueva contraseña debe tener al menos 8 caracteres.";
     } 
 
     this.setState({ errorsEditar });
@@ -337,7 +381,7 @@ class CRUDAdmin extends React.Component {
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Email</th>
-                <th>Stands registrados</th>
+                <th>Clave de cada stand registrado</th>
                 <th>Acción</th>
               </tr>
             </thead>
@@ -349,7 +393,7 @@ class CRUDAdmin extends React.Component {
                   <td>{dato.nombre}</td>
                   <td>{dato.apellido}</td>
                   <td>{dato.email}</td>
-                  <td>{dato.stands}</td>
+                  <td>{dato.stands.join(", ")}</td>
                   <td>
                     <Button
                       style={{ width: "150px", display: "block", marginBottom: "10px" }}

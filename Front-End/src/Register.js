@@ -110,7 +110,7 @@ function Register() {
         openWelcomeModal();
         // Redirigir a la vista EditProfile
         
-      } else if (data.error === 'Error, correo asociado a otra cuenta. Puede estar asociado a una cuenta no apta para participar.') {
+      } else if (data.error === 'Error, correo asociado a otra cuenta.') {
         setErrors({ correo: data.error });
       } else if (data.error === 'Error, número de cuenta asociado a otro usuario.') {
         setErrors({ noCuenta: data.error });

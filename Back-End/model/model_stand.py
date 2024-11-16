@@ -10,6 +10,12 @@ def get_stand_by_id(noStand):
 def get_stand_by_name(name):
     return Stand.query.filter(Stand.nombre == name).first()
 
+def get_stand_by_ubication(ubicacion):
+    return Stand.query.filter(Stand.ubicacion == ubicacion).first()
+
+def get_stand_by_responsible(responsible):
+    return Stand.query.filter(Stand.noCuentaAdmin == responsible).all()
+                              
 def get_current_datetime():
     # Obtiene la fecha y hora actuales
     current_datetime = datetime.now()

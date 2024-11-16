@@ -78,7 +78,7 @@ def register():
             superAdminList = get_superadmin_by_email(correo)
             participantesList = get_participante_by_email(correo)            
             if adminList or superAdminList or participantesList:
-                return jsonify({'error': 'Error, correo asociado a otra cuenta. Puede estar asociado a una cuenta no apta para participar.'})
+                return jsonify({'error': 'Error, correo asociado a otra cuenta.'})
             
             adminList = get_admin_by_id(noCuenta)
             superAdminList = get_superadmin_by_id(noCuenta)

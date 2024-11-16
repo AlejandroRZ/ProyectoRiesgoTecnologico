@@ -34,7 +34,7 @@ def edit_profile():
                 participantesList = get_participante_by_email(email)            
             
                 if adminList or superAdminList or participantesList:
-                    return jsonify({'error': 'Error, correo asociado a otra cuenta. Puede estar asociado a una cuenta no apta para participar.'})
+                    return jsonify({'error': 'Error, correo asociado a otra cuenta.'})
            
            
             if participanteEdit:

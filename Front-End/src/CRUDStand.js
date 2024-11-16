@@ -27,9 +27,12 @@ class CRUDStand extends React.Component {
       nombre: "",
       ubicacion: "",
       fechahora: new Date(),
-      estado: ""
+      estado: "",
+      previousDate: new Date()
     },
     busqueda: "",
+    errorsInsertar: {},
+    errorsActualizar: {},
   };
 
 
@@ -59,16 +62,17 @@ class CRUDStand extends React.Component {
         ubicacion,
         fechahora: fechaFormateada,
         estado,
-        noCuentaAdmin
+        noCuentaAdmin,
+        previousDate: dato.fechahora
       },
       modalActualizar: true,
     });
   };
 
 
-
-  cerrarModalActualizar = () => {
+  cerrarModalActualizar = () => {   
     this.setState({ modalActualizar: false });
+    this.setState({errorsActualizar: {}});
   };
 
   mostrarModalInsertar = () => {
@@ -79,6 +83,7 @@ class CRUDStand extends React.Component {
 
   cerrarModalInsertar = () => {
     this.setState({ modalInsertar: false });
+    this.setState({errorsInsertar: {}});
   };
 
   mostrarModalEliminar = (dato) => {
@@ -92,29 +97,96 @@ class CRUDStand extends React.Component {
     this.setState({ modalEliminar: false });
   };
 
-  editar = () => {
+  insertar = async () => {
+    if(!this.datosValidosInsertar()){return;}
+    const { nombre, ubicacion, fechahora, estado } = this.state.formInsertar;
+    /*const fechaFormateada = fechahora.toISOString().slice(0, 19); */
+    const fechaFormateada = moment(fechahora).format("YYYY-MM-DDTHH:mm:ss");
+    console.log("fecha y hora:", fechahora);
+    try{
+      const response = await fetch("http://127.0.0.1:5000/stand/insertstand", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nombre, ubicacion, fechaHora: fechaFormateada, estado, noCuentaAdmin: localStorage.getItem('noCuenta') }),
+      });
+
+      const data = await response.json();
+  
+      if (response.ok && data.message === "Stand insertado correctamente") {
+        // Registro exitoso
+        this.componentDidMount(); // Recargar datos
+        this.cerrarModalInsertar(); // Cerrar modal
+      } else {
+        // Manejar errores de la respuesta
+        const errorsInsertar = {};
+  
+        if (data.error === "Error, ubicación ocupada por otro stand.") {
+          errorsInsertar["ubicacion"] = "La ubicación ya está asociada a otro stand.";
+        } else if (data.error === "Error, nombre ocupado por otro stand.") {
+          errorsInsertar["nombre"] = "Error, nombre ocupado por otro stand.";
+        } else {
+          errorsInsertar["general"] = "Error desconocido. Por favor, inténtalo nuevamente.";
+        }  
+        // Actualizar estado con los errores
+        this.setState({ errorsInsertar });
+        return; // Detener ejecución
+      }
+    } catch (error) {
+      console.error("Error al insertar stand:", error);
+      this.setState({
+        errorsInsertar: {
+          general: "Error de conexión. Por favor, inténtalo más tarde.",
+        },
+      });
+    }
+  };
+
+  editar = async () => {
+    if(!this.datosValidosEditar()){return;}
     const { noStand, nombre, ubicacion, fechahora, estado, noCuentaAdmin } = this.state.formActualizar;
     /*const fechaFormateada = fechahora.toISOString().slice(0, 19);*/
     const fechaFormateada = moment(fechahora).format("YYYY-MM-DDTHH:mm:ss");
-
-    fetch("http://127.0.0.1:5000/stand/updatestand", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ noStand, nombre, ubicacion, fechahora: fechaFormateada, estado, noCuentaAdmin }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        this.componentDidMount();
-        this.setState({ modalActualizar: false });
-      })
-      .catch((error) => {
-        console.error("Error al editar stand", error);
-        alert("Error al editar stand. Por favor, inténtalo nuevamente más tarde.");
-        this.setState({ modalActualizar: false });
+    try{
+      const response = await fetch("http://127.0.0.1:5000/stand/updatestand", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ noStand, nombre, ubicacion, fechahora: fechaFormateada, estado, noCuentaAdmin }),
       });
+
+      const data = await response.json();
+  
+      if (response.ok && data.message === "Stand editado correctamente") {
+        // Registro exitoso
+        this.componentDidMount(); // Recargar datos
+        this.cerrarModalActualizar(); // Cerrar modal
+      } else {
+        // Manejar errores de la respuesta
+        const errorsActualizar = {};
+  
+        if (data.error === "Error, ubicación ocupada por otro stand.") {
+          errorsActualizar["ubicacion"] = "La ubicación ya está asociada a otro stand.";
+        } else if (data.error === "Error, nombre ocupado por otro stand.") {
+          errorsActualizar["nombre"] = "Error, nombre ocupado por otro stand.";
+        } else {
+          errorsActualizar["general"] = "Error desconocido. Por favor, inténtalo nuevamente.";
+        }  
+        // Actualizar estado con los errores
+        this.setState({ errorsActualizar });
+        return; // Detener ejecución
+      }
+
+    } catch (error) {
+      console.error("Error al insertar stand:", error);
+      this.setState({
+        errorsActualizar: {
+          general: "Error de conexión. Por favor, inténtalo más tarde.",
+        },
+      });
+    }
   };
 
   eliminar = (dato) => {
@@ -140,33 +212,101 @@ class CRUDStand extends React.Component {
         alert("Error al eliminar stand. Por favor, inténtalo más tarde.");
       });
   };
+  
+  datosValidosInsertar = () => {
+    let errorsInsertar = {};
+    let isValid = true;  
 
+    if(!this.state.formInsertar.nombre){
+      isValid = false;
+      errorsInsertar["nombre"] = "Por favor, ingresa un nombre.";
+    }else{
+      if (this.state.formInsertar.nombre.length < 3){
+        isValid = false;
+        errorsInsertar["nombre"] = "El nombre debe de tener al menos 3 carácteres.";
+      }
+    }
 
-  insertar = () => {
-    const { nombre, ubicacion, fechahora, estado } = this.state.formInsertar;
-    /*const fechaFormateada = fechahora.toISOString().slice(0, 19); */
-    const fechaFormateada = moment(fechahora).format("YYYY-MM-DDTHH:mm:ss");
-    console.log("fecha y hora:", fechahora);
+    if(!this.state.formInsertar.ubicacion){
+      isValid = false;
+      errorsInsertar["ubicacion"] = "Por favor, ingresa la ubicación.";
+    }else{
+      if (this.state.formInsertar.ubicacion.length < 10){
+        isValid = false;
+        errorsInsertar["ubicacion"] = "La ubicacion debe de tener al menos 10 carácteres.";
+      }
+    }    
 
-    fetch("http://127.0.0.1:5000/stand/insertstand", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ nombre, ubicacion, fechaHora: fechaFormateada, estado, noCuentaAdmin: localStorage.getItem('noCuenta') }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        this.setState({ modalInsertar: false });
-        this.componentDidMount();
-      })
-      .catch(error => {
-        console.error("Error al insertar stand:", error);
-        alert("Error al insertar stand. Por favor, inténtalo nuevamente más tarde.");
-        this.setState({ modalInsertar: false });
-      });
+    if(this.state.formInsertar.estado === ""){
+      isValid = false;
+      errorsInsertar["estado"] = "Por favor, ingresa un estado.";
+    }
+    // Verificación de la fecha y hora
+    const now = new Date(); // Fecha y hora actual
+    const tenMinutesLater = new Date(now.getTime() + 10 * 60 * 1000); // 10 minutos después de la fecha actual
+    const selectedDate = this.state.formInsertar.fechahora;
+    
+    if (!selectedDate) {
+      isValid = false;
+      errorsInsertar["fechahora"] = "Por favor, selecciona una fecha y hora.";
+    } else if (selectedDate < tenMinutesLater) {
+      // Verificación de que sea al menos 10 minutos en el futuro
+      isValid = false;
+      errorsInsertar["fechahora"] = "La fecha y hora deben ser al menos 10 minutos posteriores a la hora actual.";
+    }   
+    this.setState({ errorsInsertar });
+    return isValid;
   }
+
+  datosValidosEditar = () => {
+    let errorsActualizar = {};
+    let isValid = true;  
+
+    if(!this.state.formActualizar.nombre){
+      isValid = false;
+      errorsActualizar["nombre"] = "Por favor, ingresa un nombre.";
+    }else{
+      if (this.state.formActualizar.nombre.length < 3){
+        isValid = false;
+        errorsActualizar["nombre"] = "El nombre debe de tener al menos 3 carácteres.";
+      }
+    }
+
+    if(!this.state.formActualizar.ubicacion){
+      isValid = false;
+      errorsActualizar["ubicacion"] = "Por favor, ingresa la ubicación.";
+    }else{
+      if (this.state.formActualizar.ubicacion.length < 10){
+        isValid = false;
+        errorsActualizar["ubicacion"] = "La ubicacion debe de tener al menos 10 carácteres.";
+      }
+    }    
+
+    if(this.state.formActualizar.estado === ""){
+      isValid = false;
+      errorsActualizar["estado"] = "Por favor, ingresa un estado.";
+    }
+    // Verificación de la fecha y hora   
+    const selectedDate = this.state.formActualizar.fechahora; // Fecha y hora original guardada
+    const now = new Date();
+    const tenMinutesLater = new Date(now.getTime() + 10 * 60 * 1000);
+    const previousDate = this.state.formActualizar.fechahora;
+    if(selectedDate !== previousDate){
+      console.log("Holiwis");
+      if (!selectedDate) {
+        isValid = false;
+        errorsActualizar["fechahora"] = "Por favor, selecciona una fecha y hora.";
+      } else if (selectedDate < tenMinutesLater) {
+        // Verificación de que sea al menos 10 minutos en el futuro
+        isValid = false;
+        errorsActualizar["fechahora"] = "La fecha y hora deben ser al menos 10 minutos posteriores a la hora actual.";
+      }
+    }   
+    this.setState({ errorsActualizar });
+    return isValid;
+    
+  }
+
 
   handleChangeInsertar = (e) => {
     this.setState({
@@ -239,6 +379,7 @@ class CRUDStand extends React.Component {
         elemento.noStand.toString().includes(this.state.busqueda) ||        
         elemento.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
         elemento.ubicacion.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
+        elemento.noCuentaAdmin.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
         elemento.fechahora.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
         estadoTexto.toLowerCase().includes(this.state.busqueda.toLowerCase())
       );
@@ -283,7 +424,7 @@ class CRUDStand extends React.Component {
                 <th>No. Stand</th>
                 <th>Nombre</th>
                 <th>Ubicación</th>
-                <th>Fecha y hora de registro</th>
+                <th>Inicio de operaciones</th>
                 <th>Estado</th>
                 <th>Responsable</th>
                 <th>Acción</th>
@@ -335,7 +476,26 @@ class CRUDStand extends React.Component {
                 onChange={this.handleChangeActualizar}
                 value={this.state.formActualizar.nombre}
                 style={{ width: "300px"}}
-              />
+              />{
+                this.state.errorsActualizar.nombre && <div className="alert alert-danger">
+                  {this.state.errorsActualizar.nombre}
+                </div>
+              }
+            </FormGroup>
+            <FormGroup className="d-flex flex-column align-items-center">
+              <label>Ubicación:</label>
+              <input
+                className="form-control"
+                name="ubicacion"
+                type="text"
+                onChange={this.handleChangeActualizar}
+                value={this.state.formActualizar.ubicacion}
+                style={{ width: "300px"}}
+              />{
+                this.state.errorsActualizar.ubicacion && <div className="alert alert-danger">
+                  {this.state.errorsActualizar.ubicacion}
+                </div>
+              }
             </FormGroup>
             <FormGroup>
               <label>Fecha y Hora:</label>
@@ -347,7 +507,11 @@ class CRUDStand extends React.Component {
                 timeFormat="HH:mm:ss"
                 timeIntervals={15}
                 dateFormat="yyyy-MM-dd HH:mm:ss"
-              />
+              />{
+                this.state.errorsActualizar.fechahora && <div className="alert alert-danger">
+                  {this.state.errorsActualizar.fechahora}
+                </div>
+              }
             </FormGroup>
             <FormGroup>
               <label>Estado:</label>
@@ -360,7 +524,11 @@ class CRUDStand extends React.Component {
                 <option value="">Selecciona una opción</option>
                 <option value="false">Libre</option>
                 <option value="true">Reservado</option>
-              </Input>
+              </Input>{
+                this.state.errorsActualizar.estado && <div className="alert alert-danger">
+                  {this.state.errorsActualizar.estado}
+                </div>
+              }
           </FormGroup>
           </ModalBody>
           <ModalFooter>
@@ -391,7 +559,11 @@ class CRUDStand extends React.Component {
                 onChange={this.handleChangeInsertar}
                 value={this.state.formInsertar.nombre}
                 style={{ width: "300px"}}
-              />
+              />{
+                this.state.errorsInsertar.nombre && <div className="alert alert-danger">
+                  {this.state.errorsInsertar.nombre}
+                </div>
+              }
             </FormGroup>
 
             <FormGroup className="d-flex flex-column align-items-center">
@@ -403,7 +575,11 @@ class CRUDStand extends React.Component {
                 onChange={this.handleChangeInsertar}
                 value={this.state.formInsertar.ubicacion}
                 style={{ width: "300px"}}
-              />
+              />{
+                this.state.errorsInsertar.ubicacion && <div className="alert alert-danger">
+                  {this.state.errorsInsertar.ubicacion}
+                </div>
+              }
             </FormGroup>
 
             <FormGroup>
@@ -416,7 +592,11 @@ class CRUDStand extends React.Component {
                 timeFormat="HH:mm:ss"
                 timeIntervals={15}
                 dateFormat="yyyy-MM-dd HH:mm:ss"
-              />
+              />{
+                this.state.errorsInsertar.fechahora && <div className="alert alert-danger">
+                  {this.state.errorsInsertar.fechahora}
+                </div>
+              }
             </FormGroup>
             <FormGroup>
              <label>Estado:</label>
@@ -429,7 +609,11 @@ class CRUDStand extends React.Component {
                 <option value="">Selecciona una opción</option>
                 <option value="false">Libre</option>
                 <option value="true">Reservado</option>
-              </Input>
+              </Input>{
+                this.state.errorsInsertar.estado && <div className="alert alert-danger">
+                  {this.state.errorsInsertar.estado}
+                </div>
+              }
             </FormGroup>
 
           </ModalBody>
