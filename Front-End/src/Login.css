@@ -10,7 +10,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url('/prometeo.jpg');
+  background-image: url('/public/prometeo.jpg');
   background-size: cover;  /* Asegura que la imagen cubra todo el contenedor */
   background-position: center;  /* Centra la imagen */
   background-repeat: no-repeat;  /* Evita que la imagen se repita */
