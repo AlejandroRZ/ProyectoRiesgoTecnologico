@@ -12,8 +12,7 @@ function EditProfile() {
     nombre: localStorage.getItem('nombre'),
     apellido: localStorage.getItem('apellido'),
     correo: localStorage.getItem('email'),
-    contrasena: '',
-    noStand:''    
+    contrasena: '',    
   });
   
   const [deleteModal, setDeleteModal] = useState(false);
@@ -342,22 +341,21 @@ function EditProfile() {
         </FormGroup>     
       <ul>
         <li>
-          <Button style={{ width: '200px' }} color="primary" type="submit" className="mr-2">
+          <button>
             Guardar cambios
-          </Button>
+          </button>
           </li>
           <li>        
-          <Button style={{ width: '200px' }} color="primary" onClick={handleClickVolver}>
+          <button onClick={handleClickVolver}>
             Volver a la vista de participante
-          </Button>
+          </button>
         </li>
         <li>
-          <Button style={{ width: '200px', backgroundColor: '#F05E16', borderColor: '#F05E16', 
-            transition: 'background-color 0.3s ease'}}  
+          <button
             onClick={handleEliminarPerfil} onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
             onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>
             Eliminar perfil
-          </Button>
+          </button>
           </li>
         </ul>
       </form> 
@@ -383,14 +381,13 @@ function EditProfile() {
           {deleteError && <div className="alert alert-danger">{deleteError}</div>}
         </ModalBody>
         <ModalFooter>
-          <Button style={{ width: '150px', backgroundColor: '#F05E16', borderColor: '#F05E16', 
-            transition: 'background-color 0.3s ease' }} onClick={handleConfirmarEliminar} onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
+          <button onClick={handleConfirmarEliminar} onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
             onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>
             Eliminar
-          </Button>{' '}
-          <Button style={{ width: '150px' }} color="secondary" onClick={toggleDeleteModal}>
+          </button>{' '}
+          <button onClick={toggleDeleteModal}>
             Cancelar
-          </Button>
+          </button>
         </ModalFooter>
       </Modal>
 
@@ -400,9 +397,9 @@ function EditProfile() {
           <p>Los datos han sido actualizados correctamente.</p>
         </ModalBody>
       <ModalFooter>
-          <Button style={{ width: '150px' }} color="primary" onClick={() => setSuccessModalOpen(false)}>
+          <button  onClick={() => setSuccessModalOpen(false)}>
             Cerrar
-          </Button>
+          </button>
       </ModalFooter>
       </Modal>
 

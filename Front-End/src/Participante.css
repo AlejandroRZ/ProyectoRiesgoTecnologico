@@ -1,31 +1,62 @@
-/* Participante.css */
-
+/* Estructura de la página */
 .Participante .body {   
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f2f2f2; 
+  font-family: 'Georgia', serif;
+}  
 
-  .Participante .container {
-    text-align: center;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-  } 
+/* Contenedor principal del contenido */
+.Participante .container {
+  text-align: center;
+  background-color: #ffffff;
+  padding: 25px 50px; /* Ajuste de padding para mayor espacio */
+  border-radius: 10px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
+  max-width: 900px; /* Anchura aumentada para mayor espacio */
+  margin-bottom: 20px;
+} 
 
-  .Participante{   
-    margin: 0 auto;
-    padding: 20px;  
-    margin-bottom: 30px;
-  }
+.Participante {   
+  margin: 0 auto;
+  padding: 20px;  
+}
 
-  .Participante button {
-    margin-bottom: 30px; /* Ajusta este valor según sea necesario */
-  }
-  
+/* Estilos para el título */
+.Participante h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #6a1b9a;
+  margin-bottom: 20px;
+}
 
- 
- 
+/* Estilos para el botón */
+.Participante button {
+  width: calc(97% - 22px);
+  padding: 8px;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  background-image: linear-gradient(to left, #4A9862, #BC2985);
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Efecto hover en el botón */
+.Participante button:hover {
+  background-image: linear-gradient(to left, #BC2985, #4A9862);
+  transform: translateY(-2px);
+}
+
+/* Estilo del mensaje de permisos */
+.no-permission-text {
+  font-size: 20px;
+  text-align: center;
+  color: #6a1b9a;
+  margin-top: 15px;
+}

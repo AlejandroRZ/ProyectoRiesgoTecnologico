@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { FormGroup, Label, Input, Button } from 'reactstrap';
 import "./Login.css";
 import DancingCat from './DancingCat';
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
   const datosValidos = () => {
     let errors = {};
     let isValid = true;
@@ -16,14 +18,12 @@ function Login() {
       isValid = false;
       errors["email"] = "Por favor ingresa tu correo.";
     } else {
-      if (typeof email !== "undefined") {
-        let lastAtPos = email.lastIndexOf('@');
-        let lastDotPos = email.lastIndexOf('.');
+      let lastAtPos = email.lastIndexOf('@');
+      let lastDotPos = email.lastIndexOf('.');
 
-        if (!(lastAtPos < lastDotPos && lastAtPos > 0 && email.indexOf('@@') === -1 && lastDotPos > 2 && (email.length - lastDotPos) > 2)) {
-          isValid = false;
-          errors["email"] = "Correo inválido.";
-        }
+      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && email.indexOf('@@') === -1 && lastDotPos > 2 && (email.length - lastDotPos) > 2)) {
+        isValid = false;
+        errors["email"] = "Correo inválido.";
       }
     }
 
@@ -48,103 +48,92 @@ function Login() {
     try {
       const res = await fetch(`http://127.0.0.1:5000/login`, {
         method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
+        headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
       const data = await res.json();
 
       if (data.error === 'Ese correo no existe') {
-        // Muestra la alerta para el correo no existente
         alert('Correo no existente');
       } else if (data.error === 'Contraseña incorrecta') {
-        // Muestra la alerta para contraseña incorrecta
         alert('Contraseña incorrecta');
       } else if (data.error === 'Ninguno') {
-        // Almacenar la info de usuario en localStorage
-        
         localStorage.setItem('tipo_usuario', data.tipo_usuario);
         localStorage.setItem('nombre', data.nombre);
         localStorage.setItem('apellido', data.apellido);
         localStorage.setItem('email', data.email);
-        localStorage.setItem('noCuenta', data.noCuenta);        
-        if (data.tipo_usuario === 'participante') {          
-            navigate('/participante');
-        } else if (data.tipo_usuario === 'superadmin') {                  
-            navigate('/superadmin');
-        } else if (data.tipo_usuario === 'administrador') {
-            navigate('/administrador');
-        }
+        localStorage.setItem('noCuenta', data.noCuenta);
+
+        if (data.tipo_usuario === 'participante') navigate('/participante');
+        else if (data.tipo_usuario === 'superadmin') navigate('/superadmin');
+        else if (data.tipo_usuario === 'administrador') navigate('/administrador');
       }
     } catch (error) {
-      // Error en la solicitud fetch
       console.error(error);
       alert('Error en el servidor, intenta más tarde');
     }
   };
 
-  const handleRegistrar = () => {
-    navigate('/registrar');
-  };
-
-  const handleVolver = () => {
-    navigate(-1); // Volver a la vista anterior
-  };
+  const handleRegistrar = () => navigate('/registrar');
+  const handleVolver = () => navigate(-1);
 
   if (localStorage.getItem('tipo_usuario')) {
     return (
-      <div>
+      <div className="right-container">
         <DancingCat />
         <p style={{ fontSize: '24px', textAlign: 'center', fontFamily: 'Georgia, serif' }}>
           No puedes iniciar sesión de nuevo, ya estás en sesión activa
         </p>
         <FormGroup className="text-center">
-      <Button style={{ width: '200px' }} color="primary" onClick={handleVolver}>
-        Volver
-      </Button>
-    </FormGroup>
+          <Button style={{ width: '200px' }} color="primary" onClick={handleVolver}>
+            Volver
+          </Button>
+        </FormGroup>
       </div>
-    );    
+    );
   }
 
   return (
     <div className="Login">
-      <h1>Bienvenido</h1>
-      <form>
-        <FormGroup>
-          <Label for="email">Dirección de email:</Label>
-          <Input
-            type="email"
-            id="username"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {errors.email && <div className="alert alert-danger">{errors.email}</div>}
-        </FormGroup>
+      <div className="left-container">
+      </div>
+      <div className="right-container">
+        <h1>Bienvenido</h1>
+        <form>
+          <FormGroup>
+            <Label for="email">Dirección de email:</Label>
+            <Input
+              type="email"
+              id="username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {errors.email && <div className="alert alert-danger">{errors.email}</div>}
+          </FormGroup>
 
-        <FormGroup>
-          <Label for="password">Contraseña:</Label>
-          <Input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {errors.password && <div className="alert alert-danger">{errors.password}</div>}
-        </FormGroup>
+          <FormGroup>
+            <Label for="password">Contraseña:</Label>
+            <Input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {errors.password && <div className="alert alert-danger">{errors.password}</div>}
+          </FormGroup>
 
-        <nav>
-          <ul>
-            <li>
-              <Button color="primary" onClick={handleLogin}>Iniciar sesión</Button>
-            </li>
-            <li>
-              <Button color="primary" onClick={handleRegistrar}>Registrar nuevo usuario</Button>
-            </li>
-          </ul>
-        </nav>
-      </form>
+          <nav>
+            <ul>
+              <li>
+                <button onClick={handleLogin}>Iniciar sesión</button>
+              </li>
+              <li>
+                <button onClick={handleRegistrar}>Registrar nuevo usuario</button>
+              </li>
+            </ul>
+          </nav>
+        </form>
+      </div>
     </div>
   );
 }

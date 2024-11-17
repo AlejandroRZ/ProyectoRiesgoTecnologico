@@ -1,20 +1,136 @@
+/* Estilos base del contenedor */
 .registro {
-  width: 300px;
-  margin: 0 auto;
-  padding: 20px; 
-  background: rgba(255, 255, 255, 0.0);
-  margin-bottom: 20px;
+  width: 350px;
+  margin: 40px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9); /* Fondo con opacidad */
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
 }
 
-input[type="submit"] {
-  background-color: #007bff;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: url('/facCiencias.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* Estilo del encabezado */
+.registro h1 {
+  font-size: 28px;
+  color: #4A9862;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Estilo general de los inputs */
+.registro input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box; /* Asegura que padding no se añada al ancho */
+}
+
+/* Estilo de los labels */
+.registro label {
+  font-size: 16px;
+  color: #4A9862;
+  margin-bottom: 6px;
+  display: block; /* Para que el label esté por encima del input */
+}
+
+/* Estilos para los botones */
+button[type="submit"],
+button[type="button"] {
+  background-image: linear-gradient(to left, #4A9862, #BC2985);
   color: #fff;
   font-weight: bold;
+  font-size: 16px;
+  padding: 12px;
+  margin-top: 20px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  margin: 0 auto; 
-  width: 70%;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3); /* Sombra de texto */
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-input[type="submit"]:hover {
-  background-color: #0056b3;
+/* Efecto hover para los botones */
+button[type="submit"]:hover,
+button[type="button"]:hover {
+  background-image: linear-gradient(to left, #971F6B, #4A9862); 
+  transform: translateY(-2px); /* Ligero efecto de desplazamiento */
 }
+
+/* Ajustes para mensajes de error */
+.alert-danger {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 15px; /* Separación entre los errores y los inputs */
+}
+
+/* Estilos para el modal */
+.modal-content {
+  background-color: #fff;
+  color: #333;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.modal .close {
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+}
+
+/* Asegura que los campos de formulario estén alineados de manera adecuada */
+.registro form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Para que los elementos se alineen bien en el contenedor */
+}
+
+.registro form > .form-group {
+  margin-bottom: 15px;
+}
+
+/* Animación de aparición gradual */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Ligeramente hacia abajo */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Aplicar animación a los elementos del registro */
+.registro {
+  animation: fade-in 1s ease-out; /* Duración de 1s */
+}
+
+.registro input,
+.registro label,
+.registro button {
+  opacity: 0; /* Inicia invisible */
+  animation: fade-in 1s ease-out forwards; /* Aparece con efecto */
+}
+
+/* Retrasos para cada elemento del registro */
+.registro input:nth-child(1) { animation-delay: 0.2s; }
+.registro input:nth-child(2) { animation-delay: 0.4s; }
+.registro input:nth-child(3) { animation-delay: 0.6s; }
+.registro label:nth-child(n) { animation-delay: 0.2s; }
+.registro button[type="submit"] { animation-delay: 0.8s; }
+.registro button[type="button"] { animation-delay: 1s; }

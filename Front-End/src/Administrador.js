@@ -8,43 +8,48 @@ import DancingCat from './DancingCat';
 import UserMenu from './UserMenu';
 
 function Administrador() {
-    const navigate = useNavigate();
-    const handleLogout = () => {
-        localStorage.clear();
-        navigate('/');
-    };
-    
-    const handleVolver = () => {
-        navigate(-1); // Volver a la vista anterior
-    };
+  const navigate = useNavigate();
 
-    if (!localStorage.getItem('tipo_usuario')) {
-        return <Login />
-    }
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/');
+  };
 
-    if (localStorage.getItem('tipo_usuario') !== 'administrador') {
-        return (
-          <div>
-            <DancingCat />
-            <p style={{ fontSize: '24px', textAlign: 'center', fontFamily: 'Georgia, serif' }}>
-              No tienes permisos para ver esta página
-            </p>
-            <FormGroup className="text-center">
-          <Button style={{ width: '200px' }} color="primary" onClick={handleVolver}>
-            Volver
-          </Button>
-        </FormGroup>
-          </div>
-        );
-    }    
+  const handleVolver = () => {
+    navigate(-1); // Volver a la vista anterior
+  };
 
+  if (!localStorage.getItem('tipo_usuario')) {
+    return <Login />;
+  }
+
+  if (localStorage.getItem('tipo_usuario') !== 'administrador') {
     return (
-        <div className='Administrador'>
-            <h1>¡Hola, administrador!</h1>
-            <UserMenu handleLogout={handleLogout}/>
-            <CRUDStand/>
-        </div>
+      <div className="Administrador">
+        <DancingCat />
+        <p className="no-permisos">
+          No tienes permisos para ver esta página
+        </p>
+        <FormGroup className="text-center">
+          <button
+            className="volver-button"
+            onClick={handleVolver}>
+            Volver
+          </button>
+        </FormGroup>
+      </div>
     );
+  }
+
+  return (
+    <div className="Administrador">
+      <div className="container">
+        <h1>¡Hola, administrador!</h1>
+        <UserMenu handleLogout={handleLogout} />
+        <CRUDStand />
+      </div>
+    </div>
+  );
 }
 
 export default Administrador;

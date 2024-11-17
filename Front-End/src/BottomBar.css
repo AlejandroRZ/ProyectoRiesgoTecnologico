@@ -1,24 +1,59 @@
-/* BottomBar.css */
-
-.BottomBar {
-  background-color: #003366; /* Color azul oscuro */
+/* Estilo para la barra superior */
+.TopBar {
+  background-color: #6a1b9a;
   color: #fff;
-  padding: 10px;
+  padding: 8px 30px;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+/* Estilo para la barra inferior */
+.BottomBar {
+  background-color: #6a1b9a;
+  color: #fff;
+  padding: 8px 30px;
   text-align: center;
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
-  font-family: Georgia, serif; 
+  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
 }
 
+/* Contenido compartido */
 .Content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.Content span {
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 .Content img {
-  height: 35px;
-  margin-right: 40px;
+  height: 30px;
+  width: auto;
+  margin-left: 20px;
 }
 
+/* Responsivo */
+@media (max-width: 768px) {
+  .Content span {
+    font-size: 14px;
+  }
+
+  .Content img {
+    height: 25px;
+  }
+}

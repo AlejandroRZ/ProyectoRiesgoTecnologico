@@ -28,9 +28,9 @@ function Superadmin() {
                 No tienes permisos para ver esta página
               </p>
               <FormGroup className="text-center">
-            <Button style={{ width: '200px' }} color="primary" onClick={handleVolver}>
+            <button color="primary" onClick={handleVolver}>
               Volver
-            </Button>
+            </button>
           </FormGroup>
             </div>
         );

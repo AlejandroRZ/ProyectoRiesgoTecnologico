@@ -26,15 +26,13 @@ class CRUDAdmin extends React.Component {
       nombre: "",
       apellido: "",
       email: "",
-      psswd: ""
+      psswd: "",
     },
-    
     formActualizar: {
       noCuentaAdmin: "",
       nombre: "",
       apellido: "",
       email: "",
-      psswd: ""
     },
     busqueda: "",
     errorsInsertar: {},
@@ -92,98 +90,28 @@ class CRUDAdmin extends React.Component {
     this.setState({ modalEliminar: false });
   }
 
-  insertar = async () => {
-    if (!this.datosValidosInsertar()) {
-      return;
-    }
-  
-    const { noCuentaAdmin, nombre, apellido, email, psswd } = this.state.formInsertar;
-    const noCuentaSupAdm = localStorage.getItem('noCuenta');
-  
-    try {
-      const response = await fetch("http://127.0.0.1:5000/admin/insertadmin", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ noCuentaAdmin, nombre, apellido, email, psswd, noCuentaSupAdm }),
-      });
-  
-      const data = await response.json();
-  
-      if (response.ok && data.message === "Administrador insertado correctamente") {
-        // Registro exitoso
-        this.componentDidMount(); // Recargar datos
-        this.cerrarModalInsertar(); // Cerrar modal
-      } else {
-        // Manejar errores de la respuesta
-        const errorsInsertar = {};
-  
-        if (data.error === "Error, correo asociado a otra cuenta.") {
-          errorsInsertar["email"] = "El correo ya está asociado a otra cuenta.";
-        } else if (data.error === "Error, número de cuenta asociado a otro usuario.") {
-          errorsInsertar["noCuentaAdmin"] = "El número de cuenta ya está registrado.";
-        } else {
-          errorsInsertar["general"] = "Error desconocido. Por favor, inténtalo nuevamente.";
-        }
-  
-        // Actualizar estado con los errores
-        this.setState({ errorsInsertar });
-        return; // Detener ejecución
-      }
-    } catch (error) {
-      console.error("Error al insertar administrador:", error);
-      this.setState({
-        errorsInsertar: {
-          general: "Error de conexión. Por favor, inténtalo más tarde.",
-        },
-      });
-    }
-  };
-
-  editar = async () => {
+  editar = () => {
     if (!this.datosValidosEditar()) {
       return;
     }
-    const {noCuentaAdmin, nombre, apellido, email} = this.state.formActualizar; 
-    const psswd = this.state.formActualizar.psswd || "Contra";
-    try{    
-      const response = await fetch("http://127.0.0.1:5000/admin/updateadmin", {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({noCuentaAdmin, nombre, apellido, email, psswd}),
+    const { noCuentaAdmin, nombre, apellido, email } = this.state.formActualizar;
+    fetch("http://127.0.0.1:5000/admin/updateadmin", {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ noCuentaAdmin, nombre, apellido, email }),
+    })
+      .then(response => response.json())
+      .then((data) => {
+        this.componentDidMount();
+        this.cerrarModalActualizar();
+      })
+      .catch(error => {
+        console.error("Error al editar administrador:", error);
+        alert("Error al editar administrador. Por favor, inténtalo nuevamente más tarde.");
+        this.setState({ modalActualizar: false });
       });
-
-      const data = await response.json();
-  
-      if (response.ok && data.message === "Administrador editado correctamente") {
-        // Registro exitoso
-        this.componentDidMount(); // Recargar datos
-        this.cerrarModalActualizar(); // Cerrar modal
-      } else {
-        // Manejar errores de la respuesta
-        const errorsEditar = {};
-  
-        if (data.error === "Error, correo asociado a otra cuenta.") {
-          errorsEditar["email"] = "El correo ya está asociado a otra cuenta.";
-        } else {
-          errorsEditar["general"] = "Error desconocido. Por favor, inténtalo nuevamente.";
-        }
-          // Actualizar estado con los errores
-        this.setState({ errorsEditar });
-        return; // Detener ejecución
-      } 
-    }  
-    catch (error) {
-      console.error("Error al editar administrador:", error);
-      this.setState({
-        errorsEditar: {
-          general: "Error de conexión. Por favor, inténtalo más tarde.",
-        },
-      });
-    }
   };
 
   eliminar = (dato) => {
@@ -210,6 +138,31 @@ class CRUDAdmin extends React.Component {
   };
 
   
+  insertar = () => {
+    if (!this.datosValidosInsertar()) {
+      return;
+    }
+    const {noCuentaAdmin, nombre, apellido, email, psswd } = this.state.formInsertar;
+    var noCuentaSupAdm = localStorage.getItem('noCuenta');
+    fetch("http://127.0.0.1:5000/admin/insertadmin", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({noCuentaAdmin, nombre, apellido, email, psswd, noCuentaSupAdm }),
+    })
+      .then(response => response.json())
+      .then(() => {
+        this.componentDidMount();
+        this.cerrarModalInsertar();
+      })
+      .catch(error => {
+        console.error("Error al insertar administrador:", error);
+        alert("Error al insertar administrador. Por favor, inténtalo nuevamente más tarde.");
+        this.setState({ modalInsertar: false });
+      });
+  }
+
   handleChangeInsertar = (e) => {
     this.setState({
       formInsertar: {
@@ -255,26 +208,6 @@ class CRUDAdmin extends React.Component {
       errorsInsertar["noCuentaAdmin"] = "Número de cuenta no válido.";
     }
 
-    if(!this.state.formInsertar.nombre){
-      isValid = false;
-      errorsInsertar["nombre"] = "Por favor, ingresa un nombre.";
-    }else{
-      if (this.state.formInsertar.nombre.length < 3){
-        isValid = false;
-        errorsInsertar["nombre"] = "El nombre debe de tener al menos 3 carácteres.";
-      }
-    }
-    
-    if(!this.state.formInsertar.apellido){
-      isValid = false;
-      errorsInsertar["apellido"] = "Por favor, ingresa un apellido.";
-    }else{
-      if (this.state.formInsertar.apellido.length < 3){
-        isValid = false;
-        errorsInsertar["apellido"] = "El apellido debe de tener al menos 3 carácteres.";
-      }
-    } 
-
     if (!this.state.formInsertar.email) {
       isValid = false;
       errorsInsertar["email"] = "Por favor ingresa un correo.";
@@ -285,7 +218,7 @@ class CRUDAdmin extends React.Component {
 
         if (!(lastAtPos < lastDotPos && lastAtPos > 0 && this.state.formInsertar.email.indexOf('@@') === -1 && lastDotPos > 2 && (this.state.formInsertar.email.length - lastDotPos) > 2)) {
           isValid = false;
-          errorsInsertar["email"] = "Correo no válido.";
+          errorsInsertar["email"] = "Correo inválido.";
         }
       }
     }
@@ -306,27 +239,10 @@ class CRUDAdmin extends React.Component {
     let errorsEditar = {};
     let isValid = true;
 
-    if(!this.state.formActualizar.nombre){
+    if (!this.state.formActualizar.email) {
       isValid = false;
-      errorsEditar["nombre"] = "Por favor, ingresa un nombre.";
-    }else{
-      if (this.state.formActualizar.nombre.length < 3){
-        isValid = false;
-        errorsEditar["nombre"] = "El nombre debe de tener al menos 3 carácteres.";
-      }
-    }
-    
-    if(!this.state.formActualizar.apellido){
-      isValid = false;
-      errorsEditar["apellido"] = "Por favor, ingresa un apellido.";
-    }else{
-      if (this.state.formActualizar.apellido.length < 3){
-        isValid = false;
-        errorsEditar["apellido"] = "El apellido debe de tener al menos 3 carácteres.";
-      }
-    } 
-
-    if (this.state.formActualizar.email) {      
+      errorsEditar["email"] = "Por favor ingresa un correo.";
+    } else {
       if (typeof this.state.formActualizar.email !== "undefined") {
         let lastAtPos = this.state.formActualizar.email.lastIndexOf('@');
         let lastDotPos = this.state.formActualizar.email.lastIndexOf('.');
@@ -337,11 +253,6 @@ class CRUDAdmin extends React.Component {
         }
       }
     }
-
-    if (this.state.formActualizar.psswd && this.state.formActualizar.psswd.length < 8) {
-      isValid = false;
-      errorsEditar["password"] = "La nueva contraseña debe tener al menos 8 caracteres.";
-    } 
 
     this.setState({ errorsEditar });
     return isValid;
@@ -355,8 +266,8 @@ class CRUDAdmin extends React.Component {
           <br />
           <td>
           <div className="d-flex justify-content-between">
-            <Button style={{width: "200px", marginRight: "10px" }}  color="success" onClick={() => this.mostrarModalInsertar()}>Nuevo administrador</Button>
-            <Button style={{width: "200px", marginRight: "10px" }}  color="success" onClick={() => this.mostrarTodosStands()}>Ver stands registrados</Button>
+            <button onClick={() => this.mostrarModalInsertar()}>Nuevo administrador</button>
+            <button onClick={() => this.mostrarTodosStands()}>Ver stands registrados</button>
           </div>
           </td>
           <div className="barraBusqueda">
@@ -381,7 +292,6 @@ class CRUDAdmin extends React.Component {
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Email</th>
-                <th>Clave de cada stand registrado</th>
                 <th>Acción</th>
               </tr>
             </thead>
@@ -393,18 +303,17 @@ class CRUDAdmin extends React.Component {
                   <td>{dato.nombre}</td>
                   <td>{dato.apellido}</td>
                   <td>{dato.email}</td>
-                  <td>{dato.stands.join(", ")}</td>
                   <td>
-                    <Button
+                    <button
                       style={{ width: "150px", display: "block", marginBottom: "10px" }}
                       color="primary"
                       onClick={() => this.mostrarModalActualizar(dato)}
                     >Editar
-                    </Button>{" "}
-                    <Button style={{ width: "150px", display: "block", marginBottom: "10px", 
+                    </button>{" "}
+                    <button style={{ width: "150px", display: "block", marginBottom: "10px", 
                     backgroundColor: '#F05E16', borderColor: '#F05E16', transition: 'background-color 0.3s ease' }} 
                     onClick={() => this.mostrarModalEliminar(dato)}onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
-                    onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>Eliminar</Button>
+                    onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>Eliminar</button>
                   </td>
                 </tr>
               ))}
@@ -430,11 +339,7 @@ class CRUDAdmin extends React.Component {
                 type="text"
                 onChange={this.handleChangeActualizar}
                 value={this.state.formActualizar.nombre}
-              />{
-                this.state.errorsEditar.nombre && <div className="alert alert-danger">
-                  {this.state.errorsEditar.nombre}
-                </div>
-              }
+              />
             </FormGroup>
 
             <FormGroup>
@@ -448,11 +353,6 @@ class CRUDAdmin extends React.Component {
                 onChange={this.handleChangeActualizar}
                 value={this.state.formActualizar.apellido}
               />
-              {
-                this.state.errorsEditar.apellido && <div className="alert alert-danger">
-                  {this.state.errorsEditar.apellido}
-                </div>
-              }
             </FormGroup>
 
             <FormGroup>
@@ -464,7 +364,8 @@ class CRUDAdmin extends React.Component {
                 name="email"
                 type="email"
                 onChange={this.handleChangeActualizar}
-                value={this.state.formActualizar.email}                
+                value={this.state.formActualizar.email}
+                required
               />
               {
                 this.state.errorsEditar.email && <div className="alert alert-danger">
@@ -472,39 +373,21 @@ class CRUDAdmin extends React.Component {
                 </div>
               }
             </FormGroup>
-
-            <FormGroup>
-              <label>
-                Contraseña:
-              </label>
-              <input
-                className="form-control"
-                name="psswd"
-                type="password"
-                onChange={this.handleChangeActualizar}
-                value={this.state.formActualizar.psswd}                               
-              />
-              {
-                this.state.errorsEditar.password && <div className="alert alert-danger">
-                  {this.state.errorsEditar.password}
-                </div>
-              }
-            </FormGroup>
           </ModalBody>
 
           <ModalFooter>
-            <Button
+            <button
               style={{ width: "150px"}} color="primary"
               onClick={() => this.editar()}
             >
               Editar
-            </Button>
-            <Button
+            </button>
+            <button
               style={{ width: "150px"}} color="secondary"
               onClick={() => this.cerrarModalActualizar()}
             >
               Cancelar
-            </Button>
+            </button>
           </ModalFooter>
         </Modal>
 
@@ -545,11 +428,6 @@ class CRUDAdmin extends React.Component {
                 onChange={this.handleChangeInsertar}
                 required
               />
-              {
-                this.state.errorsInsertar.nombre && <div className="alert alert-danger">
-                  {this.state.errorsInsertar.nombre}
-                </div>
-              }
             </FormGroup>
 
             <FormGroup>
@@ -563,11 +441,6 @@ class CRUDAdmin extends React.Component {
                 onChange={this.handleChangeInsertar}
                 required
               />
-              {
-                this.state.errorsInsertar.apellido && <div className="alert alert-danger">
-                  {this.state.errorsInsertar.apellido}
-                </div>
-              }
             </FormGroup>
 
             <FormGroup>
@@ -608,18 +481,18 @@ class CRUDAdmin extends React.Component {
           </ModalBody>
 
           <ModalFooter>
-            <Button
+            <button
               style={{ width: "150px"}} color="primary" 
               onClick={() => this.insertar()}
             >
               Insertar
-            </Button>
-            <Button
+            </button>
+            <button
               style={{ width: "150px"}} color="secondary"
               onClick={() => this.cerrarModalInsertar()}
             >
               Cancelar
-            </Button>
+            </button>
           </ModalFooter>
         </Modal>
 
@@ -632,16 +505,16 @@ class CRUDAdmin extends React.Component {
           </ModalBody>
 
           <ModalFooter>
-            <Button style={{ width: "150px", display: "block", marginBottom: "10px", 
+            <button style={{ width: "150px", display: "block", marginBottom: "10px", 
                     backgroundColor: '#F05E16', borderColor: '#F05E16', transition: 'background-color 0.3s ease' }} 
                     onClick={() => this.eliminar({ noCuentaAdmin: this.state.administradorAEliminar })}  
                     onMouseOver={(e) => e.target.style.backgroundColor = '#B05625'}
                     onMouseOut={(e) => e.target.style.backgroundColor = '#F05E16'}>
               Confirmar
-            </Button>
-            <Button style={{ width: "150px"}} color="secondary"  onClick={() => this.setState({ modalEliminar: false, administradorAEliminar: null })}>
+            </button>
+            <button style={{ width: "150px"}} color="secondary"  onClick={() => this.setState({ modalEliminar: false, administradorAEliminar: null })}>
               Cancelar
-            </Button>
+            </button>
           </ModalFooter>
         </Modal>
       </>

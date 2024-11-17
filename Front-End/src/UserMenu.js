@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom"
 
 import { useState } from "react";
 import "./UserMenu.css";
+import React from 'react';
 
 function UserMenu({ handleLogout, buttonEdit = false }) {
     const [open, setOpen] = useState(false);

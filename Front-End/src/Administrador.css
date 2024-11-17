@@ -1,29 +1,94 @@
-/* Administrador.css */
+/* Estilo general del administrador */
+.Administrador .body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #4A9862, #1F312A); /* Fondo degradado */
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-.Administrador .body {       
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .Administrador .container {
-    text-align: center;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 5px;
-  }
-  
-  .Administrador {
-    margin: 0 auto;
-    padding: 20px;  
-    margin-bottom: 50px;
-  }
+/* Contenedor principal */
+.Administrador .container {
+  text-align: center;
+  background-color: rgba(246, 245, 239, 0.95); /* Fondo translúcido */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: fade-in 0.8s ease-out; /* Animación al cargar */
+}
 
-  .Administrador .button{
-    margin-bottom: 30px;
+/* Estilo general del administrador */
+.Administrador {
+  margin: 0 auto;
+  padding: 20px;
+  margin-bottom: 50px;
+}
+
+/* Botón con gradiente y efectos */
+.Administrador .button {
+  background-image: linear-gradient(to right, #4A9862, #BC2985);
+  color: #F6F5EF; /* Texto claro */
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  width: 70%; /* Ancho del botón */
+  margin: 20px auto; /* Centrado */
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.Administrador .button:hover {
+  background-image: linear-gradient(to right, #BC2985, #4A9862);
+  transform: translateY(-2px); /* Efecto de elevación */
+}
+
+/* Estilo del título */
+.Administrador h1 {
+  font-size: 32px;
+  color: #4A9862;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Mensaje para usuarios sin permisos */
+.Administrador .no-permisos {
+  font-size: 24px;
+  text-align: center;
+  font-family: 'Georgia', serif;
+  color: #BC2985;
+}
+
+/* Botón volver */
+.Administrador .volver-button {
+  background-color: #4A9862;
+  color: #F6F5EF;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  width: 200px;
+  margin: 20px auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.Administrador .volver-button:hover {
+  background-color: #92A195;
+}
+
+/* Animación de aparición */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
- 
- 
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
