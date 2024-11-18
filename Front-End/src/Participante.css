@@ -4,14 +4,16 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f2f2f2; 
+  background: linear-gradient(135deg, #6a1b9a, #bc47b0, #f2a9c8);
+  background-size: 300% 300%; /* Movimiento del degradado */
+  animation: gradientBG 8s ease infinite; /* Animación suave */
   font-family: 'Georgia', serif;
-}  
+}
 
 /* Contenedor principal del contenido */
 .Participante .container {
   text-align: center;
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo semitransparente */
   padding: 25px 50px; /* Ajuste de padding para mayor espacio */
   border-radius: 10px; 
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
@@ -28,7 +30,7 @@
 .Participante h1 {
   font-size: 28px;
   font-weight: bold;
-  color: #6a1b9a;
+  color: #ffffff; /* Color del texto blanco para mejor contraste */
   margin-bottom: 20px;
 }
 
@@ -57,6 +59,13 @@
 .no-permission-text {
   font-size: 20px;
   text-align: center;
-  color: #6a1b9a;
+  color: #ffffff; /* Color blanco para mejor visibilidad */
   margin-top: 15px;
+}
+
+/* Animación para el fondo */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

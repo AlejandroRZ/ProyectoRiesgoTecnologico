@@ -1,6 +1,6 @@
 /* Estilo para la barra superior */
 .TopBar {
-  background-color: #6a1b9a;
+  background-color: #4a1e72;
   color: #fff;
   padding: 8px 30px;
   text-align: center;
@@ -14,7 +14,7 @@
 
 /* Estilo para la barra inferior */
 .BottomBar {
-  background-color: #6a1b9a;
+  background-color: #4A9862; /* Gris oscuro */
   color: #fff;
   padding: 8px 30px;
   text-align: center;

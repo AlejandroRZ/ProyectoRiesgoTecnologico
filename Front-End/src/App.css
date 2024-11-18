@@ -32,21 +32,36 @@ input {
 }
 
 button {
-  background-color: #4A9862;
+  width: calc(97% - 22px);
+  padding: 8px;
+  margin-top: 15px;
+  background-image: linear-gradient(to left, #4A9862, #BC2985);
   color: #fff;
-  font-weight: bold;
-  cursor: pointer;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
   border: none;
   border-radius: 5px;
-  padding: 10px 20px; 
-  width: 70%; 
-  margin: 0 auto; 
-  margin-top: 20px;    
-  transition: background-color 0.3s ease;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  font-weight: bold;
 }
 
+/* Botones: Efecto hover */
 button:hover {
-  background-color: #BC2985;
+  background-image: linear-gradient(to left, #BC2985, #4A9862);
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Botones: Animación de entrada */
+button {
+  animation: fade-in 1.5s ease-out;
+}
+
+/* Animación de opacidad para entrada suave */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 nav {
@@ -59,4 +74,28 @@ ul {
 }
 li {
   margin-bottom: 10px;
+}
+
+/* Fondo animado para todas las páginas excepto Login y Register */
+.animated-background {
+  background: linear-gradient(135deg, #6a1b9a, #bc47b0, #f2a9c8);
+  background-size: 300% 300%;
+  animation: gradientBG 8s ease infinite;
+  min-height: 100vh; /* Cubre toda la altura de la pantalla */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Animación del gradiente */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Fondo neutro para Login y Register */
+.auth-page {
+  background-color: #F6F5EF;
 }

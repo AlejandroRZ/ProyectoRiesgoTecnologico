@@ -15,10 +15,11 @@ function App() {
   const location = useLocation();
 
   // Detectar si la ruta actual es login o registro
+  const isAuthRoute = location.pathname === '/' || location.pathname === '/registrar';
   const isTopBar = location.pathname === '/' || location.pathname === '/registrar';
 
   return (
-    <div className="App">
+    <div className={isAuthRoute ? "App auth-page" : "App animated-background"}>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="*" element={<>NOT FOUND</>} />
@@ -36,3 +37,4 @@ function App() {
 }
 
 export default App;
+
