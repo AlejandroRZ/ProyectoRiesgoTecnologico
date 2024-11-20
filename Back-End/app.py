@@ -72,7 +72,8 @@ def register():
         nombre = request.json['nombre']
         apellido = request.json['apellido']
         correo = request.json['correo']
-        psswd = request.json['password']         
+        psswd = request.json['password']
+        noStand = request.json['noStand']         
         try:
             adminList = get_admin_by_email(correo)
             superAdminList = get_superadmin_by_email(correo)
@@ -86,7 +87,7 @@ def register():
             if adminList or superAdminList or participantesList:
                 return jsonify({'error': 'Error, número de cuenta asociado a otro usuario.'})
             
-            participante = Participante(noCuenta, nombre, apellido, correo, psswd)            
+            participante = Participante(noCuenta, nombre, apellido, correo, psswd, noStand)            
             db.session.add(participante)
             db.session.commit()
             participantesList = get_participante_by_email(correo)
