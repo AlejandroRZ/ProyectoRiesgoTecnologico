@@ -183,12 +183,20 @@ class CRUDAdmin extends React.Component {
 
   handleChangeBuscar = async (e) => {
     e.persist();
-    await this.setState({ busqueda: e.target.value });
-    this.filtrarElementos();
-  }
+    const value = e.target.value;
+
+    await this.setState({ busqueda: value });
+
+    if (value === "") {
+        this.setState({ data: this.state.dataFiltrada });
+    } else {
+        this.filtrarElementos();
+    }
+};
+
 
   filtrarElementos = () => {
-    var search = this.state.dataFiltrada.filter(item => {
+    const search = this.state.dataFiltrada.filter(item => {
       return (
         item.noCuentaAdmin.toString().includes(this.state.busqueda) ||
         item.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
@@ -197,7 +205,7 @@ class CRUDAdmin extends React.Component {
       );
     });
     this.setState({ data: search });
-  }
+  };
 
   datosValidosInsertar = () => {
     let errorsInsertar = {};

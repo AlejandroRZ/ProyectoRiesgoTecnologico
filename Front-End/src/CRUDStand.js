@@ -366,27 +366,41 @@ class CRUDStand extends React.Component {
     });
   };
 
-  handleChangeBuscar = async (e) => {
-    e.persist();
-    await this.setState({ busqueda: e.target.value });
-    this.filtrarElementos();
-  };
+  handleChangeBuscar = (e) => {
+    const value = e.target.value;
 
-  filtrarElementos = () => {
-    const search = this.state.dataFiltrada.filter((elemento) => {
+    clearTimeout(this.debounceTimer); // Cancelar el debounce anterior
+    this.setState({ busqueda: value });
+
+    this.debounceTimer = setTimeout(() => {
+        this.filtrarElementos();
+    }, 300); 
+};
+
+
+filtrarElementos = () => {
+  const term = this.state.busqueda.toLowerCase().trim();
+
+  const search = this.state.dataFiltrada.filter((elemento) => {
+      const noCuentaAdmin = elemento.noCuentaAdmin 
+          ? elemento.noCuentaAdmin.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") 
+          : "";
+
       const estadoTexto = elemento.estado ? "reservado" : "libre";
+
       return (
-        elemento.noStand.toString().includes(this.state.busqueda) ||        
-        elemento.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
-        elemento.ubicacion.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
-        elemento.noCuentaAdmin.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
-        elemento.fechahora.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(this.state.busqueda.toLowerCase()) ||
-        estadoTexto.toLowerCase().includes(this.state.busqueda.toLowerCase())
+          elemento.noStand.toString().includes(term) ||
+          elemento.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(term) ||
+          elemento.ubicacion.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(term) ||
+          noCuentaAdmin.includes(term) ||
+          estadoTexto.includes(term)
       );
-    });
-  
-    this.setState({ data: search });
-  };
+  });
+
+  this.setState({ data: search });
+};
+
+
 
   render() {
     return (

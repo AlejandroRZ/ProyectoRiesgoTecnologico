@@ -20,8 +20,7 @@ def edit_profile():
         nombre = datos_json["nombre"]
         apellido = datos_json["apellido"]
         email = datos_json["correo"]        
-        contrasena = datos_json["contrasena"]
-        noStand = datos_json["noStand"]         
+        contrasena = datos_json["contrasena"]       
        
         try:
             # Obtén el participante que deseas editar según el ID proporcionado
@@ -47,11 +46,7 @@ def edit_profile():
                     participanteEdit.correo = email                              
                 if contrasena:
                     participanteEdit.psswd = sha256(cipher(contrasena)).hexdigest()
-                if noStand:
-                    if get_stand_by_id(noStand):
-                        participanteEdit.noStand = noStand
-                    else:
-                       return jsonify({'message': 'No existe tal stand'})                     
+                                    
                             
 
                 db.session.commit()

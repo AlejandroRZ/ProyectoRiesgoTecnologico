@@ -1,5 +1,5 @@
 import React from 'react';
-import './DancingCat.css'; // Asegúrate de importar tu archivo CSS correctamente
+import './DancingCat.css'; 
 
 const DancingCat = () => {
   return (

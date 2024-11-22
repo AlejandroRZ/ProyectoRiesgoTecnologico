@@ -1,19 +1,27 @@
+/* Asegúrate de que el fondo del gato sea transparente y que no interfiera */
 .DancingCat {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  position: fixed; /* Mantiene al gato fijo en la pantalla */
+  top: 20%; /* Ajusta para que el gato no esté tan arriba y se vea toda la cara */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1; /* Asegura que la animación esté debajo de los otros elementos */
+  background-color: transparent; /* Elimina cualquier fondo blanco */
 }
 .DancingCat .body {
   background-color: #f5b638;
 }
 .DancingCat .container {
-  height: 25em;
+  height: 25em; /* Mantiene el tamaño adecuado */
   width: 31.25em;
   position: absolute;
   transform: translate(-50%, -50%);
-  top: 50%;
+  top: 50%; /* Centrado verticalmente */
   left: 50%;
   perspective: 50em;
+  background-color: transparent; /* Elimina el fondo blanco */
 }
 .DancingCat .face {
   background-color: #4d4dc4;

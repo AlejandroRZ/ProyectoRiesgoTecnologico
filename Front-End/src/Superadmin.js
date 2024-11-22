@@ -22,16 +22,16 @@ function Superadmin() {
 
     if (localStorage.getItem('tipo_usuario') !== 'superadmin') {
         return (
-            <div>
-              <DancingCat />
-              <p style={{ fontSize: '24px', textAlign: 'center', fontFamily: 'Georgia, serif' }}>
-                No tienes permisos para ver esta página
-              </p>
-              <FormGroup className="text-center">
-            <button color="primary" onClick={handleVolver}>
-              Volver
-            </button>
-          </FormGroup>
+            <div className="error-container">
+                <DancingCat />
+                <p style={{ fontSize: '24px', textAlign: 'center', fontFamily: 'Georgia, serif' }}>
+                    No tienes permisos para ver esta página
+                </p>
+                <FormGroup className="text-center">
+                    <Button color="primary" onClick={handleVolver}>
+                        Volver
+                    </Button>
+                </FormGroup>
             </div>
         );
     }
@@ -39,12 +39,10 @@ function Superadmin() {
     return (
         <div className='SuperAdmin'>
             <h1>¡Hola, superadministrador!</h1>
-            <UserMenu handleLogout={handleLogout}/>
+            <UserMenu handleLogout={handleLogout} />
             <CRUDAdmin />
         </div>
     );
-
-    
 }
 
 export default Superadmin;

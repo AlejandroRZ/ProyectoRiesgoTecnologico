@@ -26,6 +26,7 @@ function Administrador() {
   if (localStorage.getItem('tipo_usuario') !== 'administrador') {
     return (
       <div className="Administrador">
+        {/* El gato está fuera del contenedor */}
         <DancingCat />
         <p className="no-permisos">
           No tienes permisos para ver esta página

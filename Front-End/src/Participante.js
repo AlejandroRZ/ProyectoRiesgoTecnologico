@@ -14,6 +14,8 @@ function Participante() {
         navigate('/');
     };
 
+    
+
     const handleVolver = () => {
         navigate(-1); // Volver a la vista anterior
     };
@@ -47,5 +49,7 @@ function Participante() {
       </div>
     );
 }
+
+
 
 export default Participante;

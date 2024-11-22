@@ -20,28 +20,31 @@ function UserMenu({ handleLogout, buttonEdit = false }) {
         navigate("/verPerfil");
     }
 
-    return <div className="container">
-
-        <button className="buttonUserMenu" onClick={handleOpen}> {
-            !open ? 
-            <span>&equiv;</span> :
-            <span>&times;</span>
-        } </button>
-
-        {!open ? null : 
-        <>
-
-        {buttonEdit ?
-        <>
-        <button style={{ width: '200px' }} onClick={handleVer}> Ver Perfil </button> 
-        <button style={{ width: '200px' }} onClick={handleEdit}> Editar Perfil </button>
-        </>:
-        null
-        }
-        <button style={{ width: '200px' }} onClick={handleLogout}> Cerrar Sesión </button>
-        </>
-        }
-    </div>
+    return (
+        <div className="container">
+            <button className="buttonUserMenu" onClick={handleOpen}>
+                {!open ? <span>&equiv;</span> : <span>&times;</span>}
+            </button>
+    
+            {!open ? null : (
+                <div className="user-menu-container">
+                    {buttonEdit && (
+                        <>
+                            <button className="user-menu-button" onClick={handleVer}>
+                                Ver Perfil
+                            </button>
+                            <button className="user-menu-button" onClick={handleEdit}>
+                                Editar Perfil
+                            </button>
+                        </>
+                    )}
+                    <button className="user-menu-button" onClick={handleLogout}>
+                        Cerrar Sesión
+                    </button>
+                </div>
+            )}
+        </div>
+    );
+    
 }
-
 export default UserMenu;

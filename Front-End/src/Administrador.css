@@ -1,4 +1,4 @@
-/* Estilo general del administrador */
+/* Mantener el fondo de la página en el Administrador */
 .Administrador .body {
   display: flex;
   justify-content: center;
@@ -8,16 +8,46 @@
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
+  position: relative;
+  z-index: 1; /* Asegura que el gato no tape el contenido */
 }
 
 /* Contenedor principal */
 .Administrador .container {
   text-align: center;
-  background-color: rgba(246, 245, 239, 0.95); /* Fondo translúcido */
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  animation: fade-in 0.8s ease-out; /* Animación al cargar */
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo semitransparente */
+  padding: 25px 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  max-width: 900px;
+  margin-bottom: 20px;
+  position: relative; /* Para mantener el contenido dentro de .container */
+  z-index: 2; /* Asegura que el contenido esté por encima del gato */
+}
+
+/* Ajuste de la animación del gato */
+.DancingCat {
+  padding: 0;
+  margin: 0;  /* Eliminar margen */
+  box-sizing: border-box;
+  position: fixed; /* Lo mantiene fijo en la pantalla */
+  top: 20%; /* Ajusta para que el gato no esté tan arriba y se vea toda la cara */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5; /* Mantiene la animación encima del fondo pero debajo del contenido */
+  background-color: transparent; /* Elimina el fondo blanco */
+}
+
+.DancingCat .container {
+  height: 25em;
+  width: 31.25em;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%; /* Centrado verticalmente */
+  left: 50%;
+  perspective: 50em;
+  background-color: transparent; /* Asegura que no tenga fondo */
+  box-shadow: none; /* Elimina cualquier sombra alrededor del gato */
 }
 
 /* Estilo general del administrador */
@@ -58,10 +88,10 @@
 
 /* Mensaje para usuarios sin permisos */
 .Administrador .no-permisos {
-  font-size: 24px;
+  font-size: 20px;
   text-align: center;
-  font-family: 'Georgia', serif;
-  color: #BC2985;
+  color: #ffffff; /* Color blanco para mejor visibilidad */
+  margin-top: 15px;
 }
 
 /* Botón volver */
@@ -91,4 +121,17 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Ajustar el texto */
+.error-container p {
+  font-size: 24px;
+  font-family: 'Georgia', serif;
+  margin-top: 20px; /* Ajustar el margen superior para mover el texto más arriba */
+  color: #333; /* Color más oscuro para mejor visibilidad */
+}
+
+/* Ajustar el botón */
+.error-container .text-center {
+  margin-top: 30px; /* Mueve el botón más arriba */
 }
