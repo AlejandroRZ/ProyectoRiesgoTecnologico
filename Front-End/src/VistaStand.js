@@ -45,13 +45,13 @@ class VistaStand extends React.Component {
   }
 
   render() {
-    return (
-      <>
-      <h1>  
+    return (     
+      
+      <>    
+        <h1>  
         <img src={iconoJuego1} alt="Icono de juegos" style={{ height: '100px', marginRight: '20px' }} />
         Stands
-        <img src={iconoJuego2} alt="Icono de juegos" style={{ height: '100px', marginLeft: '10px' }} /></h1>
-
+        <img src={iconoJuego2} alt="Icono de juegos" style={{ height: '100px', marginLeft: '10px' }} /></h1>  
         <Container className="VistaStand">
           <br />
           <div className="barraBusqueda" style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
@@ -97,7 +97,7 @@ class VistaStand extends React.Component {
             </tbody>
           </Table>
         </Container>
-      </>
+      </>     
     );
   }
 

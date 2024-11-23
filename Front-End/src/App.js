@@ -9,6 +9,7 @@ import Superadmin from './Superadmin';
 import VistaStand from './VistaStand';
 import EditProfile from './EditProfile';
 import VerPerfil from './VerPerfil';
+import CRUDParticipantes from './CRUDParticipantes';
 import './App.css';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="vistaStand" element={<VistaStand />} />
         <Route path="editarPerfil" element={<EditProfile />} />
         <Route path="verPerfil" element={<VerPerfil />} />
+        <Route path="CRUDParticipantes" element={<CRUDParticipantes />} />
       </Routes>
       <BottomBar isTopBar={isTopBar} />
     </div>

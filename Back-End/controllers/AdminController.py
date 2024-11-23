@@ -2,9 +2,9 @@ from flask import Blueprint, request, jsonify
 from alchemyClasses.Administrador import Administrador
 from alchemyClasses import db
 from model.model_administrador import get_all_admins, get_admin_by_id, get_admin_by_email
-from model.model_participante import get_participante_by_email, get_participante_by_id
+from model.model_participante import get_participante_by_email, get_participante_by_id, get_all_participantes
 from model.model_superadmin import get_superadmin_by_email, get_superadmin_by_id
-from model.model_stand import get_stand_by_responsible
+from model.model_stand import get_stand_by_responsible, get_stand_by_id
 from hashlib import sha256
 from CryptoUtils.CryptoUtils import cipher
 admin = Blueprint('admin', __name__, url_prefix='/admin')
@@ -113,6 +113,71 @@ def delete_admin():
             db.session.rollback()
             return jsonify({"error": str(e)}), 500
 
+@admin.route("/readparticipante", methods=["GET"])
+def read_participante():
+    participantes = get_all_participantes()
+    participantes_list = []
+    for participante in participantes:        
+        participante_data = {
+            "noCuenta": participante.noCuenta,
+            "nombre": participante.nombre,
+            "apellido": participante.apellido,
+            "email": participante.correo,
+            "noStand": participante.noStand
+        }
+        participantes_list.append(participante_data)
+    return jsonify(participantes_list)
+
+@admin.route("/asignarStand", methods=["PUT"])
+def asign_stand():
+    if request.method == 'PUT':
+        datos_json = request.get_json()        
+        noCuenta = datos_json["noCuenta"]        
+        noStand = datos_json["noStand"]         
+       
+        try:
+            # Obtén el participante que deseas editar según el ID proporcionado
+            participantes = get_participante_by_id(noCuenta)
+            participanteAsign = participantes[0]  
+
+            if participanteAsign:
+                if noStand:
+                    if get_stand_by_id(noStand):
+                        participanteAsign.noStand = noStand
+                    else:
+                       return jsonify({'error': 'No existe tal stand'})   
+                db.session.commit()
+                return jsonify({'message': 'Stand asignado exitosamente'})
+            else:
+                return jsonify({'error': 'Participante no encontrado'}), 404
+        except Exception as e:
+            db.session.rollback()  # Revertir cambios en caso de error
+            print(f"Error: {str(e)}")
+            return jsonify({'error': 'Error al asignar stand'}), 500
+
+    return jsonify({'message': 'Método no permitido'}), 405
+
     
+@admin.route("/eliminarParticipante", methods=["DELETE"])
+def eliminar_participante():
+    if request.method == 'DELETE':
+        datos_json = request.get_json()
+        noCuenta = datos_json.get("noCuenta")         
+        try:            
+            participantes = get_participante_by_id(noCuenta)            
+            participanteElim = participantes[0]
+            if participanteElim:               
+                db.session.delete(participanteElim)
+                db.session.commit()
+                return jsonify({'message': 'Participante eliminado exitosamente'})             
+            else:
+                return jsonify({'error': 'Participante no encontrado'}), 404
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error: {str(e)}")
+            return jsonify({'error': 'Error al eliminar al participante'}), 500
+
+    return jsonify({'message': 'Método no permitido'}), 405
+       
     
     

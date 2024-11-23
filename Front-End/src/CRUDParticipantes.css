@@ -1,0 +1,44 @@
+.CRUDParticipantes {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.CRUDParticipantes .CRUDParticipantes-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.CRUDParticipantes .CRUDParticipantes-link {
+  color: #61dafb;
+}
+
+
+.CRUDParticipantes .textField {
+  height: 32px;
+  width: 200px;
+  border: 1px solid #e5e5e5;
+  padding: 0 32px 0 16px;
+}
+
+.CRUDParticipantes .textField:hover {
+  cursor: pointer;
+}
+
+.CRUDParticipantes .btnBuscar {
+  height: 34px;
+  width: 32px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.CRUDParticipantes .barraBusqueda {
+  float: right;
+  padding: 20px;
+}

@@ -18,7 +18,7 @@ body {
 
 .CRUDStand {
   width: 100%; /* Ancho completo */
-  height: 100vh; /* Altura completa de la pantalla */
+  /* Altura completa de la pantalla */
   padding: 20px;
   display: flex;
   flex-direction: column;

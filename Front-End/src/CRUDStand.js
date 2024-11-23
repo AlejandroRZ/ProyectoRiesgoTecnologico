@@ -52,6 +52,11 @@ class CRUDStand extends React.Component {
     window.location.href = "http://localhost:3000/vistaStand";    
   };
 
+  CRUDParticipantes = () => {
+    // Realiza la redirección a la nueva página
+    window.location.href = "http://localhost:3000/CRUDParticipantes";    
+  };
+
   mostrarModalActualizar = (dato) => {
     const fechaFormateada = new Date(dato.fechahora);
     const { noStand, nombre, ubicacion, fechahora, estado, noCuentaAdmin } = dato;
@@ -291,8 +296,7 @@ class CRUDStand extends React.Component {
     const now = new Date();
     const tenMinutesLater = new Date(now.getTime() + 10 * 60 * 1000);
     const previousDate = this.state.formActualizar.fechahora;
-    if(selectedDate !== previousDate){
-      console.log("Holiwis");
+    if(selectedDate !== previousDate){      
       if (!selectedDate) {
         isValid = false;
         errorsActualizar["fechahora"] = "Por favor, selecciona una fecha y hora.";
@@ -414,6 +418,9 @@ filtrarElementos = () => {
             </Button>
             <Button style={{width: "200px", marginRight: "10px" }} color="success" onClick={() => this.mostrarTodosStands()}>
               Ver stands existentes
+            </Button>
+            <Button style={{width: "200px", marginRight: "10px" }} color="success" onClick={() => this.CRUDParticipantes()}>
+              Administrar participantes
             </Button>
           </FormGroup>
           </td> 
