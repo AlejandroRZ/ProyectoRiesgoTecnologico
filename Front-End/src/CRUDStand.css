@@ -16,6 +16,18 @@ body {
   animation: fade-in 1s ease-out; /* Animación de aparición */
 }
 
+.CRUDStand {
+  width: 100%; /* Ancho completo */
+  height: 100vh; /* Altura completa de la pantalla */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centrar contenido verticalmente */
+  align-items: center; /* Centrar contenido horizontalmente */
+  background-color: rgba(246, 245, 239, 0.9);
+}
+
+
 /* Estilo del encabezado */
 .registro h1 {
   font-size: 28px;
@@ -106,3 +118,16 @@ button[type="button"]:hover {
 .registro label:nth-child(n) { animation-delay: 0.2s; }
 .registro button[type="submit"] { animation-delay: 0.8s; }
 .registro button[type="button"] { animation-delay: 1s; }
+
+.react-datepicker__navigation {
+  width: 24px !important; /* Reduce el tamaño del botón */
+  height: 24px !important; /* Reduce la altura del botón */
+  top: 10px !important; /* Ajusta la posición */
+  background-color: transparent; /* Opcional, para fondo limpio */
+  border: none; /* Sin bordes adicionales */
+  outline: none; /* Elimina resaltados al enfocar */
+}
+
+.react-datepicker__navigation:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Agrega un efecto hover suave */
+}
