@@ -1,69 +1,134 @@
+/* Estilos base del contenedor */
 .EditProfile {
   max-width: 400px;
   margin: auto;
-
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .FormGroup {
-    width: 100%;
-    margin-bottom: 5px;
-
-    label {
-      font-size: 14px;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 10px; /* Ajusta el padding según tus necesidades */
-      box-sizing: border-box;
-      margin-top: 5px;
-      font-size: 16px;
-    }
-  }
-
-  .d-flex {
-    &.flex-column {
-      &.align-items-center {
-        margin-bottom: 15px;
-
-        label {
-          font-size: 14px;
-          margin-bottom: 5px;
-        }
-
-        button {
-          font-size: 16px;
-          padding: 10px 20px; /* Ajusta el padding según tus necesidades */
-        }
-      }
-    }
-  }
-
-  .modal-dialog {
-    max-width: 300px;
-  }
-
-  .modal-content {
-    text-align: center;
-  }
-
-  .modal-body {
-    padding: 15px;
-  }
-
-  .modal-footer {
-    justify-content: center;
-  }
-
-  .btn {
-    font-size: 16px;
-    padding: 10px 20px; /* Ajusta el padding según tus necesidades */
-  }
-  
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9); /* Fondo con opacidad */
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
 }
+
+.EditProfile form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilo del encabezado */
+.EditProfile h1 {
+  font-size: 28px;
+  color: #4A9862;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Estilo general de los inputs */
+.EditProfile .FormGroup input,
+.EditProfile .FormGroup select,
+.EditProfile .FormGroup textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box; /* Asegura que padding no se añada al ancho */
+  font-size: 16px;
+}
+
+/* Estilo de los labels */
+.EditProfile .FormGroup label {
+  font-size: 16px;
+  color: #4A9862;
+  margin-bottom: 6px;
+  display: block; /* Para que el label esté por encima del input */
+}
+
+/* Estilos para los botones */
+.EditProfile .btn {
+  background-image: linear-gradient(to left, #4A9862, #BC2985);
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 12px;
+  margin-top: 20px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3); /* Sombra de texto */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Efecto hover para los botones */
+.EditProfile .btn:hover {
+  background-image: linear-gradient(to left, #971F6B, #4A9862); 
+  transform: translateY(-2px); /* Ligero efecto de desplazamiento */
+}
+
+/* Ajustes para mensajes de error */
+.EditProfile .alert-danger {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 15px; /* Separación entre los errores y los inputs */
+}
+
+/* Estilos para el modal */
+.EditProfile .modal-dialog {
+  max-width: 300px;
+}
+
+.EditProfile .modal-content {
+  background-color: #fff;
+  color: #333;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.EditProfile .modal-body {
+  padding: 15px;
+}
+
+.EditProfile .modal-footer {
+  justify-content: center;
+}
+
+.EditProfile .modal .close {
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+}
+
+/* Animación de aparición gradual */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Ligeramente hacia abajo */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Aplicar animación a los elementos del registro */
+.EditProfile {
+  animation: fade-in 1s ease-out; /* Duración de 1s */
+}
+
+.EditProfile input,
+.EditProfile label,
+.EditProfile .btn {
+  opacity: 0; /* Inicia invisible */
+  animation: fade-in 1s ease-out forwards; /* Aparece con efecto */
+}
+
+/* Retrasos para cada elemento del registro */
+.EditProfile input:nth-child(1) { animation-delay: 0.2s; }
+.EditProfile input:nth-child(2) { animation-delay: 0.4s; }
+.EditProfile input:nth-child(3) { animation-delay: 0.6s; }
+.EditProfile label:nth-child(n) { animation-delay: 0.2s; }
+.EditProfile .btn { animation-delay: 0.8s; }

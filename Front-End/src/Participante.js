@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, FormGroup } from 'reactstrap';
 import './Participante.css';
 import { useNavigate } from 'react-router-dom';
-import VistaStand from './VistaStand';
+import VistaStandEnParticipante from './VistaStandEnParticipante';
 import Login from './Login';
 import DancingCat from './DancingCat';
 import UserMenu from './UserMenu';
@@ -45,7 +45,7 @@ function Participante() {
        <h1>¡Hola, participante!</h1>
        <UserMenu handleLogout={handleLogout} buttonEdit={true}/>
         Estos son los stands disponibles:
-        <VistaStand/>
+        <VistaStandEnParticipante/>
       </div>
     );
 }

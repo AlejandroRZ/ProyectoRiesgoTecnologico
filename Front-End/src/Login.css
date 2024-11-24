@@ -110,3 +110,46 @@
   color: #DA2534;
   cursor: pointer;
 }
+
+/* Contenedor principal de error */
+.error-container {
+  position: relative;
+  z-index: 2; /* Asegura que el contenido no se solape con la animación */
+  text-align: center;
+  padding-top: 20px; /* Ajusta la distancia superior para mover el texto más cerca de la parte superior */
+}
+
+/* Ajustar el texto */
+.error-container p {
+  font-size: 24px;
+  font-family: 'Georgia, serif';
+  margin-top: 20px; /* Ajustar el margen superior para mover el texto más arriba */
+  color: #333; /* Color más oscuro para mejor visibilidad */
+}
+
+/* Ajustar el botón */
+.error-container .text-center {
+  margin-top: 30px; /* Mueve el botón más arriba */
+}
+
+/* Ajustar la animación del gato */
+.DancingCat {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  position: fixed;  /* Mantiene al gato fijo en la pantalla */
+  top: 20%;  /* Ajusta para que el gato no esté tan arriba y se vea toda la cara */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1; /* Asegura que la animación esté debajo de los otros elementos */
+}
+
+.DancingCat .container {
+  height: 25em; /* Mantiene el tamaño adecuado */
+  width: 31.25em;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%; /* Centrado verticalmente */
+  left: 50%;
+  perspective: 50em;
+}

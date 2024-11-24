@@ -79,10 +79,10 @@ function Login() {
 
   if (localStorage.getItem('tipo_usuario')) {
     return (
-      <div className="right-container">
+      <div>
         <DancingCat />
         <p style={{ fontSize: '24px', textAlign: 'center', fontFamily: 'Georgia, serif' }}>
-          No puedes iniciar sesión de nuevo, ya estás en sesión activa
+          Ya tienes una sesión iniciada
         </p>
         <FormGroup className="text-center">
           <Button style={{ width: '200px' }} color="primary" onClick={handleVolver}>
@@ -96,6 +96,7 @@ function Login() {
   return (
     <div className="Login">
       <div className="left-container">
+        {/* Puedes agregar contenido aquí si es necesario */}
       </div>
       <div className="right-container">
         <h1>Bienvenido</h1>

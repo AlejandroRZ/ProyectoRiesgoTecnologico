@@ -1,10 +1,72 @@
+/* Estilos base del contenedor */
 .containerVerPerfil {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.buttonVerPerfil {
-    width: 30%;
-}
+    max-width: 600px; /* Aumenta el ancho máximo */
+    margin: 40px auto; /* Centrado con más espacio vertical */
+    padding: 30px; /* Más espacio interno */
+    background: rgba(255, 255, 255, 0.95); /* Fondo blanco con mayor opacidad */
+    border-radius: 10px; /* Bordes ligeramente más redondeados */
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+    font-family: 'Arial', sans-serif;
+    animation: fade-in 1s ease-out; /* Animación de aparición */
+    text-align: center; /* Centraliza todo el texto y elementos */
+  }
+  
+  /* Estilo del encabezado */
+  .containerVerPerfil h1 {
+    font-size: 32px; /* Encabezado más grande */
+    color: #4A9862; /* Verde atractivo */
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  /* Subtítulos y texto */
+  .containerVerPerfil p,
+  .containerVerPerfil h3 {
+    color: #333; /* Texto oscuro para contraste */
+    font-size: 20px; /* Texto más grande */
+    margin-bottom: 15px;
+  }
+  
+  /* Estilo de la imagen */
+  .containerVerPerfil img {
+    width: 100%; /* Imagen más grande */
+    max-width: 400px; /* Limitar ancho máximo */
+    margin: 20px 0;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+  }
+  
+  /* Estilos para el botón */
+  .buttonVerPerfil {
+    background-image: linear-gradient(to left, #4A9862, #BC2985);
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px; /* Botón más grande */
+    padding: 15px; /* Más espacio interno */
+    margin-top: 25px;
+    width: 50%; /* Botón más ancho */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3); /* Sombra del texto */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Efecto hover en el botón */
+  .buttonVerPerfil:hover {
+    background-image: linear-gradient(to left, #971F6B, #4A9862);
+    transform: translateY(-2px); /* Efecto de desplazamiento */
+  }
+  
+  /* Animación de fade-in */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

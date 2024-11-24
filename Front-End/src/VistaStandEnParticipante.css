@@ -1,4 +1,4 @@
-.VistaStand .body {
+.VistaStandEnParticipante .body {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,7 +6,7 @@
   background-color: #f8f9fa;
 }
 
-.VistaStand .container {
+.VistaStandEnParticipante .container {
   text-align: center;
   background-color: #ffffff;
   padding: 30px;
@@ -14,13 +14,13 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-.VistaStand {
+.VistaStandEnParticipante {
   margin: 0 auto;
   padding: 20px;
   margin-bottom: 50px;
 }
 
-.VistaStand .button {
+.VistaStandEnParticipante .button {
   margin-bottom: 30px;
   font-size: 16px;
   padding: 10px 20px;
@@ -32,6 +32,6 @@
   transition: background-color 0.3s ease;
 }
 
-.VistaStand .button:hover {
+.VistaStandEnParticipante .button:hover {
   background-color: #0056b3;
 }
