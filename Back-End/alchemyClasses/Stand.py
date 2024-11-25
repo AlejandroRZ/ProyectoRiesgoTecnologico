@@ -1,7 +1,10 @@
 from alchemyClasses import db
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
 
-
+"""
+Clase que representa a la tabla 'stand' en la base de datos.
+Cada instancia de esta clase corresponde a un registro de un stand.
+"""
 class Stand(db.Model):
     
     __tablename__ = 'stand'
@@ -12,6 +15,18 @@ class Stand(db.Model):
     noCuentaAdmin = Column(Integer, ForeignKey('administrador.noCuentaAdmin'))
     estado = Column(Boolean)
 
+    """
+    Constructor de la clase Stand.
+    
+    Inicializa una instancia con los datos proporcionados.
+    
+    Parámetros:
+    - nombre: Nombre descriptivo del stand.
+    - ubicacion: Ubicación física del stand.
+    - fechaHora: Fecha y hora relacionadas con el stand.
+    - estado: Estado del stand (activo/inactivo).
+    - noCuentaAdmin: Número de cuenta del administrador responsable del stand (clave foránea).
+    """
     def __init__(self,nombre,ubicacion,fechaHora, estado, noCuentaAdmin):
         self.nombre = nombre
         self.ubicacion = ubicacion

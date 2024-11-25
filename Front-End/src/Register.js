@@ -86,7 +86,6 @@ function Register() {
       noStand: null
     };
 
-    console.log('Datos de registro:', datosRegistro);
     // Luego, puedes realizar una solicitud al servidor para manejar el registro.
     try {
       // Realizar una solicitud al servidor para manejar el registro.
@@ -98,8 +97,7 @@ function Register() {
         body: JSON.stringify(datosRegistro),
       });
   
-      const data = await res.json();
-      console.log(data);
+      const data = await res.json();      
       // Verificar si el registro fue exitoso
       if (data.message === 'Registro exitoso') {        
         localStorage.setItem('noCuenta', noCuenta); 

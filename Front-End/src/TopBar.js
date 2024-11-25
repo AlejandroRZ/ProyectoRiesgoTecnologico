@@ -1,6 +1,8 @@
 import React from 'react';
 import './TopBar.css';
 
+// Componente TopBar.
+// Representa una barra superior que muestra contenido estático, como imágenes o iconos.
 function TopBar() {
   return (
     <div className="TopBar">

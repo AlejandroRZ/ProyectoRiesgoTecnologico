@@ -1,3 +1,6 @@
+/* Estilos generales para el contenedor principal de la vista. 
+   Define una altura que ocupa toda la ventana y centra el contenido 
+   vertical y horizontalmente. */
 .VistaStandEnParticipante .body {
   display: flex;
   justify-content: center;
@@ -6,6 +9,8 @@
   background-color: #f8f9fa;
 }
 
+/* Contenedor interno con estilo centrado, bordes redondeados 
+   y sombra para darle un efecto elevado. */
 .VistaStandEnParticipante .container {
   text-align: center;
   background-color: #ffffff;
@@ -14,12 +19,16 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Estilos generales para el componente. 
+   Alineación y espaciado en el diseño principal. */
 .VistaStandEnParticipante {
   margin: 0 auto;
   padding: 20px;
   margin-bottom: 50px;
 }
 
+/* Estilo para los botones de acción. 
+   Diseñados para ser claros, interactivos y accesibles. */
 .VistaStandEnParticipante .button {
   margin-bottom: 30px;
   font-size: 16px;
@@ -32,6 +41,8 @@
   transition: background-color 0.3s ease;
 }
 
+/* Cambio de color del botón al pasar el cursor por encima. 
+   Indica que el botón es interactivo. */
 .VistaStandEnParticipante .button:hover {
   background-color: #0056b3;
 }

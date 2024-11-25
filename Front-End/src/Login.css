@@ -1,10 +1,11 @@
 
+/* Animación para un efecto de aparición */
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-
+/* Estilo principal para la pantalla de inicio de sesión */
 .Login {
   display: flex;
   justify-content: center;
@@ -18,13 +19,14 @@
 }
 
 
-
+/* Contenedor izquierdo en la pantalla de inicio de sesión */
 .Login .left-container {
   width: 50%;
   padding: 20px;
   animation: fade-in 1.5s ease-out;
 }
 
+/* Contenedor derecho, que incluye el formulario */
 .Login .right-container {
   width: 30%;
   padding: 20px;
@@ -33,22 +35,26 @@
   animation: fade-in 1.5s ease-out;
 }
 
-
+/* Configuración del formulario */
 .Login form {
   max-width: 350px; 
   margin: 0 auto;
 }
 
+/* Separación entre grupos de campos en el formulario */
 .Login .form-group {
   margin-bottom: 15px;
 }
 
+
+/* Estilo para las etiquetas de los campos */
 .Login label {
   display: block; 
   margin-bottom: 5px;
   font-weight: bold; 
 }
 
+/* Estilo para los campos de entrada */
 .Login input[type="email"],
 .Login input[type="password"] {
   width: 100%; 
@@ -62,12 +68,14 @@
   outline: none;
 }
 
+/* Efecto de enfoque en los campos de entrada */
 .Login input[type="email"]:focus,
 .Login input[type="password"]:focus {
   border-color: #4C8D86;
   border-width: 2px;
 }
 
+/* Estilo para el botón de inicio de sesión */
 .Login button {
   width: calc(97% - 22px);
   padding: 8px;
@@ -80,11 +88,13 @@
   cursor: pointer;
 }
 
+/* Efecto al pasar el cursor sobre el botón */
 .Login button:hover {
   background-image: linear-gradient(to left, #BC2985, #4A9862);
   transform: translateY(-2px);
 }
 
+/* Estilo para el encabezado principal */
 .Login h1 {
   font-size: 190%;
   background-image: linear-gradient(to left, #4A9862, #BC2985);
@@ -93,6 +103,7 @@
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
+/* Enlace para registrar una cuenta */
 .Login .register-link {
   color: #666;
   text-align: center;
@@ -100,12 +111,14 @@
   font-size: 100%;
 }
 
+/* Estilo específico para el enlace de registro */
 .Login .register-link a {
   color: #E35D6F;
   text-decoration: none;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
+/* Efecto al pasar el cursor sobre el enlace de registro */
 .Login .register-link a:hover {
   color: #DA2534;
   cursor: pointer;
@@ -144,6 +157,7 @@
   z-index: 1; /* Asegura que la animación esté debajo de los otros elementos */
 }
 
+/*Contenedor para la animación de errores*/
 .DancingCat .container {
   height: 25em; /* Mantiene el tamaño adecuado */
   width: 31.25em;

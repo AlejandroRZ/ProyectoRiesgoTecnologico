@@ -1,8 +1,10 @@
+/* Estilo principal para el contenedor CRUDParticipantes */
 .CRUDParticipantes {
   text-align: center;
   margin-bottom: 20px;
 }
 
+/* Estilo principal para el contenedor CRUDParticipantes */
 .CRUDParticipantes .CRUDParticipantes-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -14,11 +16,12 @@
   color: white;
 }
 
+/* Estilo para los enlaces dentro de CRUDParticipantes */
 .CRUDParticipantes .CRUDParticipantes-link {
   color: #61dafb;
 }
 
-
+/* Estilo para los campos de texto (input) */
 .CRUDParticipantes .textField {
   height: 32px;
   width: 200px;
@@ -26,10 +29,12 @@
   padding: 0 32px 0 16px;
 }
 
+/* Estilo cuando se pasa el mouse sobre el campo de texto */
 .CRUDParticipantes .textField:hover {
   cursor: pointer;
 }
 
+/* Estilo para el botón de búsqueda */
 .CRUDParticipantes .btnBuscar {
   height: 34px;
   width: 32px;
@@ -38,6 +43,7 @@
   justify-content: center;
 }
 
+/* Estilo para la barra de búsqueda, que se coloca en la parte derecha */
 .CRUDParticipantes .barraBusqueda {
   float: right;
   padding: 20px;

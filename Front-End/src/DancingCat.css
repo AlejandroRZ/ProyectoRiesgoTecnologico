@@ -1,4 +1,4 @@
-/* Asegúrate de que el fondo del gato sea transparente y que no interfiera */
+
 .DancingCat {
   padding: 0;
   margin: 0;
@@ -10,9 +10,12 @@
   z-index: 1; /* Asegura que la animación esté debajo de los otros elementos */
   background-color: transparent; /* Elimina cualquier fondo blanco */
 }
+/* Estilo general del cuerpo */
 .DancingCat .body {
   background-color: #f5b638;
 }
+
+/* Contenedor principal que centra el gato en la pantalla y añade perspectiva */
 .DancingCat .container {
   height: 25em; /* Mantiene el tamaño adecuado */
   width: 31.25em;
@@ -23,6 +26,8 @@
   perspective: 50em;
   background-color: transparent; /* Elimina el fondo blanco */
 }
+
+/* Estilo de la cara del gato */
 .DancingCat .face {
   background-color: #4d4dc4;
   height: 7.5em;
@@ -33,6 +38,8 @@
   top: 3.12em;
   border-radius: 0 0 3.12em 3.12em;
 }
+
+/* Detalles de la cara: cejas o detalles adicionales */
 .DancingCat .face:before,
 .DancingCat .face:after {
   position: absolute;
@@ -44,12 +51,16 @@
   border-radius: 1.25em 1.25em 0 0;
   top: 1.87em;
 }
+
+/* Posición de los detalles en cada lado de la cara */
 .DancingCat .face:before {
   left: 3.12em;
 }
 .DancingCat .face:after {
   right: 3.12em;
 }
+
+/* Estilo de las orejas */
 .DancingCat .ear-l,
 .DancingCat .ear-r {
   position: absolute;
@@ -58,16 +69,22 @@
   width: 0.93em;
   bottom: 6.87em;
 }
+
+/* Configuración específica para la oreja izquierda */
 .DancingCat .ear-l {
   border-radius: 0 3.75em 3.75em 0;
   left: 0.62em;
   box-shadow: 0 0 0 0.62em #4d4dc4, 4.18em 0.3em 0 -0.06em #4d4dc4;
 }
+
+/* Configuración específica para la oreja derecha */
 .DancingCat .ear-r {
   border-radius: 3.75em 0 0 3.75em;
   right: 0.62em;
   box-shadow: 0 0 0 0.62em #4d4dc4, -4.18em 0.3em 0 -0.06em #4d4dc4;
 }
+
+/* Configuración específica para animación de la oreja izquierda */
 .DancingCat .ear-l:before {
   position: absolute;
   content: "";
@@ -89,6 +106,8 @@
   top: 8.74em;
   left: 3.43em;
 }
+
+/* Configuración específica para animación de la oreja derecha*/
 .DancingCat .ear-r:before {
   position: absolute;
   content: "";
@@ -110,6 +129,8 @@
   left: -4.37em;
   border-radius: 50%;
 }
+
+/* Configuración para la mano izquierda y su animación */
 .DancingCat .hand-l {
   position: absolute;
   height: 6.25em;
@@ -124,11 +145,15 @@
   transform-origin: 104% 0;
   transform-style: preserve-3d;
 }
+
+/* Animación de la mano izquierda */
 @keyframes move-hand-l {
   50% {
     transform: rotateX(180deg);
   }
 }
+
+/* Otros detalles de la mano izquierda */
 .DancingCat .hand-l:before {
   position: absolute;
   content: "";
@@ -139,6 +164,8 @@
   left: -0.62em;
   border-radius: 0.62em;
 }
+
+/* Configuración para la mano derecha y su animación */
 .DancingCat .hand-r {
   position: absolute;
   height: 6.25em;
@@ -153,11 +180,15 @@
   transform-origin: 0 100%;
   transform-style: preserve-3d;
 }
+
+/* Animación de la mano derecha */
 @keyframes move-hand-r {
   50% {
     transform: rotateX(-180deg);
   }
 }
+
+/* Detalles adicionales de la mano derecha */
 .DancingCat .hand-r:before {
   position: absolute;
   content: "";
@@ -167,6 +198,8 @@
   left: 4.68em;
   border-radius: 0 0 0.62em 0.62em;
 }
+
+/* Detalles adicionales de la mano derecha */
 .DancingCat .hand-r:after {
   position: absolute;
   content: "";
@@ -178,6 +211,8 @@
   border-radius: 1.25em;
   box-shadow: 1.25em 0 #4d4dc4;
 }
+
+/* Configuración para la pierna izquierda y derecha */
 .DancingCat .leg-l,
 .DancingCat .leg-r {
   height: 4.37em;
@@ -187,9 +222,13 @@
   top: 20em;
   z-index: -1;
 }
+
+/* Configuración para la pierna izquierda */
 .DancingCat .leg-l {
   left: 12.5em;
 }
+
+/* Configuración para la pierna derecha */
 .DancingCat .leg-r {
   right: 12.5em;
   animation: stamp 2s infinite;
@@ -199,6 +238,8 @@
     transform: translateY(-1.25em);
   }
 }
+
+/* Configuración para la animación de las piernas izquierda y derecha */
 .DancingCat .leg-l:before,
 .DancingCat .leg-r:before {
   position: absolute;
@@ -210,6 +251,8 @@
   left: -0.31em;
   border-radius: 0.93em 0.93em 0 0;
 }
+
+/* Configuración para la nota músical*/
 .DancingCat .music-note {
   position: absolute;
   height: 0.62em;
@@ -220,12 +263,16 @@
   left: 15.62em;
   animation: whistle 2s infinite;
 }
+
+/*Animación de la nota músical*/
 @keyframes whistle {
   100% {
     transform: translate(6.25em, -6.25em);
     opacity: 0;
   }
 }
+
+/* Configuración adicional para la nota músical */
 .DancingCat .music-note:before {
   position: absolute;
   content: "";

@@ -80,6 +80,7 @@
   max-width: 300px;
 }
 
+/* Estilos para el contenido del modal */
 .EditProfile .modal-content {
   background-color: #fff;
   color: #333;
@@ -88,6 +89,7 @@
   text-align: center;
 }
 
+/*Detalles para los modales */
 .EditProfile .modal-body {
   padding: 15px;
 }

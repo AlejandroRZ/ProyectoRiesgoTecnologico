@@ -7,23 +7,31 @@ import Login from './Login';
 import DancingCat from './DancingCat';
 import UserMenu from './UserMenu';
 
+// Componente principal para la vista del participante.
+// Verifica los permisos del usuario y proporciona opciones específicas para los participantes.
 function Participante() {
     const navigate = useNavigate();
+
+    // Función para cerrar sesión.
+    // Limpia el almacenamiento local y redirige al usuario a la página de inicio.
     const handleLogout = () => {
         localStorage.clear();
         navigate('/');
-    };
+    };   
 
-    
-
+    // Volver a la vista anterior
     const handleVolver = () => {
-        navigate(-1); // Volver a la vista anterior
+        navigate(-1); 
     };
 
+    // Verifica si el usuario no tiene una sesión activa.
+    // Si no hay una sesión, redirige al componente de inicio de sesión.
     if (!localStorage.getItem('tipo_usuario')) {
         return <Login />
     }
 
+    // Verifica si el usuario no tiene permisos para la vista de participante.
+    // Si el tipo de usuario no es "participante", muestra un mensaje de acceso denegado.
     if (localStorage.getItem('tipo_usuario') !== 'participante') {
         return (
           <div>
@@ -40,6 +48,7 @@ function Participante() {
         );
     }
 
+    //Render del componente principal
     return (
       <div className="Participante">
        <h1>¡Hola, participante!</h1>
@@ -49,7 +58,5 @@ function Participante() {
       </div>
     );
 }
-
-
 
 export default Participante;

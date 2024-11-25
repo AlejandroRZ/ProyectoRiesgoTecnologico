@@ -1,6 +1,7 @@
 import React from 'react';
-import './BottomBar.css'; // Asegúrate de que los estilos están bien importados
+import './BottomBar.css'; 
 
+// Definición del componente funcional `BottomBar`, que recibe `isTopBar` como prop.
 function BottomBar({ isTopBar }) {
   return (
     <div className={isTopBar ? 'TopBar' : 'BottomBar'}>

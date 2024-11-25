@@ -21,6 +21,7 @@
   margin-bottom: 20px;
 } 
 
+/*Estilos generales*/
 .Participante {   
   margin: 0 auto;
   padding: 20px;  
@@ -104,6 +105,7 @@
   z-index: 1; /* Asegura que la animación esté debajo de los otros elementos */
 }
 
+/*Contenedor para la animación de error*/
 .DancingCat .container {
   height: 25em; /* Mantiene el tamaño adecuado */
   width: 31.25em;
@@ -114,6 +116,7 @@
   perspective: 50em;
 }
 
+/*Estilos para actualización del participante.*/
 .ParticipanteOld {
   display: flex;
   justify-content: center;
@@ -123,6 +126,7 @@
   font-family: 'Arial', sans-serif; /* Estilo de fuente original */
 }
 
+/*Estilos para el conetendor de actualización del participante.*/
 .ParticipanteOld .container {
   text-align: center;
   background-color: #ffffff;

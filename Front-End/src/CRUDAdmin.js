@@ -39,6 +39,7 @@ class CRUDAdmin extends React.Component {
     errorsEditar: {},
   };
 
+  // Obtiene la lista de administradores del servidor al montar el componente.
   componentDidMount() {
     fetch("http://127.0.0.1:5000/admin/readadmin")
       .then((response) => response.json())
@@ -50,12 +51,12 @@ class CRUDAdmin extends React.Component {
       });
   }
 
-  mostrarTodosStands = () => {
-    // Realiza la redirección a la nueva página
+  // Realiza la redirección a la nueva página
+  mostrarTodosStands = () => {    
     window.location.href = "http://localhost:3000/vistaStand";
   };
 
-
+  // Abre el modal para actualizar un administrador con los datos prellenados.
   mostrarModalActualizar = (dato) => {
     this.setState({
       formActualizar: dato,
@@ -63,22 +64,27 @@ class CRUDAdmin extends React.Component {
     });
   };
 
+  // Cierra el modal de actualización y limpia los errores.
   cerrarModalActualizar = () => {
     this.setState({ errorsEditar: {} });
     this.setState({ modalActualizar: false });
   };
 
+
+  // Abre el modal para insertar un nuevo administrador.
   mostrarModalInsertar = () => {
     this.setState({
       modalInsertar: true,
     });
   };
 
+  // Cierra el modal de inserción y limpia los errores.
   cerrarModalInsertar = () => {
     this.setState({ errorsInsertar: {} });
     this.setState({ modalInsertar: false });
   };
 
+  // Abre el modal para confirmar la eliminación de un administrador.
   mostrarModalEliminar = (dato) => {
     this.setState({
       modalEliminar: true,
@@ -86,10 +92,12 @@ class CRUDAdmin extends React.Component {
     });
   }
 
+  // Cierra el modal de eliminación.
   cerrarModalEliminar = () => {
     this.setState({ modalEliminar: false });
   }
 
+  // Actualiza la información de un administrador después de validar los datos.
   editar = () => {
     if (!this.datosValidosEditar()) {
       return;
@@ -114,6 +122,7 @@ class CRUDAdmin extends React.Component {
       });
   };
 
+  // Elimina un administrador después de confirmar la acción.
   eliminar = (dato) => {
     fetch("http://127.0.0.1:5000/admin/deleteadmin", {
       method: 'DELETE',
@@ -137,7 +146,7 @@ class CRUDAdmin extends React.Component {
       });
   };
 
-  
+  // Inserta un nuevo administrador después de validar los datos.
   insertar = () => {
     if (!this.datosValidosInsertar()) {
       return;
@@ -163,6 +172,7 @@ class CRUDAdmin extends React.Component {
       });
   }
 
+  // Maneja los cambios en los campos de texto para el formulario de inserción.
   handleChangeInsertar = (e) => {
     this.setState({
       formInsertar: {
@@ -172,6 +182,7 @@ class CRUDAdmin extends React.Component {
     });
   };
 
+  // Maneja los cambios en los campos de texto para el formulario de actualización.
   handleChangeActualizar = (e) => {
     this.setState({
       formActualizar: {
@@ -181,6 +192,7 @@ class CRUDAdmin extends React.Component {
     });
   };
 
+  // Maneja los cambios cuando se ingresan valores en el cuadro de búsqueda
   handleChangeBuscar = async (e) => {
     e.persist();
     const value = e.target.value;
@@ -192,9 +204,9 @@ class CRUDAdmin extends React.Component {
     } else {
         this.filtrarElementos();
     }
-};
+  };
 
-
+  // Realiza el filtrado de administradores según los campos relevantes.
   filtrarElementos = () => {
     const search = this.state.dataFiltrada.filter(item => {
       return (
@@ -207,6 +219,7 @@ class CRUDAdmin extends React.Component {
     this.setState({ data: search });
   };
 
+  // Valida los datos del formulario de inserción.
   datosValidosInsertar = () => {
     let errorsInsertar = {};
     let isValid = true;
@@ -243,6 +256,7 @@ class CRUDAdmin extends React.Component {
     return isValid;
   }
 
+  // Valida los datos del formulario de actualización.
   datosValidosEditar = () => {
     let errorsEditar = {};
     let isValid = true;
@@ -266,7 +280,7 @@ class CRUDAdmin extends React.Component {
     return isValid;
   }
 
-
+  // Renderización del componente definido
   render() {
     return (
       <>

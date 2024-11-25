@@ -4,12 +4,16 @@ import { FormGroup, Label, Input, Button } from 'reactstrap';
 import "./Login.css";
 import DancingCat from './DancingCat';
 
+// Componente principal para el formulario de inicio de sesión.
+// Permite a los usuarios autenticarse, redirigir a diferentes rutas según su rol y gestionar errores de validación.
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
+  // Función que valida los datos ingresados en el formulario.
+  // Comprueba si el correo tiene un formato válido y si la contraseña cumple los requisitos mínimos.
   const datosValidos = () => {
     let errors = {};
     let isValid = true;
@@ -39,6 +43,8 @@ function Login() {
     return isValid;
   }
 
+  // Función asincrónica para manejar el inicio de sesión.
+  // Realiza una solicitud al servidor para autenticar al usuario y redirige según el tipo de usuario.
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!datosValidos()) {
@@ -74,9 +80,11 @@ function Login() {
     }
   };
 
+   // Funciiones para redirigir al usuario a las páginas adecuadas.
   const handleRegistrar = () => navigate('/registrar');
   const handleVolver = () => navigate(-1);
 
+  //Render del componente principal.
   if (localStorage.getItem('tipo_usuario')) {
     return (
       <div>

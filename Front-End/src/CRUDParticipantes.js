@@ -27,6 +27,7 @@ class CRUDParticipantes extends React.Component {
     errorsAsignarStand: {},
   };
 
+  // Obtiene la lista de participantes del servidor al montar el componente
   componentDidMount() {
     fetch("http://127.0.0.1:5000/admin/readparticipante")
       .then((response) => response.json())
@@ -38,12 +39,12 @@ class CRUDParticipantes extends React.Component {
       });
   }
 
-  CRUDStands = () => {
-    // Realiza la redirección a la nueva página
+  // Realiza la redirección a la vista de stands
+  CRUDStands = () => {    
     window.location.href = "http://localhost:3000/administrador";
   };
 
-
+  // Función para mostrar el modal de asignación de stand con los datos pasados como argumento  
   mostrarModalAsignar = (dato) => {
     this.setState({
       formAsignar: dato,
@@ -51,11 +52,13 @@ class CRUDParticipantes extends React.Component {
     });
   };
 
+  // Función para cerrar el modal de asignación y limpiar los errores
   cerrarModalAsignar = () => {
     this.setState({ errorsAsignarStand: {} });
     this.setState({ modalAsignar: false });
   };
 
+  // Función para mostrar el modal de eliminación con los datos del participante a eliminar
   mostrarModalEliminar = (dato) => {
     this.setState({
       modalEliminar: true,
@@ -63,10 +66,12 @@ class CRUDParticipantes extends React.Component {
     });
   }
 
+  // Función para cerrar el modal de eliminación
   cerrarModalEliminar = () => {
     this.setState({ modalEliminar: false });
   }
 
+  // Función para asignar un stand a un participante
   asignarStand = async () => {
     if (!this.datosValidosasignarStand()) {
       return;
@@ -105,6 +110,7 @@ class CRUDParticipantes extends React.Component {
     }
   };
 
+  // Función para eliminar un participante
   eliminar = (dato) => {
     fetch("http://127.0.0.1:5000/admin/eliminarParticipante", {
       method: 'DELETE',
@@ -128,7 +134,7 @@ class CRUDParticipantes extends React.Component {
       });
   };
 
-
+  // Función para manejar el cambio en el formulario de asignación de stand
   handleChangeAsignar = (e) => {
     this.setState({
       formAsignar: {
@@ -138,12 +144,14 @@ class CRUDParticipantes extends React.Component {
     });
   };
 
+  // Función para manejar el cambio en el campo de búsqueda
   handleChangeBuscar = async (e) => {
     e.persist();
     await this.setState({ busqueda: e.target.value });
     this.filtrarElementos();
   }
 
+  // Función para filtrar los elementos según la búsqueda
   filtrarElementos = () => {
     var search = this.state.dataFiltrada.filter(item => {
       return (
@@ -156,7 +164,7 @@ class CRUDParticipantes extends React.Component {
     this.setState({ data: search });
   }
 
-  
+  // Función para validar los datos de asignación de stand
   datosValidosasignarStand = () => {
     let errorsAsignarStand = {};
     let isValid = true;
@@ -175,8 +183,32 @@ class CRUDParticipantes extends React.Component {
     return isValid;
   }
 
-
+  // Renderización del componente definido
   render() {
+    if (!localStorage.getItem('tipo_usuario')) {
+      return <Login />;
+    }
+  
+    // Si el tipo de usuario no es "administrador", muestra un mensaje de error y un botón para volver.
+    if (localStorage.getItem('tipo_usuario') !== 'administrador') {
+      return (
+        <div className="Administrador">
+          {/* El gato está fuera del contenedor */}
+          <DancingCat />
+          <p className="no-permisos">
+            No tienes permisos para ver esta página
+          </p>
+          <FormGroup className="text-center">
+            <button
+              className="volver-button"
+              onClick={handleVolver}>
+              Volver
+            </button>
+          </FormGroup>
+        </div>
+      );
+    }
+    
     return (
       <div className="Administrador">
       <div className="container">

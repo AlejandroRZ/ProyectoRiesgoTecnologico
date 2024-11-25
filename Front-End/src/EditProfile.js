@@ -115,8 +115,7 @@ function EditProfile() {
     if (!datosValidos()) {
       return;
     }
-    console.log('Datos actualizados:', formData);
-    
+        
     try {
       const res = await fetch(`http://127.0.0.1:5000/participante/editarPerfil`, {
         method: 'PUT',
@@ -127,7 +126,7 @@ function EditProfile() {
       });
 
       const data = await res.json();
-      console.log('Respuesta del servidor:', data);
+      
       if (data.message === 'Perfil actualizado exitosamente') {       
          // Verificar que los campos no estén vacíos
         if (formData.nombre) {
@@ -195,8 +194,7 @@ function EditProfile() {
       });
   
       const data = await res.json();
-      console.log('Respuesta del servidor:', data);
-  
+        
       // Validar la respuesta del servidor
       if (data.message === 'Perfil eliminado exitosamente') {
         // Cerrar sesión y redirigir a la página de inicio

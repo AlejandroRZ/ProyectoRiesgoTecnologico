@@ -4,22 +4,28 @@ import { useState } from "react";
 import "./UserMenu.css";
 import React from 'react';
 
+// Componente UserMenu.
+// Representa un menú de usuario desplegable que incluye opciones como editar perfil, ver perfil y cerrar sesión.
 function UserMenu({ handleLogout, buttonEdit = false }) {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-
+    
+    // Maneja la apertura y cierre del menú al hacer clic en el botón del menú
     function handleOpen(){
         setOpen( value => !value );
     }
 
+    // Navega a la página de edición del perfil
     function handleEdit(){
         navigate("/editarPerfil");
     }
 
+    // Navega a la página de visualización del perfil
     function handleVer(){
         navigate("/verPerfil");
     }
 
+    //Renderiza el componente principal
     return (
         <div className="container">
             <button className="buttonUserMenu" onClick={handleOpen}>

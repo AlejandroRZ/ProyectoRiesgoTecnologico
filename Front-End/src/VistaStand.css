@@ -1,3 +1,5 @@
+/* Estilos para el cuerpo de la página cuando se utiliza la clase .VistaStand */
+/* Centra el contenido horizontal y verticalmente y aplica un fondo de color claro */
 .VistaStand .body {
   display: flex;
   justify-content: center;
@@ -6,6 +8,8 @@
   background-color: #f8f9fa;
 }
 
+/* Estilos para el contenedor principal en la vista */
+/* Alinea el texto al centro y aplica un diseño con bordes redondeados y sombra */
 .VistaStand .container {
   text-align: center;
   background-color: #ffffff;
@@ -14,12 +18,16 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Estilos generales para la clase .VistaStand */
+/* Define márgenes y espaciado general */
 .VistaStand {
   margin: 0 auto;
   padding: 20px;
   margin-bottom: 50px;
 }
 
+/* Estilos para los botones en la vista */
+/* Define la apariencia, tamaño y comportamiento de los botones */
 .VistaStand .button {
   margin-bottom: 30px;
   font-size: 16px;
@@ -32,6 +40,8 @@
   transition: background-color 0.3s ease;
 }
 
+/* Estilos para el botón cuando se coloca el cursor encima */
+/* Cambia el color de fondo para indicar interacción */
 .VistaStand .button:hover {
   background-color: #0056b3;
 }

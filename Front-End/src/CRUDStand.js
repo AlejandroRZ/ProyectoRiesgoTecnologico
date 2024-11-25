@@ -35,7 +35,7 @@ class CRUDStand extends React.Component {
     errorsActualizar: {},
   };
 
-
+  // Obtiene la lista de stands del servidor al montar el componente.
   componentDidMount() {
     fetch("http://127.0.0.1:5000/stand/readstands")
       .then((response) => response.json())
@@ -47,16 +47,17 @@ class CRUDStand extends React.Component {
       });
   }
 
+  // Realiza la redirección a la vista de stands
   mostrarTodosStands = () => {
-    // Realiza la redirección a la nueva página
     window.location.href = "http://localhost:3000/vistaStand";    
   };
 
-  CRUDParticipantes = () => {
-    // Realiza la redirección a la nueva página
+  // Realiza la redirección al CRUD de participantes
+  CRUDParticipantes = () => {    
     window.location.href = "http://localhost:3000/CRUDParticipantes";    
   };
 
+  // Función para mostrar el modal de actualización de stand con los datos pasados como argumento 
   mostrarModalActualizar = (dato) => {
     const fechaFormateada = new Date(dato.fechahora);
     const { noStand, nombre, ubicacion, fechahora, estado, noCuentaAdmin } = dato;
@@ -74,23 +75,26 @@ class CRUDStand extends React.Component {
     });
   };
 
-
-  cerrarModalActualizar = () => {   
-    this.setState({ modalActualizar: false });
-    this.setState({errorsActualizar: {}});
-  };
-
+  // Función para mostrar el modal de inserción para un neuvo participante
   mostrarModalInsertar = () => {
     this.setState({
       modalInsertar: true,
     });
   };
 
+   // Función para cerrar el modal de actualización y limpiar los errores
+   cerrarModalActualizar = () => {   
+    this.setState({ modalActualizar: false });
+    this.setState({errorsActualizar: {}});
+  };
+
+  // Función para cerrar el modal de inserción y limpiar los errores
   cerrarModalInsertar = () => {
     this.setState({ modalInsertar: false });
     this.setState({errorsInsertar: {}});
   };
 
+  // Función para mostrar el modal de eliminación con los datos del participante a eliminar
   mostrarModalEliminar = (dato) => {
     this.setState({
       modalEliminar: true,
@@ -98,16 +102,17 @@ class CRUDStand extends React.Component {
     });
   };
 
+  // Función para cerrar el modal de eliminación
   cerrarModalEliminar = () => {
     this.setState({ modalEliminar: false });
   };
 
+  // Inserta un nuevo stand dentro de la tabla correspondiente
   insertar = async () => {
     if(!this.datosValidosInsertar()){return;}
     const { nombre, ubicacion, fechahora, estado } = this.state.formInsertar;
     /*const fechaFormateada = fechahora.toISOString().slice(0, 19); */
-    const fechaFormateada = moment(fechahora).format("YYYY-MM-DDTHH:mm:ss");
-    console.log("fecha y hora:", fechahora);
+    const fechaFormateada = moment(fechahora).format("YYYY-MM-DDTHH:mm:ss");   
     try{
       const response = await fetch("http://127.0.0.1:5000/stand/insertstand", {
         method: "POST",
@@ -148,6 +153,7 @@ class CRUDStand extends React.Component {
     }
   };
 
+  // Actualiza la información de un stand después de validar los datos.
   editar = async () => {
     if(!this.datosValidosEditar()){return;}
     const { noStand, nombre, ubicacion, fechahora, estado, noCuentaAdmin } = this.state.formActualizar;
@@ -194,6 +200,7 @@ class CRUDStand extends React.Component {
     }
   };
 
+  // Elimina un stand después de confirmar la acción.
   eliminar = (dato) => {
     fetch("http://127.0.0.1:5000/stand/deletestand", {
       method: 'DELETE',
@@ -203,8 +210,7 @@ class CRUDStand extends React.Component {
       body: JSON.stringify({ noStand: dato.noStand }),
     })
       .then(response => response.json())
-      .then(data => {
-        console.log(data);
+      .then(data => {        
         if (data.message) {
           this.componentDidMount();
           this.setState({ modalEliminar: false, standAEliminar: null });
@@ -218,6 +224,7 @@ class CRUDStand extends React.Component {
       });
   };
   
+  // Válida los datos del nuevo stand a añadir
   datosValidosInsertar = () => {
     let errorsInsertar = {};
     let isValid = true;  
@@ -263,6 +270,7 @@ class CRUDStand extends React.Component {
     return isValid;
   }
 
+  //Válida los nuevos datos por asignar al stand seleccionado
   datosValidosEditar = () => {
     let errorsActualizar = {};
     let isValid = true;  
@@ -311,7 +319,7 @@ class CRUDStand extends React.Component {
     
   }
 
-
+  // Maneja los cambios en los campos de texto para el formulario de inserción.
   handleChangeInsertar = (e) => {
     this.setState({
       formInsertar: {
@@ -321,6 +329,7 @@ class CRUDStand extends React.Component {
     });
   };
 
+  // Maneja los cambios en el campo de la fecha para el formulario de inserción.
   handleChangeFechaHoraInsertar = (date) => {
     this.setState((prevState) => ({
       formInsertar: {
@@ -330,6 +339,7 @@ class CRUDStand extends React.Component {
     }));
   };
 
+  // Maneja los cambios en el campo de estado para el formulario de inserción.
   handleChangeEstadoInsertar = (e) => {
     const estado = e.target.value === "true"; // Convertir el valor a booleano
     this.setState({
@@ -340,6 +350,7 @@ class CRUDStand extends React.Component {
     });
   };
 
+  // Maneja los cambios en el campo de la fecha para el formulario de actualización.
   handleChangeFechaHoraActualizar = (date) => {
     this.setState((prevState) => ({
       formActualizar: {
@@ -349,7 +360,7 @@ class CRUDStand extends React.Component {
     }));
   };
 
-
+  // Maneja los cambios en los campos de texto en el formulario de actualización.
   handleChangeActualizar = (e) => {
     const { name, value } = e.target;
     this.setState((prevState) => ({
@@ -360,6 +371,7 @@ class CRUDStand extends React.Component {
     }));
   };
 
+  // Maneja los cambios en el campo de estado para el formulario de actualización.
   handleChangeEstadoActualizar = (e) => {
     const estado = e.target.value === "true"; // Convertir el valor a booleano
     this.setState({
@@ -370,6 +382,7 @@ class CRUDStand extends React.Component {
     });
   };
 
+  // Maneja los cambios cuando se ingresan valores en el cuadro de búsqueda.
   handleChangeBuscar = (e) => {
     const value = e.target.value;
 
@@ -379,33 +392,33 @@ class CRUDStand extends React.Component {
     this.debounceTimer = setTimeout(() => {
         this.filtrarElementos();
     }, 300); 
-};
+  };
+
+  // Realiza el filtrado de administradores según los campos relevantes.
+  filtrarElementos = () => {
+    const term = this.state.busqueda.toLowerCase().trim();
+
+    const search = this.state.dataFiltrada.filter((elemento) => {
+        const noCuentaAdmin = elemento.noCuentaAdmin 
+            ? elemento.noCuentaAdmin.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") 
+            : "";
+
+        const estadoTexto = elemento.estado ? "reservado" : "libre";
+
+        return (
+            elemento.noStand.toString().includes(term) ||
+            elemento.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(term) ||
+            elemento.ubicacion.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(term) ||
+            noCuentaAdmin.includes(term) ||
+            estadoTexto.includes(term)
+        );
+    });
+
+    this.setState({ data: search });
+  };
 
 
-filtrarElementos = () => {
-  const term = this.state.busqueda.toLowerCase().trim();
-
-  const search = this.state.dataFiltrada.filter((elemento) => {
-      const noCuentaAdmin = elemento.noCuentaAdmin 
-          ? elemento.noCuentaAdmin.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") 
-          : "";
-
-      const estadoTexto = elemento.estado ? "reservado" : "libre";
-
-      return (
-          elemento.noStand.toString().includes(term) ||
-          elemento.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(term) ||
-          elemento.ubicacion.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(term) ||
-          noCuentaAdmin.includes(term) ||
-          estadoTexto.includes(term)
-      );
-  });
-
-  this.setState({ data: search });
-};
-
-
-
+  // Renderización del componente definido
   render() {
     return (
       <>

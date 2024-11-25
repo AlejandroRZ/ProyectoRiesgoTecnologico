@@ -1,8 +1,10 @@
+/* Estilo general para el contenedor principal de la sección CRUD de administrador*/
 .CRUDAdmin {
   text-align: center;
   margin-bottom: 20px;
 }
 
+/* Estilos para el encabezado de la sección CRUD */
 .CRUDAdmin .CRUDAdmin-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -14,11 +16,12 @@
   color: white;
 }
 
+/* Estilo para los enlaces dentro de la sección CRUD */
 .CRUDAdmin .CRUDAdmin-link {
   color: #61dafb;
 }
 
-
+/* Estilo para los campos de texto dentro de la sección CRUD */
 .CRUDAdmin .textField {
   height: 32px;
   width: 200px;
@@ -26,10 +29,12 @@
   padding: 0 32px 0 16px;
 }
 
+/* Estilo para cuando el cursor pasa sobre el campo de texto */
 .CRUDAdmin .textField:hover {
   cursor: pointer;
 }
 
+/* Estilo para el botón de búsqueda dentro de la sección CRUD */
 .CRUDAdmin .btnBuscar {
   height: 34px;
   width: 32px;
@@ -38,6 +43,7 @@
   justify-content: center;
 }
 
+/* Estilo para la barra de búsqueda */
 .CRUDAdmin .barraBusqueda {
   float: right;
   padding: 20px;

@@ -13,6 +13,8 @@ class VistaStandEnParticipante extends React.Component {
     busqueda: "",
   };
 
+  // Método que se ejecuta automáticamente después de que el componente se monta.
+  // Realiza una solicitud al servidor para obtener la lista de stands.
   componentDidMount() {
     fetch("http://127.0.0.1:5000/stand/readstands")
       .then((response) => response.json())
@@ -24,12 +26,15 @@ class VistaStandEnParticipante extends React.Component {
       });
   }
 
+  // Método que maneja el evento de cambio en el campo de búsqueda.
+  // Actualiza el estado `busqueda` y filtra los elementos.
   handleChangeBuscar = async (e) => {
     e.persist();
     await this.setState({ busqueda: e.target.value });
     this.filtrarElementos();
   }
 
+  // Método que filtra los elementos de `dataFiltrada` en base al texto ingresado en `busqueda`.
   filtrarElementos = () => {
     var search = this.state.dataFiltrada.filter(item => {
       const estadoTexto = item.estado ? "reservado" : "libre";
@@ -44,6 +49,7 @@ class VistaStandEnParticipante extends React.Component {
     this.setState({ data: search });
   }
 
+  /*Renderización del componente principal*/
   render() {
     return (     
       

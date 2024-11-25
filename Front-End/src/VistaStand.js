@@ -13,6 +13,8 @@ class VistaStand extends React.Component {
     busqueda: "",
   };
 
+  // Método del ciclo de vida de React: se ejecuta después de montar el componente.
+  // Realiza una solicitud al servidor para obtener datos de los stands.
   componentDidMount() {
     fetch("http://127.0.0.1:5000/stand/readstands")
       .then((response) => response.json())
@@ -24,12 +26,15 @@ class VistaStand extends React.Component {
       });
   }
 
+  // Método para manejar cambios en el campo de búsqueda.
+  // Actualiza el estado con el texto ingresado y llama a la función de filtrado.
   handleChangeBuscar = async (e) => {
     e.persist();
     await this.setState({ busqueda: e.target.value });
     this.filtrarElementos();
   };
 
+  // Filtra los elementos de la lista basándose en el texto de búsqueda.
   filtrarElementos = () => {
     var search = this.state.dataFiltrada.filter((item) => {
       const estadoTexto = item.estado ? "reservado" : "libre";
@@ -56,10 +61,12 @@ class VistaStand extends React.Component {
     this.setState({ data: search });
   };
 
+  // Navega de regreso a la página anterior usando el historial del navegador.
   goBack = () => {
     window.history.back();
   };
 
+  //Render del componente principal
   render() {
     return (
       <div className="VistaStand body">

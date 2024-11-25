@@ -1,24 +1,26 @@
 /* TopBar.css */
 
+/*Estilos de la barra superior*/
 .TopBar {
-    background-color: #BC2985;
-    color: #fff;
-    padding: 10px;
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    font-family: Georgia, serif; 
-  }
-  
-  .TopBar .Content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .TopBar .Content img {
-    height: 35px;
-    margin-right: 40px;
-  }
-  
+  background-color: #BC2985;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-family: Georgia, serif; 
+}
+
+/*Estilos de la barra superior*/
+.TopBar .Content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*Estilos de la barra superior*/
+.TopBar .Content img {
+  height: 35px;
+  margin-right: 40px;
+}

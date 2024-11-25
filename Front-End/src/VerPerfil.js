@@ -4,8 +4,11 @@ import "./VerPerfil.css"
 import React from 'react';
 
 
-
+// Componente VerPerfil
+// Muestra la información del perfil del usuario, como nombre, correo, y gamertag,
+// obtenida del almacenamiento local, además de proporcionar un botón para regresar a la vista de participante.
 function VerPerfil(){
+    // Estado local para almacenar los datos del perfil, inicializado con valores obtenidos del almacenamiento local.
     const [perfilData, setPerfilData] = useState({
         noCuenta: localStorage.getItem('noCuenta'),
         nombre: localStorage.getItem('nombre'),
@@ -15,7 +18,8 @@ function VerPerfil(){
       });
     
     const navigate = useNavigate();
-
+    
+    // Función para regresar a la vista del participante
     function handleRegresar(){
         navigate("/participante");
     }

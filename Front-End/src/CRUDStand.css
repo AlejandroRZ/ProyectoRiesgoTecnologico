@@ -131,3 +131,26 @@ button[type="button"]:hover {
 .react-datepicker__navigation:hover {
   background-color: rgba(0, 0, 0, 0.1); /* Agrega un efecto hover suave */
 }
+
+/* Ajustar la animación del gato */
+.DancingCat {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  position: fixed;  /* Mantiene al gato fijo en la pantalla */
+  top: 20%;  /* Ajusta para que el gato no esté tan arriba y se vea toda la cara */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1; /* Asegura que la animación esté debajo de los otros elementos */
+}
+
+/* Animación en caso de error gato */
+.DancingCat .container {
+  height: 25em; /* Mantiene el tamaño adecuado */
+  width: 31.25em;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%; /* Centrado verticalmente */
+  left: 50%;
+  perspective: 50em;
+}

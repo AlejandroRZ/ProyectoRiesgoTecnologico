@@ -11,9 +11,14 @@ from flask import Flask
 
 participante = Blueprint('participante', __name__, url_prefix='/participante')
 
-
+"""
+Permite a un participante editar su perfil. Se reciben los datos en formato JSON,
+se actualizan los campos correspondientes del participante y se guarda la información.
+Si se encuentra un error o el correo está asociado a otra cuenta, se devuelve un error.
+"""
 @participante.route("/editarPerfil", methods=["PUT"])
 def edit_profile():
+
     if request.method == 'PUT':
         datos_json = request.get_json()        
         noCuenta = datos_json["noCuenta"]
@@ -45,9 +50,7 @@ def edit_profile():
                 if email:
                     participanteEdit.correo = email                              
                 if contrasena:
-                    participanteEdit.psswd = sha256(cipher(contrasena)).hexdigest()
-                                    
-                            
+                    participanteEdit.psswd = sha256(cipher(contrasena)).hexdigest()                            
 
                 db.session.commit()
                 return jsonify({'message': 'Perfil actualizado exitosamente'})
@@ -61,12 +64,16 @@ def edit_profile():
     return jsonify({'message': 'Método no permitido'}), 405
 
 
-
+"""
+Permite a un participante eliminar su perfil. Se verifica la contraseña proporcionada,
+y si es correcta, se elimina el participante de la base de datos.
+En caso de error, se retorna el mensaje correspondiente.
+"""
 @participante.route("/eliminarPerfil", methods=["DELETE"])
 def eliminar_perfil():
+
     if request.method == 'DELETE':
         datos_json = request.get_json()
-
         noCuenta = datos_json.get("noCuenta") 
         print(f'{noCuenta}')
         contrasena = datos_json.get("contrasenaEliminar")
@@ -88,6 +95,7 @@ def eliminar_perfil():
                     return jsonify({'error': 'Contraseña incorrecta'}), 401
             else:
                 return jsonify({'error': 'Participante no encontrado'}), 404
+            
         except Exception as e:
             db.session.rollback()
             print(f"Error: {str(e)}")

@@ -3,6 +3,10 @@ from sqlalchemy import Column, Integer, String, LargeBinary, ForeignKey
 from hashlib import sha256
 from CryptoUtils.CryptoUtils import cipher
 
+"""
+Clase que representa a la tabla 'participante' en la base de datos.
+Cada instancia de esta clase corresponde a un registro de un participante.
+"""
 class Participante(db.Model):
 
     __tablename__ = 'participante'
@@ -13,7 +17,20 @@ class Participante(db.Model):
     psswd = Column(String(64))
     noStand = Column(Integer, ForeignKey('stand.noStand'))
    
-
+    """
+    Constructor de la clase Participante.
+    
+    Inicializa una instancia con los datos proporcionados.
+    La contraseña se encripta usando una función de hash SHA-256 antes de almacenarla.
+    
+    Parámetros:
+    - noCuenta: Número de cuenta único del participante.
+    - nombre: Nombre del participante.
+    - apellido: Apellido del participante.
+    - correo: Correo electrónico único del participante.
+    - psswd: Contraseña del participante, se almacena como un hash.
+    - noStand: Número del stand asignado al participante (clave foránea).
+    """
     def __init__(self, noCuenta, nombre, apellido, correo, psswd, noStand):
         self.noCuenta=noCuenta
         self.nombre=nombre

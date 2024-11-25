@@ -12,13 +12,16 @@ import VerPerfil from './VerPerfil';
 import CRUDParticipantes from './CRUDParticipantes';
 import './App.css';
 
+// Componente principal de la aplicación React.
 function App() {
+  // Hook de React Router que proporciona información sobre la ubicación actual de la página.
   const location = useLocation();
 
   // Detectar si la ruta actual es login o registro
   const isAuthRoute = location.pathname === '/' || location.pathname === '/registrar';
   const isTopBar = location.pathname === '/' || location.pathname === '/registrar';
 
+  // Renderizado principal de la aplicación.
   return (
     <div className={isAuthRoute ? "App auth-page" : "App animated-background"}>
       <Routes>
