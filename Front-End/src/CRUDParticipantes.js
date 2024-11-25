@@ -1,6 +1,9 @@
 import React from "react";
 import "./CRUDParticipantes.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from 'react-router-dom';
+import Login from './Login';
+import DancingCat from './DancingCat';
 import {
   Table,  
   Container,
@@ -27,6 +30,7 @@ class CRUDParticipantes extends React.Component {
     errorsAsignarStand: {},
   };
 
+  
   // Obtiene la lista de participantes del servidor al montar el componente
   componentDidMount() {
     fetch("http://127.0.0.1:5000/admin/readparticipante")
@@ -144,6 +148,7 @@ class CRUDParticipantes extends React.Component {
     });
   };
 
+  
   // Función para manejar el cambio en el campo de búsqueda
   handleChangeBuscar = async (e) => {
     e.persist();
@@ -197,14 +202,7 @@ class CRUDParticipantes extends React.Component {
           <DancingCat />
           <p className="no-permisos">
             No tienes permisos para ver esta página
-          </p>
-          <FormGroup className="text-center">
-            <button
-              className="volver-button"
-              onClick={handleVolver}>
-              Volver
-            </button>
-          </FormGroup>
+          </p>         
         </div>
       );
     }

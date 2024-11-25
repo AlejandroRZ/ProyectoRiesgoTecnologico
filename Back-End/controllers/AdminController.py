@@ -92,9 +92,7 @@ def update_admin():
         noCuentaAdmin = datos_json["noCuentaAdmin"]
         nombre = datos_json["nombre"]
         apellido = datos_json["apellido"]
-        email = datos_json["email"]
-        psswd = datos_json["psswd"]  
-
+        email = datos_json["email"]  
         try:
             admin = get_admin_by_id(noCuentaAdmin)           
             if email != admin.correo:
@@ -108,13 +106,10 @@ def update_admin():
         
             admin.nombre = nombre
             admin.apellido = apellido
-            admin.correo = email
-            if psswd != "Contra":
-                admin.psswd = sha256(cipher(psswd)).hexdigest()
-        
+            admin.correo = email                   
             
-                db.session.commit()
-                return jsonify({"message": "Administrador editado correctamente"}), 201
+            db.session.commit()
+            return jsonify({"message": "Administrador editado correctamente"}), 201
             
         except Exception as e:
             db.session.rollback()
